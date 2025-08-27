@@ -48,6 +48,7 @@ SRC = strchri.c \
 	get_next_line_bonus.c \
 	gnl_utils_bonus.c \
 	is_format_valid.c \
+	atof.c \
 
 OBJ = $(SRC:.c=.o)
 

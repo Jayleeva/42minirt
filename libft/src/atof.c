@@ -1,38 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_format_valid.c                                  :+:      :+:    :+:   */
+/*   atof.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/27 09:43:08 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/08/27 09:43:36 by cyglardo         ###   ########.fr       */
+/*   Created: 2024/10/10 09:59:17 by cyglardo          #+#    #+#             */
+/*   Updated: 2024/10/23 12:33:05 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int is_format_valid(char *file, char *extension)
+float	_atof(char *str)
 {
-    int i;
-    int j;
+    char    **tab;
+    float   result;
 
-    i = ft_strlen(file);
-    j = ft_strlen(extension);
-    if (!i || !j || i <= j)
+    tab = ft_split(str, '.');
+    if (!tab || tab[2])
         return (0);
-    while (j >= 0)
-    {
-        if (file[i] != extension[j])
-            return (0);
-        i --;
-        j --;
-    }
-    while (i)
-    {
-        if (file[i] == '.')
-            return (0);
-        i --;
-    }
-    return (1);
+    result = ft_atoi(tab[0] + (ft_atoi(tab[1]) / 10));
+    return (result);
 }

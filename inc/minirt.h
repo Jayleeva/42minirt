@@ -103,6 +103,11 @@ int 	check_config(t_data *data, char *el);
 int 	check_A(t_data *data, char *A);
 int 	check_C(t_data *data, char *C);
 int 	check_L(t_data *data, char *L);
+int		check_colors(t_data *data, t_rgb *colors, int i);
+int		check_coord(t_data *data, t_point *coord, int i);
+int		check_ornt(t_data *data, t_vector *ornt, int i);
+int		check_ratio(t_data *data, float *ratio_, int i);
+int		check_fov(t_data *data, int *fov_, int i);
 
 //utils
 int 	count_elem(int fd);
@@ -111,5 +116,7 @@ int 	is_already_used(char *used, char c);
 int		is_usable(char *line, char *used, int i);
 int		is_element_missing(char *used);
 void	free_big_tab(char ***bigtab);
+
+void	test();
 
 #endif

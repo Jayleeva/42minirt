@@ -9,7 +9,7 @@ int count_elem(int fd)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (!line[0] == '\n')
+		if (line[0] != '\n')
 			count ++;
 		line = get_next_line(fd);
 	}
@@ -23,7 +23,9 @@ int	alloc_ptr(char ***map, char *used, int nelem)
         return (0);
     used = ft_calloc(nelem, sizeof(char));
     if (!used)
+	{
         return (0);
+	}
 	return (1);
 }
 
@@ -61,5 +63,6 @@ int	is_usable(char *line, char *used, int i)
 
 void	free_big_tab(char ***bigtab)
 {
+	(void)bigtab;
 	printf("liberer memoire\n");
 }

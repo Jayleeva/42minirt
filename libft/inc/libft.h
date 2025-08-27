@@ -86,4 +86,5 @@ int		strchri(const char *s, int c);
 int		tabstri(char **tab, char *s);
 int		print_tab(char **tab);
 int     is_format_valid(char *file, char *extension);
+float	_atof(char *str);
 #endif

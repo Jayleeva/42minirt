@@ -12,7 +12,8 @@ SRC = 	main.c \
 		handle_window.c \
 		is_playable.c \
 		config_upper.c \
-		config.lower.c \
+		config_lower.c \
+		config_common.c \
 		utils.c
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC))
 
