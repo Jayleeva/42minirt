@@ -9,7 +9,11 @@ SRC_DIR = ./src
 OBJ_DIR = ./obj
 
 SRC = 	main.c \
-		create_window.c
+		handle_window.c \
+		is_playable.c \
+		config_upper.c \
+		config.lower.c \
+		utils.c
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC))
 
 OBJ = $(SRC:.c=.o)

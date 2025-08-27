@@ -1,33 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtim.c                                        :+:      :+:    :+:   */
+/*   tabstri.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/10 10:46:48 by cyglardo          #+#    #+#             */
-/*   Updated: 2024/10/23 09:25:17 by cyglardo         ###   ########.fr       */
+/*   Created: 2025/22/08 09:20:12 by cyglardo          #+#    #+#             */
+/*   Updated: 2025/22/08 09:25:31 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strtrim(char const *s1, char const *set)
+int tabstri(char **env, char *s)
 {
-	size_t		start;
-	size_t		end;
-	size_t		len;
-	char		*result;
+    int     i;
 
-	end = ft_strlen(s1);
-	start = 0;
-	while (is_in_set(set, s1[start]) == 1)
-		start ++;
-	if (start >= end)
-		return (ft_strdup(""));
-	while (is_in_set(set, s1[end -1]) == 1)
-		end --;
-	len = end - start;
-	result = ft_substr(s1, start, len);
-	return (result);
+    i = 0;
+    while (env[i])
+    {
+        int j = 0;
+        if (env[i][j] == s[j])
+        {
+            while (s[j])
+            {
+                
+                if (env[i][j] != s[j])
+                    break;    
+                j ++;
+            }
+            if (j == (int)ft_strlen(s))
+                return (i);
+        }
+        i ++;
+    }
+    return (-1);
 }

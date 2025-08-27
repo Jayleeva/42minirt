@@ -1,33 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtim.c                                        :+:      :+:    :+:   */
+/*   is_format_valid.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/10 10:46:48 by cyglardo          #+#    #+#             */
-/*   Updated: 2024/10/23 09:25:17 by cyglardo         ###   ########.fr       */
+/*   Created: 2025/08/27 09:43:08 by cyglardo          #+#    #+#             */
+/*   Updated: 2025/08/27 09:43:36 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strtrim(char const *s1, char const *set)
+int is_format_valid(char *file, char *extension)
 {
-	size_t		start;
-	size_t		end;
-	size_t		len;
-	char		*result;
+    int i;
+    int j;
+    int k;
 
-	end = ft_strlen(s1);
-	start = 0;
-	while (is_in_set(set, s1[start]) == 1)
-		start ++;
-	if (start >= end)
-		return (ft_strdup(""));
-	while (is_in_set(set, s1[end -1]) == 1)
-		end --;
-	len = end - start;
-	result = ft_substr(s1, start, len);
-	return (result);
+    i = ft_strlen(file);
+    j = ft_strlen(extension);
+    if (!i || !j || i <= j)
+        return (0);
+    while (j >= 0)
+    {
+        if (file[i] != extension[j])
+            return (0);
+        i --;
+        j --;
+    }
+    while (i)
+    {
+        if (file[i] == '.')
+            return (0);
+        i --;
+    }
+    return (1);
 }
