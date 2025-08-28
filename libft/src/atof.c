@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 09:59:17 by cyglardo          #+#    #+#             */
-/*   Updated: 2024/10/23 12:33:05 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/08/28 13:43:48 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ float	_atof(char *str)
     tab = ft_split(str, '.');
     if (!tab || tab[2])
         return (0);
-    result = ft_atoi(tab[0] + (ft_atoi(tab[1]) / 10));
+    result = (float)ft_atoi(tab[0]);
+    result = result + ((float)ft_atoi(tab[1]) / 10);
     return (result);
 }

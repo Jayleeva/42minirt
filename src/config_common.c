@@ -68,13 +68,13 @@ int	check_ratio(t_data *data, float *ratio_, int i)
 	return (1);
 }
 
-int	check_fov(t_data *data, int *fov_, int i)
+int	check_diameter_or_height(t_data *data, float *len_, int i)
 {
-	int	fov;
+	float	len;
 
-	fov = ft_atoi(data->map[data->index][i]);
-	if (fov < 0 || fov > 180)
-		return (0);
-	*fov_ = fov;
+    len = _atof(data->map[data->index][i]);
+    if (len < 0)
+        return (0);
+    *len_ = len;
 	return (1);
 }

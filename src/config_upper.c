@@ -49,3 +49,14 @@ int check_L(t_data *data, char *L)
 		return (0);
 	return (1);
 }
+
+int	check_fov(t_data *data, int *fov_, int i)
+{
+	int	fov;
+
+	fov = ft_atoi(data->map[data->index][i]);
+	if (fov < 0 || fov > 180)
+		return (0);
+	*fov_ = fov;
+	return (1);
+}

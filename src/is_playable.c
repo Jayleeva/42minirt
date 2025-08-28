@@ -1,19 +1,19 @@
 #include "../inc/minirt.h"
 
-int check_config(t_data *data, char *el)
+int check_config(t_data *data, char *line)
 {
-    if (el[0] == 'A')
-        return (check_A(data, el));
-    else if (el[0] == 'C')
-        return (check_C(data, el));
-    else if (el[0] == 'L')
-        return (check_L(data, el));
-    /*else if (!ft_strncmp(el, "sp", 2))
-        return (check_sp(data, el));
-    else if (!ft_strncmp(el, "pl", 2))
-        return (check_pl(data, el));
-    else if (!ft_strncmp(el, "cy", 2))
-        return (check_cy(data, el));*/
+    if (!ft_strncmp(line, "A ", 2))
+        return (check_A(data, line));
+    else if (!ft_strncmp(line, "C ", 2))
+        return (check_C(data, line));
+    else if (!ft_strncmp(line, "L ", 2))
+        return (check_L(data, line));
+    else if (!ft_strncmp(line, "sp ", 3))
+        return (check_sp(data, line));
+    else if (!ft_strncmp(line, "pl ", 3))
+        return (check_pl(data, line));
+    else if (!ft_strncmp(line, "cy ", 3))
+        return (check_cy(data, line));
     else
         return (0);
     return (1);
@@ -22,7 +22,7 @@ int check_config(t_data *data, char *el)
 //chaque element peut etre separe de 1 ou plusieurs retour a la ligne
 //chaque information de l'element peut etre separe de 1 ou plusieurs espaces
 // la premier info doit etre le type, les suivantes dans l'ordre exige par le type
-// at least one: plane (pl), sphere (sp), cylinder (cy) order is not important
+// pas d'obligation de nombre: plane (pl), sphere (sp), cylinder (cy) order is not important
 // strictly one: ambiant lighting (A), camera (C), light (L). order is not important
 int is_map_valid(t_data *data, int fd, int nelem)
 {
@@ -39,14 +39,13 @@ int is_map_valid(t_data *data, int fd, int nelem)
     {
         if (!(line[0] == '\n'))
         {
-            if (!is_usable(line, used, i))
-                return (0);
+            used[i] = line[0];
             if (!check_config(data, line))
                 return (0);
         }
         i ++;
     }
-    if (is_element_missing(used))
+    if (is_element_missing(data, used))
         return (0);
     close(fd);
     free(line);
@@ -70,7 +69,7 @@ int is_valid(t_data *data, char *s)
         perror("Error\n file invalid.\n");
         return (0);
     }
-    nelem = count_elem(fd);
+    nelem = count_elem(data, fd);
     close(fd);
     fd = open(s, O_RDONLY);
     if (fd < 0)
