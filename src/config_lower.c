@@ -1,10 +1,11 @@
 #include "../inc/minirt.h"
 
-int check_sp(t_data *data, char *sp)
+//liberer tous les split au moment de free toute la structure?
+int	check_sp(t_data *data, char *sp)
 {
 	char	**tab;
 
-	tab = ft_split(sp, ' ');		//liberer au moment de free toute la structure
+	tab = ft_split(sp, ' ');
 	if (!tab || !tab[3] || tab[4])
 		return (0);
 	data->map[data->index] = tab;
@@ -19,11 +20,11 @@ int check_sp(t_data *data, char *sp)
 	return (1);
 }
 
-int check_pl(t_data *data, char *pl)
+int	check_pl(t_data *data, char *pl)
 {
 	char	**tab;
 
-	tab = ft_split(pl, ' ');		//liberer au moment de free toute la structure
+	tab = ft_split(pl, ' ');
 	if (!tab || !tab[3] || tab[4])
 		return (0);
 	data->map[data->index] = tab;
@@ -34,15 +35,15 @@ int check_pl(t_data *data, char *pl)
 		return (0);
 	if (!check_colors(data, &(data->pl[data->i_pl].colors), 2))
 		return (0);
-    data->i_pl ++;
+	data->i_pl ++;
 	return (1);
 }
 
-int check_cy(t_data *data, char *cy)
+int	check_cy(t_data *data, char *cy)
 {
 	char	**tab;
 
-	tab = ft_split(cy, ' ');		//liberer au moment de free toute la structure
+	tab = ft_split(cy, ' ');
 	if (!tab || !tab[5] || tab[6])
 		return (0);
 	data->map[data->index] = tab;

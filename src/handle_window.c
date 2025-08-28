@@ -34,11 +34,10 @@ void	initialize(t_data *data, size_t len, int nelem)
 			nelem * 64, "Minirt");
 	if (!data->win_ptr)
 		on_destroy(data);
-	/*load_images(data);
-	create_map(data);*/
-    mlx_hook(data->win_ptr, KeyRelease, KeyReleaseMask, &on_keypress, data);
+	//load_images(data);
+	mlx_hook(data->win_ptr, KeyRelease, KeyReleaseMask, &on_keypress, data);
 	mlx_hook(data->win_ptr, DestroyNotify, StructureNotifyMask, &on_destroy,
 		data);
 	mlx_loop(data->mlx_ptr);
-    on_destroy(data);
+	on_destroy(data);
 }

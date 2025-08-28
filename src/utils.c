@@ -1,9 +1,9 @@
 #include "../inc/minirt.h"
 
-int count_elem(t_data *data, int fd)
+int	count_elem(t_data *data, int fd)
 {
-	char    *line;
-	int     count;
+	char	*line;
+	int		count;
 
 	count = 0;
 	line = get_next_line(fd);
@@ -12,11 +12,11 @@ int count_elem(t_data *data, int fd)
 		if (line[0] != '\n')
 			count ++;
 		if (!ft_strncmp(line, "sp ", 3))
-			data->n_lel[0] ++;
+			data->n_lel[0]++;
 		else if (!ft_strncmp(line, "pl ", 3))
-			data->n_lel[1] ++;
+			data->n_lel[1]++;
 		else if (!ft_strncmp(line, "cy ", 3))
-			data->n_lel[2] ++;
+			data->n_lel[2]++;
 		line = get_next_line(fd);
 	}
 	if (!alloc_el(data))
@@ -31,7 +31,7 @@ int	alloc_el(t_data *data)
 		data->sp = malloc((data->n_lel[0] + 1) * sizeof(t_sp));
 		if (!data->sp)
 			return (0);
-	}	
+	}
 	if (data->n_lel[1] > 0)
 	{
 		data->pl = malloc((data->n_lel[1] + 1) * sizeof(t_pl));
@@ -63,16 +63,16 @@ int	is_element_missing(t_data *data, char *used)
 	int	i;
 
 	i = 0;
-    while (used[i])
-    {
-        if (used[i] == 'A')
-			data->n_uel[0] ++;
+	while (used[i])
+	{
+		if (used[i] == 'A')
+			data->n_uel[0]++;
 		if (used[i] == 'C')
-			data->n_uel[1] ++;
+			data->n_uel[1]++;
 		if (used[i] == 'L')
-			data->n_uel[2] ++;
-        i ++;
-    }
+			data->n_uel[2]++;
+		i ++;
+	}
 	i = 0;
 	while (i < 3)
 	{
