@@ -1,6 +1,8 @@
 NAME = libft
 
 SRC_DIR = ./src
+OBJ_DIR = ./obj
+
 SRC = strchri.c \
 	tabstri.c \
 	print_tab.c \
@@ -50,25 +52,32 @@ SRC = strchri.c \
 	is_format_valid.c \
 	atof.c \
 
-OBJ = $(SRC:.c=.o)
+SRCS = $(addprefix $(SRC_DIR)/, $(SRC))
 
-SRC := $(addprefix $(SRC_DIR)/, $(SRC))
+OBJ = $(SRC:.c=.o)
+OBJS = $(addprefix $(OBJ_DIR)/, $(OBJ))
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror 
 
+MKDIR = mkdir -p
+RM = rm -rf
+
 all: $(NAME)
 
-%.o: %.c
-	$(CC) $(CFLAGS) -I ./inc -c $< -o $(<:.c=.o)
+$(OBJ_DIR):
+	$(MKDIR) $(OBJ_DIR)
 
-$(NAME): $(OBJ)
-	ar rcs $(NAME) $(OBJ) 
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	@$(CC) $(CFLAGS) -o $@ -c $< -I ./inc
+
+$(NAME): $(OBJS) | $(OBJ_DIR)
+	ar rcs $(NAME) $(OBJS) 
 
 clean:
-	rm -f $(OBJ)
+	@$(RM) $(OBJ_DIR)
 fclean: clean
-	rm -f $(NAME)
+	@$(RM) $(NAME)
 re: fclean all
 
 .PHONY : all clean fclean re
