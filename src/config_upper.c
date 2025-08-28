@@ -12,6 +12,7 @@ int	check_a(t_data *data, char *type)
 	data->index ++;
 	if (!check_ratio(data, &(data->a.ratio), 1))
 		return (0);
+	printf("OUHLA\n");
 	if (!check_colors(data, &(data->a.colors), 2))
 		return (0);
 	return (1);

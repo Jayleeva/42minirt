@@ -80,6 +80,7 @@ typedef struct s_data
 	void	*mlx_ptr;
 	void	*win_ptr;
 	char	***map;
+	char	*used;
 	int		index;
 	int		n_uel[3];
 	t_A		a;
@@ -102,7 +103,7 @@ int		on_destroy(t_data *data);
 //parsing
 int		is_valid(t_data *data, char *s);
 int		first_open(t_data *data, char *s);
-int		is_map_valid(t_data *data, int fd, int nelem);
+int		is_map_valid(t_data *data, int fd);
 
 //check config
 int		check_config(t_data *data, char *el);
@@ -124,11 +125,10 @@ int		check_diameter_or_height(t_data *data, float *len_, int i);
 
 //utils
 int		count_elem(t_data *data, int fd);
-int		alloc_ptr(char ***map, char *used, int nelem);
 int		alloc_el(t_data *data);
 int		is_already_used(char *used, char c);
 int		is_usable(char *line, char *used, int i);
-int		is_element_missing(t_data *data, char *used);
+int		is_element_missing(t_data *data);
 void	free_big_tab(char ***bigtab);
 
 #endif

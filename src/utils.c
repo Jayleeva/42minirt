@@ -47,29 +47,18 @@ int	alloc_el(t_data *data)
 	return (1);
 }
 
-int	alloc_ptr(char ***map, char *used, int nelem)
-{
-	map = malloc((nelem + 1) * sizeof(char **));
-	if (!map)
-		return (0);
-	used = ft_calloc(nelem, sizeof(char));
-	if (!used)
-		return (0);
-	return (1);
-}
-
-int	is_element_missing(t_data *data, char *used)
+int	is_element_missing(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	while (used[i])
+	while (data->used[i])
 	{
-		if (used[i] == 'A')
+		if (data->used[i] == 'A')
 			data->n_uel[0]++;
-		if (used[i] == 'C')
+		if (data->used[i] == 'C')
 			data->n_uel[1]++;
-		if (used[i] == 'L')
+		if (data->used[i] == 'L')
 			data->n_uel[2]++;
 		i ++;
 	}

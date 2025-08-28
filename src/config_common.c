@@ -64,6 +64,7 @@ int	check_ratio(t_data *data, float *ratio_, int i)
 	float	ratio;
 
 	ratio = _atof(data->map[data->index][i]);
+	printf("AIEAIEAIE\n");
 	if (ratio < 0.0 || ratio > 1.0)
 		return (0);
 	*ratio_ = ratio;
