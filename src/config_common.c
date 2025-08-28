@@ -62,7 +62,9 @@ int	check_ornt(t_data *data, t_vector *ornt, int i)
 int	check_ratio(t_data *data, float *ratio_, int i)
 {
 	float	ratio;
+	float	test;
 
+	printf("data->map[data->index][i] = %s\n", data->map[data->index][i]);
 	ratio = _atof(data->map[data->index][i]);
 	printf("AIEAIEAIE\n");
 	if (ratio < 0.0 || ratio > 1.0)

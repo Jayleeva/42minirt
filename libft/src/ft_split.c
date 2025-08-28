@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:33:08 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/08/28 16:05:19 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/08/28 17:44:27 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ char	**ft_split(char const *s, char c)
 	int		i;
 	int		j;
 
-	printf("COMMENTCA\n");
 	tab = ft_calloc(get_nelem(s, c) + 1, sizeof(char *));
 	if (tab == NULL)
 		return (NULL);
