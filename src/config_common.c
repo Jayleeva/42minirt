@@ -1,13 +1,13 @@
 #include "../inc/minirt.h"
 
-int	check_colors(t_data *data, t_rgb *colors, int i)
+int	check_colors(t_rgb *colors, char *s)
 {
 	char	**clr_tab;
 	int		r;
 	int		g;
 	int		b;
 
-	clr_tab = ft_split(data->map[data->index][i], ',');
+	clr_tab = ft_split(s, ',');
 	if (!clr_tab || !clr_tab[2] || clr_tab[3])
 		return (0);
 	r = ft_atoi(clr_tab[0]);
@@ -22,11 +22,11 @@ int	check_colors(t_data *data, t_rgb *colors, int i)
 	return (1);
 }
 
-int	check_coord(t_data *data, t_point *coord, int i)
+int	check_coord(t_point *coord, char *s)
 {
 	char	**coord_tab;
 
-	coord_tab = ft_split(data->map[data->index][i], ',');
+	coord_tab = ft_split(s, ',');
 	if (!coord_tab || !coord_tab[2] || coord_tab[3])
 		return (0);
 	coord->x = _atof(coord_tab[0]);
@@ -36,14 +36,14 @@ int	check_coord(t_data *data, t_point *coord, int i)
 	return (1);
 }
 
-int	check_ornt(t_data *data, t_vector *ornt, int i)
+int	check_ornt(t_vector *ornt, char *s)
 {
 	char	**ornt_tab;
 	float	o_x;
 	float	o_y;
 	float	o_z;
 
-	ornt_tab = ft_split(data->map[data->index][i], ',');
+	ornt_tab = ft_split(s, ',');
 	if (!ornt_tab || !ornt_tab[2] || ornt_tab[3])
 		return (0);
 	o_x = _atof(ornt_tab[0]);
@@ -59,25 +59,22 @@ int	check_ornt(t_data *data, t_vector *ornt, int i)
 	return (1);
 }
 
-int	check_ratio(t_data *data, float *ratio_, int i)
+int	check_ratio(float *ratio_, char *s)
 {
 	float	ratio;
-	float	test;
 
-	printf("data->map[data->index][i] = %s\n", data->map[data->index][i]);
-	ratio = _atof(data->map[data->index][i]);
-	printf("AIEAIEAIE\n");
+	ratio = _atof(s);
 	if (ratio < 0.0 || ratio > 1.0)
 		return (0);
 	*ratio_ = ratio;
 	return (1);
 }
 
-int	check_diameter_or_height(t_data *data, float *len_, int i)
+int	check_diameter_or_height(float *len_, char *s)
 {
 	float	len;
 
-	len = _atof(data->map[data->index][i]);
+	len = _atof(s);
 	if (len < 0)
 		return (0);
 	*len_ = len;

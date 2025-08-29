@@ -79,7 +79,7 @@ typedef struct s_data
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
-	char	***map;
+	char	**map;
 	char	*used;
 	int		index;
 	int		n_uel[3];
@@ -111,17 +111,17 @@ int		check_config(t_data *data, char *el);
 int		check_a(t_data *data, char *type);
 int		check_c(t_data *data, char *type);
 int		check_l(t_data *data, char *type);
-int		check_fov(t_data *data, int *fov_, int i);
+int		check_fov(int *fov_, char *s);
 
 int		check_sp(t_data *data, char *sp);
 int		check_pl(t_data *data, char *pl);
 int		check_cy(t_data *data, char *cy);
 
-int		check_colors(t_data *data, t_rgb *colors, int i);
-int		check_coord(t_data *data, t_point *coord, int i);
-int		check_ornt(t_data *data, t_vector *ornt, int i);
-int		check_ratio(t_data *data, float *ratio_, int i);
-int		check_diameter_or_height(t_data *data, float *len_, int i);
+int		check_colors(t_rgb *colors, char *s);
+int		check_coord(t_point *coord, char *s);
+int		check_ornt(t_vector *ornt, char *s);
+int		check_ratio(float *ratio_, char *s);
+int		check_diameter_or_height(float *len_, char *s);
 
 //utils
 int		count_elem(t_data *data, int fd);

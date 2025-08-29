@@ -21,6 +21,8 @@ float	_atof(char *str)
 	if (!tab || tab[2])
 		return (0);
 	result = (float)ft_atoi(tab[0]);
-	result = result + ((float)ft_atoi(tab[1]) / 100);
+	if (tab[1])
+		result = result + ((float)ft_atoi(tab[1]) / 100);
+	free(tab);
 	return (result);
 }

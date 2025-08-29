@@ -13,7 +13,7 @@ int	on_destroy(t_data *data)
 		free(data->mlx_ptr);
 	}
 	if (data->map)
-		free_big_tab(data->map);
+		free_tab(data->map);
 	exit(0);
 	return (0);
 }
@@ -27,8 +27,6 @@ int	on_keypress(int keycode, t_data *data)
 
 void	initialize(t_data *data, size_t len, int nelem)
 {
-	int	i = 0;
-
 	data->mlx_ptr = mlx_init();
 	if (!data->mlx_ptr)
 		on_destroy(data);
@@ -36,11 +34,7 @@ void	initialize(t_data *data, size_t len, int nelem)
 			nelem * 64, "Minirt");
 	if (!data->win_ptr)
 		on_destroy(data);
-	while (data->map[i])
-	{
-		print_tab(data->map[i]);
-		i ++;
-	}
+	print_tab(data->map);
 	//load_images(data);
 	mlx_hook(data->win_ptr, KeyRelease, KeyReleaseMask, &on_keypress, data);
 	mlx_hook(data->win_ptr, DestroyNotify, StructureNotifyMask, &on_destroy,

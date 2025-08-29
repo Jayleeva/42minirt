@@ -8,13 +8,13 @@ int	check_a(t_data *data, char *type)
 	tab = ft_split(type, ' ');
 	if (!tab || !tab[2] || tab[3])
 		return (0);
-	data->map[data->index] = tab;
-	data->index ++;
-	if (!check_ratio(data, &(data->a.ratio), 1))
+	//data->map[data->index] = tab;
+	//data->index ++;
+	if (!check_ratio(&(data->a.ratio), tab[1]))
 		return (0);
-	printf("OUHLA\n");
-	if (!check_colors(data, &(data->a.colors), 2))
+	if (!check_colors(&(data->a.colors), tab[2]))
 		return (0);
+	printf("check A : OK\n");
 	return (1);
 }
 
@@ -25,14 +25,15 @@ int	check_c(t_data *data, char *type)
 	tab = ft_split(type, ' ');
 	if (!tab || !tab[3] || tab[4])
 		return (0);
-	data->map[data->index] = tab;
-	data->index ++;
-	if (!check_coord(data, &(data->c.coord), 1))
+	//data->map[data->index] = tab;
+	//data->index ++;
+	if (!check_coord(&(data->c.coord), tab[1]))
 		return (0);
-	if (!check_ornt(data, &(data->c.ornt), 2))
+	if (!check_ornt(&(data->c.ornt), tab[2]))
 		return (0);
-	if (!check_fov(data, &(data->c.fov), 3))
+	if (!check_fov(&(data->c.fov), tab[3]))
 		return (0);
+	printf("check C : OK\n");
 	return (1);
 }
 
@@ -43,20 +44,22 @@ int	check_l(t_data *data, char *type)
 	tab = ft_split(type, ' ');
 	if (!tab || !tab[2] || tab[3])
 		return (0);
-	data->map[data->index] = tab;
-	data->index ++;
-	if (!check_coord(data, &(data->l.coord), 1))
+	//data->map[data->index] = tab;
+	//data->index ++;
+	if (!check_coord(&(data->l.coord), tab[1]))
 		return (0);
-	if (!check_ratio(data, &(data->l.ratio), 2))
+	
+	if (!check_ratio(&(data->l.ratio), tab[2]))
 		return (0);
+	printf("check L : OK\n");
 	return (1);
 }
 
-int	check_fov(t_data *data, int *fov_, int i)
+int	check_fov(int *fov_, char *s)
 {
 	int	fov;
 
-	fov = ft_atoi(data->map[data->index][i]);
+	fov = ft_atoi(s);
 	if (fov < 0 || fov > 180)
 		return (0);
 	*fov_ = fov;

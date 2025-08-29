@@ -9,7 +9,9 @@ int	count_elem(t_data *data, int fd)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (line[0] != '\n')
+		if (line[0] == '\n')
+			ft_printf("count: empty line\n");
+		else
 			count ++;
 		if (!ft_strncmp(line, "sp ", 3))
 			data->n_lel[0]++;
