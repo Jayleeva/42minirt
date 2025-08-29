@@ -8,8 +8,6 @@ int	check_sp(t_data *data, char *sp)
 	tab = ft_split(sp, ' ');
 	if (!tab || !tab[3] || tab[4])
 		return (0);
-	//data->map[data->index] = tab;
-	//data->index ++;
 	if (!check_coord(&(data->sp[data->i_sp].coord), tab[1]))
 		return (0);
 	if (!check_diameter_or_height(&(data->sp[data->i_sp].diameter), tab[2]))
@@ -17,6 +15,7 @@ int	check_sp(t_data *data, char *sp)
 	if (!check_colors(&(data->sp[data->i_sp].colors), tab[3]))
 		return (0);
 	data->i_sp ++;
+	free_tab(tab);
 	printf("check sp : OK\n");
 	return (1);
 }
@@ -28,8 +27,6 @@ int	check_pl(t_data *data, char *pl)
 	tab = ft_split(pl, ' ');
 	if (!tab || !tab[3] || tab[4])
 		return (0);
-	//data->map[data->index] = tab;
-	//data->index ++;
 	if (!check_coord(&(data->pl[data->i_pl].coord), tab[1]))
 		return (0);
 	if (!check_ornt(&(data->pl[data->i_pl].ornt), tab[2]))
@@ -37,6 +34,7 @@ int	check_pl(t_data *data, char *pl)
 	if (!check_colors(&(data->pl[data->i_pl].colors), tab[3]))
 		return (0);
 	data->i_pl ++;
+	free_tab(tab);
 	printf("check pl : OK\n");
 	return (1);
 }
@@ -48,8 +46,6 @@ int	check_cy(t_data *data, char *cy)
 	tab = ft_split(cy, ' ');
 	if (!tab || !tab[5] || tab[6])
 		return (0);
-	//data->map[data->index] = tab;
-	//data->index ++;
 	if (!check_coord(&(data->cy[data->i_cy].coord), tab[1]))
 		return (0);
 	if (!check_ornt(&(data->cy[data->i_cy].ornt), tab[2]))
@@ -61,6 +57,7 @@ int	check_cy(t_data *data, char *cy)
 	if (!check_colors(&(data->cy[data->i_cy].colors), tab[5]))
 		return (0);
 	data->i_cy ++;
+	free_tab(tab);
 	printf("check cy : OK\n");
 	return (1);
 }

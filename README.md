@@ -14,6 +14,5 @@ Programme doit pouvoir appliquer translation et rotation aux : objets, lumieres,
 
 # A FAIRE
 
-- adapter memoire si lignes vides entre lignes pleine: actuellement, risque de double free, corruption, core dump.
 - adapter memoire si plusieurs el qui sont censes etre uniques: actuellement, risque de leak.
 - ajouter message d'erreur si map vide?

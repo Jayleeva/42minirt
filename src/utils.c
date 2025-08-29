@@ -4,14 +4,13 @@ int	count_elem(t_data *data, int fd)
 {
 	char	*line;
 	int		count;
+	char	*tmp;
 
 	count = 0;
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (line[0] == '\n')
-			ft_printf("count: empty line\n");
-		else
+		if (line[0] != '\n')
 			count ++;
 		if (!ft_strncmp(line, "sp ", 3))
 			data->n_lel[0]++;
@@ -19,8 +18,11 @@ int	count_elem(t_data *data, int fd)
 			data->n_lel[1]++;
 		else if (!ft_strncmp(line, "cy ", 3))
 			data->n_lel[2]++;
+		tmp = line;
 		line = get_next_line(fd);
+		free(tmp);
 	}
+	free(line);
 	if (!alloc_el(data))
 		return (0);
 	return (count);

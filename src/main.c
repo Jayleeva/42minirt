@@ -49,6 +49,7 @@ int	main(int argc, char **argv)
 		return (1);
 	if (!is_valid(&data, argv[1]))
 		return (1);
+	print_tab(data.map);
 	initialize(&data, 5, 5);
 	return (0);
 }

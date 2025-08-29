@@ -25,13 +25,22 @@ int	check_colors(t_rgb *colors, char *s)
 int	check_coord(t_point *coord, char *s)
 {
 	char	**coord_tab;
+	/*char	*c_x;
+	char	*c_y;
+	char	*c_z;*/
 
 	coord_tab = ft_split(s, ',');
 	if (!coord_tab || !coord_tab[2] || coord_tab[3])
 		return (0);
+	/*c_x = ft_strdup(coord_tab[0]);
+	c_y = ft_strdup(coord_tab[1]);
+	c_z = ft_strdup(coord_tab[2]);*/
 	coord->x = _atof(coord_tab[0]);
 	coord->y = _atof(coord_tab[1]);
 	coord->z = _atof(coord_tab[2]);
+	/*free(c_x);
+	free(c_y);
+	free(c_z);*/
 	free_tab(coord_tab);
 	return (1);
 }
@@ -56,6 +65,7 @@ int	check_ornt(t_vector *ornt, char *s)
 	ornt->o_x = o_x;
 	ornt->o_y = o_y;
 	ornt->o_z = o_z;
+	free_tab(ornt_tab);
 	return (1);
 }
 

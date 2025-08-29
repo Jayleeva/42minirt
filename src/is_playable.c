@@ -3,35 +3,17 @@
 int	check_config(t_data *data, char *line)
 {
 	if (!ft_strncmp(line, "A ", 2))
-	{
-		printf("IT'S AN A\n");
 		return (check_a(data, line));
-	}
 	else if (!ft_strncmp(line, "C ", 2))
-	{
-		printf("IT'S A C\n");
 		return (check_c(data, line));
-	}
 	else if (!ft_strncmp(line, "L ", 2))
-	{
-		printf("IT'S A L\n");
 		return (check_l(data, line));
-	}
 	else if (!ft_strncmp(line, "sp ", 3))
-	{
-		printf("IT'S A sp\n");
 		return (check_sp(data, line));
-	}
 	else if (!ft_strncmp(line, "pl ", 3))
-	{
-		printf("IT'S A pl\n");
 		return (check_pl(data, line));
-	}
 	else if (!ft_strncmp(line, "cy ", 3))
-	{
-		printf("IT'S A cy\n");
 		return (check_cy(data, line));
-	}
 	else
 		return (0);
 	return (1);
@@ -41,26 +23,30 @@ int	is_map_valid(t_data *data, int fd)
 {
 	char	*line;
 	int		i;
+	int		j;
+	char	*tmp;
 
 	line = NULL;
 	i = 0;
+	j = 0;
 	while ((line = get_next_line(fd)))
 	{
-		if (line[0] == '\n')
-			printf("empty line\n");
-		else
+		if (line[0] != '\n')
 		{
-			data->map[i] = ft_strdup(line);
-			data->used[i] = line[0];
+			data->map[j] = ft_strdup(line);
+			data->used[j] = line[0];
+			tmp = line;
 			if (!check_config(data, line))
-				return (0); // free
+				return (free(line), 0); // free
+			free(tmp);
+			j ++;
 		}
 		i ++;
 	}
 	if (is_element_missing(data))
 		return (0);
 	close(fd);
-	free(line);
+
 	return (1);
 }
 
@@ -77,6 +63,7 @@ int	first_open(t_data *data, char *s)
 	}
 	nelem = count_elem(data, fd);
 	close(fd);
+	printf("nelem = %d\n", nelem);
 	data->map = malloc((nelem + 1) * sizeof(char *));
 	if (!data->map)
 		return (0);
@@ -84,6 +71,7 @@ int	first_open(t_data *data, char *s)
 	data->used = malloc((nelem + 1) * sizeof(char));
 	if (!data->used)
 		return (0);
+	data->used[nelem] = '\0';
 	return (nelem);
 }
 
