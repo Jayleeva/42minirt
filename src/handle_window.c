@@ -41,8 +41,8 @@ void	window(t_data *data, size_t len, int nelem)
 	data->mlx_ptr = mlx_init();
 	if (!data->mlx_ptr)
 		on_destroy(data);
-	data->win_ptr = mlx_new_window(data->mlx_ptr, (int)len * 64,
-			nelem * 64, "Minirt");
+	data->win_ptr = mlx_new_window(data->mlx_ptr, (int)len * 360,
+			nelem * 240, "Minirt");
 	if (!data->win_ptr)
 		on_destroy(data);
 	//load_images(data);
