@@ -33,8 +33,11 @@ int	on_keypress(int keycode, t_data *data)
 	return (0);
 }
 
-void	initialize(t_data *data, size_t len, int nelem)
+void	window(t_data *data, size_t len, int nelem)
 {
+	int	i;
+
+	i = 0;
 	data->mlx_ptr = mlx_init();
 	if (!data->mlx_ptr)
 		on_destroy(data);

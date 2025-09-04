@@ -14,5 +14,6 @@ Programme doit pouvoir appliquer translation et rotation aux : objets, lumieres,
 
 # A FAIRE
 
-- adapter memoire si plusieurs el qui sont censes etre uniques: actuellement, risque de leak.
+- corriger erreurs de contexte liees a atof
+- core dump si lower el pas alloc lors du free final
 - ajouter message d'erreur si map vide?

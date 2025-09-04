@@ -1,34 +1,20 @@
 #include "../inc/minirt.h"
 
-int	count_elem(t_data *data, int fd)
+int	is_n_uel_valid(t_data *data)
 {
-	char	*line;
-	int		count;
-	char	*tmp;
+	int	i;
 
-	count = 0;
-	line = get_next_line(fd);
-	while (line)
+	i = 0;
+	while (i < 3)
 	{
-		if (line[0] != '\n')
-			count ++;
-		if (!ft_strncmp(line, "sp ", 3))
-			data->n_lel[0]++;
-		else if (!ft_strncmp(line, "pl ", 3))
-			data->n_lel[1]++;
-		else if (!ft_strncmp(line, "cy ", 3))
-			data->n_lel[2]++;
-		tmp = line;
-		line = get_next_line(fd);
-		free(tmp);
+		if (data->n_uel[i] != 1)
+			return (0);
+		i ++;
 	}
-	free(line);
-	if (!alloc_el(data))
-		return (0);
-	return (count);
+	return (1);
 }
 
-int	alloc_el(t_data *data)
+int	alloc_lel(t_data *data)
 {
 	if (data->n_lel[0] > 0)
 	{
@@ -51,29 +37,47 @@ int	alloc_el(t_data *data)
 	return (1);
 }
 
-int	is_element_missing(t_data *data)
+void	increment_elem(t_data *data, char *line)
 {
-	int	i;
+	if (!ft_strncmp(line, "A ", 2))
+		data->n_uel[0]++;
+	if (!ft_strncmp(line, "C ", 2))
+		data->n_uel[1]++;
+	if (!ft_strncmp(line, "L ", 2))
+		data->n_uel[2]++;
+	if (!ft_strncmp(line, "sp ", 3))
+		data->n_lel[0]++;
+	else if (!ft_strncmp(line, "pl ", 3))
+		data->n_lel[1]++;
+	else if (!ft_strncmp(line, "cy ", 3))
+		data->n_lel[2]++;
+	else
+		return;
+}
 
-	i = 0;
-	while (data->used[i])
+int	count_elem(t_data *data, int fd)
+{
+	char	*line;
+	char	*tmp;
+	int		count;
+
+	count = 0;
+	line = get_next_line(fd);
+	while (line)
 	{
-		if (data->used[i] == 'A')
-			data->n_uel[0]++;
-		if (data->used[i] == 'C')
-			data->n_uel[1]++;
-		if (data->used[i] == 'L')
-			data->n_uel[2]++;
-		i ++;
+		if (line[0] != '\n')
+			count ++;
+		increment_elem(data, line);
+		tmp = line;
+		line = get_next_line(fd);
+		free(tmp);
 	}
-	i = 0;
-	while (i < 3)
-	{
-		if (data->n_uel[i] != 1)
-			return (1);
-		i ++;
-	}
-	return (0);
+	free(line);
+	if (!is_n_uel_valid(data))
+		return (0);
+	if (!alloc_lel(data))
+		return (0);
+	return (count);
 }
 
 void	free_big_tab(char ***bigtab)

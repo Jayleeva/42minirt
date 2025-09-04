@@ -97,7 +97,7 @@ typedef struct s_data
 
 //essentials
 void	init(t_data *data);
-void	initialize(t_data *data, size_t len, int nelem);
+void	window(t_data *data, size_t len, int nelem);
 int		on_destroy(t_data *data);
 
 //parsing
@@ -125,10 +125,11 @@ int		check_diameter_or_height(float *len_, char *s);
 
 //utils
 int		count_elem(t_data *data, int fd);
-int		alloc_el(t_data *data);
+void	increment_elem(t_data *data, char *line);
+int		alloc_lel(t_data *data);
 int		is_already_used(char *used, char c);
 int		is_usable(char *line, char *used, int i);
-int		is_element_missing(t_data *data);
+int		is_n_uel_valid(t_data *data);
 void	free_big_tab(char ***bigtab);
 
 #endif

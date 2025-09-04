@@ -50,6 +50,6 @@ int	main(int argc, char **argv)
 	if (!is_valid(&data, argv[1]))
 		return (1);
 	print_tab(data.map);
-	initialize(&data, 5, 5);
+	window(&data, 5, 5);
 	return (0);
 }
