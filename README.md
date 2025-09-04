@@ -11,14 +11,6 @@ Programme doit pouvoir resize les objets (diametre de la sphere, largeur et haut
 
 Programme doit pouvoir appliquer translation et rotation aux : objets, lumieres, camera sauf sphere et lumiere ambiante? --> doit gerer des mouvements camera???
 
-
-# A FAIRE
-
-- corriger erreurs de contexte liees a atof
-- corriger leaks quand map invalide
-- ajouter message d'erreur si map vide?
-
-
 # Etapes
 - parser : quasi OK (C)
 - gerer la fenetre : OK, sauf display des pixels (C)
@@ -27,3 +19,13 @@ Programme doit pouvoir appliquer translation et rotation aux : objets, lumieres,
 - calculer la distance avec la camera pour determiner l'ordre de proximite
 - attribuer une couleur a chaque pixel en fonction
 - gerer la lumiere
+
+# D'ICI PROCHAINE REU
+- C et L: se renseigner sur comment envoyer des rayons sur chaque pixel
+
+# A FAIRE
+- corriger erreurs de contexte liees a atof
+- corriger leaks quand map invalide
+- ajouter message d'erreur si map vide?
+
+

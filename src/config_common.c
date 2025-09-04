@@ -8,8 +8,10 @@ int	check_colors(t_rgb *colors, char *s)
 	int		b;
 
 	clr_tab = ft_split(s, ',');
-	if (!clr_tab || !clr_tab[2] || clr_tab[3])
+	if (!clr_tab)
 		return (0);
+	if (!clr_tab[2] || clr_tab[3])
+		return (free_tab(clr_tab), 0);
 	r = ft_atoi(clr_tab[0]);
 	g = ft_atoi(clr_tab[1]);
 	b = ft_atoi(clr_tab[2]);
@@ -30,8 +32,10 @@ int	check_coord(t_point *coord, char *s)
 	char	*c_z;*/
 
 	coord_tab = ft_split(s, ',');
-	if (!coord_tab || !coord_tab[2] || coord_tab[3])
+	if (!coord_tab)
 		return (0);
+	if (!coord_tab[2] || coord_tab[3])
+		return (free_tab(coord_tab), 0);
 	/*c_x = ft_strdup(coord_tab[0]);
 	c_y = ft_strdup(coord_tab[1]);
 	c_z = ft_strdup(coord_tab[2]);*/
@@ -53,15 +57,17 @@ int	check_ornt(t_vector *ornt, char *s)
 	float	o_z;
 
 	ornt_tab = ft_split(s, ',');
-	if (!ornt_tab || !ornt_tab[2] || ornt_tab[3])
+	if (!ornt_tab)
 		return (0);
+	if (!ornt_tab[2] || ornt_tab[3])
+		return (free_tab(ornt_tab), 0);
 	o_x = _atof(ornt_tab[0]);
 	o_y = _atof(ornt_tab[1]);
 	o_z = _atof(ornt_tab[2]);
 	if ((o_x < -1.0 || o_x > 1.0)
 		|| (o_y < -1.0 || o_y > 1.0)
 		|| (o_z < -1.0 || o_z > 1.0))
-		return (0);
+		return (free_tab(ornt_tab), 0);
 	ornt->o_x = o_x;
 	ornt->o_y = o_y;
 	ornt->o_z = o_z;

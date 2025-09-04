@@ -66,6 +66,7 @@ int	first_open(t_data *data, char *s)
 	data->map = malloc((nelem + 1) * sizeof(char **));
 	if (!data->map)
 		return (0);
+	data->map[nelem] = NULL;
 	data->used = malloc((nelem + 1) * sizeof(char));
 	if (!data->used)
 		return (free_tab(data->map), 0);
