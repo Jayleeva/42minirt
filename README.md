@@ -15,5 +15,15 @@ Programme doit pouvoir appliquer translation et rotation aux : objets, lumieres,
 # A FAIRE
 
 - corriger erreurs de contexte liees a atof
-- core dump si lower el pas alloc lors du free final
+- corriger leaks quand map invalide
 - ajouter message d'erreur si map vide?
+
+
+# Etapes
+- parser : quasi OK (C)
+- gerer la fenetre : OK, sauf display des pixels (C)
+- trouver comment envoyer des rayons sur chaque pixel
+- calculer les intersections pour chaque forme
+- calculer la distance avec la camera pour determiner l'ordre de proximite
+- attribuer une couleur a chaque pixel en fonction
+- gerer la lumiere

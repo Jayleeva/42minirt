@@ -16,11 +16,11 @@ int	on_destroy(t_data *data)
 		free_tab(data->map);
 	if (data->used)
 		free(data->used);
-	if (data->sp)
+	if (data->n_lel[0])
 		free(data->sp);
-	if (data->pl)
+	if (data->n_lel[1])
 		free(data->pl);
-	if (data->cy)
+	if (data->n_lel[2])
 		free(data->cy);
 	exit(0);
 	return (0);
