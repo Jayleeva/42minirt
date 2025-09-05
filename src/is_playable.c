@@ -24,25 +24,24 @@ int	is_map_valid(t_data *data, int fd)
 	char	*line;
 	char	*tmp;
 	int		i;
-	int		j;
 
 	i = 0;
-	j = 0;
 	line = get_next_line(fd);
 	while (line)
 	{
 		if (line[0] != '\n')
 		{
-			data->map[j] = ft_strdup(line);
+			data->map[i] = ft_strdup(line);
+			if (!data->map[i])
+				return (free(line), 0);
 			data->used[i] = line[0];
 			if (!check_config(data, line))
 				return (free(line), 0);
-			j ++;
+			i ++;
 		}
 		tmp = line;
 		line = get_next_line(fd);
 		free(tmp);
-		i ++;
 	}
 	free(line);
 	return (1);
@@ -51,7 +50,6 @@ int	is_map_valid(t_data *data, int fd)
 int	first_open(t_data *data, char *s)
 {
 	int	fd;
-	int	nelem;
 
 	fd = open(s, O_RDONLY);
 	if (fd < 0)
@@ -59,18 +57,19 @@ int	first_open(t_data *data, char *s)
 		perror("Error\nFile invalid.\n");
 		return (-1);
 	}
-	nelem = count_elem(data, fd);
+	data->nelem = count_elem(data, fd);
 	close(fd);
-	if (!nelem)
+	if (!data->nelem)
 		return (0);
-	data->map = malloc((nelem + 1) * sizeof(char **));
+	data->map = malloc((data->nelem + 1) * sizeof(char **));
 	if (!data->map)
 		return (0);
-	data->map[nelem] = NULL;
-	data->used = malloc((nelem + 1) * sizeof(char));
+	data->map[data->nelem] = NULL;
+	//init_map(data);
+	data->used = malloc((data->nelem + 1) * sizeof(char));
 	if (!data->used)
-		return (free_tab(data->map), 0);
-	return (nelem);
+		return (0);
+	return (data->nelem);
 }
 
 

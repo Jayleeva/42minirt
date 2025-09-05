@@ -1,5 +1,20 @@
 #include "../inc/minirt.h"
 
+int	init_map(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nelem)
+	{
+		data->map[i] = malloc(sizeof(char));
+		if (!data->map[i])
+			return (0);
+		i ++;
+	}
+	return (1);
+}
+
 static void	init_uppercases(t_data *data)
 {
 	data->a.ratio = -1.0;
@@ -25,7 +40,8 @@ void	init(t_data *data)
 
 	data->mlx_ptr = NULL;
 	data->win_ptr = NULL;
-	data->map = NULL;
+	//data->map = NULL;
+	data->used = NULL;
 	init_uppercases(data);
 	i = 0;
 	while (i < 3)
@@ -37,6 +53,9 @@ void	init(t_data *data)
 	data->i_sp = 0;
 	data->i_pl = 0;
 	data->i_cy = 0;
+	data->sp = NULL;
+	data->pl = NULL;
+	data->cy = NULL;
 	//initialize_images(data);
 }
 
@@ -48,7 +67,10 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		return (1);
 	if (!is_valid(&data, argv[1]))
+	{
+		on_destroy(&data);
 		return (1);
+	}
 	print_tab(data.map);
 	window(&data, 5, 5);
 	return (0);

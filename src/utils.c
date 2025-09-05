@@ -37,22 +37,23 @@ int	alloc_lel(t_data *data)
 	return (1);
 }
 
-void	increment_elem(t_data *data, char *line)
+int	increment_elem(t_data *data, char *line)
 {
 	if (!ft_strncmp(line, "A ", 2))
 		data->n_uel[0]++;
-	if (!ft_strncmp(line, "C ", 2))
+	else if (!ft_strncmp(line, "C ", 2))
 		data->n_uel[1]++;
-	if (!ft_strncmp(line, "L ", 2))
+	else if (!ft_strncmp(line, "L ", 2))
 		data->n_uel[2]++;
-	if (!ft_strncmp(line, "sp ", 3))
+	else if (!ft_strncmp(line, "sp ", 3))
 		data->n_lel[0]++;
 	else if (!ft_strncmp(line, "pl ", 3))
 		data->n_lel[1]++;
 	else if (!ft_strncmp(line, "cy ", 3))
 		data->n_lel[2]++;
 	else
-		return;
+		return (0);
+	return (1);
 }
 
 int	count_elem(t_data *data, int fd)
@@ -67,7 +68,8 @@ int	count_elem(t_data *data, int fd)
 	{
 		if (line[0] != '\n')
 			count ++;
-		increment_elem(data, line);
+		if (!increment_elem(data, line))
+			return (free(line), 0);
 		tmp = line;
 		line = get_next_line(fd);
 		free(tmp);

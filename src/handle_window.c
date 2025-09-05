@@ -12,8 +12,11 @@ int	on_destroy(t_data *data)
 		mlx_destroy_display(data->mlx_ptr);
 		free(data->mlx_ptr);
 	}
-	if (data->map)
-		free_tab(data->map);
+	if (data->nelem)
+	{
+		if (data->map)
+			free_tab(data->map);
+	}
 	if (data->used)
 		free(data->used);
 	if (data->n_lel[0])
@@ -35,9 +38,6 @@ int	on_keypress(int keycode, t_data *data)
 
 void	window(t_data *data, size_t len, int nelem)
 {
-	int	i;
-
-	i = 0;
 	data->mlx_ptr = mlx_init();
 	if (!data->mlx_ptr)
 		on_destroy(data);

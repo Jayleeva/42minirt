@@ -82,6 +82,7 @@ typedef struct s_data
 	char	**map;
 	char	*used;
 	int		index;
+	int		nelem;
 	int		n_uel[3];
 	t_A		a;
 	t_C		c;
@@ -97,6 +98,7 @@ typedef struct s_data
 
 //essentials
 void	init(t_data *data);
+int		init_map(t_data *data);
 void	window(t_data *data, size_t len, int nelem);
 int		on_destroy(t_data *data);
 
@@ -125,7 +127,7 @@ int		check_diameter_or_height(float *len_, char *s);
 
 //utils
 int		count_elem(t_data *data, int fd);
-void	increment_elem(t_data *data, char *line);
+int		increment_elem(t_data *data, char *line);
 int		alloc_lel(t_data *data);
 int		is_already_used(char *used, char c);
 int		is_usable(char *line, char *used, int i);

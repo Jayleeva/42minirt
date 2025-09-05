@@ -87,4 +87,5 @@ int		tabstri(char **tab, char *s);
 int		print_tab(char **tab);
 int		is_format_valid(char *file, char *extension);
 float	_atof(char *str);
+int     ft_strcmp(const char *s1, const char *s2);
 #endif
