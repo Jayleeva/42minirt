@@ -36,9 +36,14 @@ int	check_coord(t_point *coord, char *s)
 		return (0);
 	if (!coord_tab[2] || coord_tab[3])
 		return (free_tab(coord_tab), 0);
+	//print_tab(coord_tab);
 	/*c_x = ft_strdup(coord_tab[0]);
 	c_y = ft_strdup(coord_tab[1]);
-	c_z = ft_strdup(coord_tab[2]);*/
+	c_z = ft_strdup(coord_tab[2]);
+	coord->x = _atof(c_x);
+	coord->y = _atof(c_y);
+	coord->z = _atof(c_z);*/
+	printf("coord tab[0] = %s\n", coord_tab[0]);
 	coord->x = _atof(coord_tab[0]);
 	coord->y = _atof(coord_tab[1]);
 	coord->z = _atof(coord_tab[2]);

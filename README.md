@@ -24,8 +24,6 @@ Programme doit pouvoir appliquer translation et rotation aux : objets sauf spher
 
 # A FAIRE
 - corriger erreurs de contexte liees a atof
-- corriger conditional jump pour data->map
-- corriger still reachable si return(0) apres un get_next_line (count_elem et is_map_valid)
 - ajouter message d'erreur si map vide?
 
 
