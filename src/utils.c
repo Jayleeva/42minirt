@@ -70,7 +70,10 @@ int	count_elem(t_data *data, int fd)
 		if (line[0] != '\n')
 			count ++;
 		if (!increment_elem(data, line))
-			return (free(line), 0);
+		{
+			free(line);
+			return (0);
+		}
 		free(line);
 	}
 	if (!is_n_uel_valid(data))
