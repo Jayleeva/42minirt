@@ -25,7 +25,8 @@ Programme doit pouvoir appliquer translation et rotation aux : objets, lumieres,
 
 # A FAIRE
 - corriger erreurs de contexte liees a atof
-- corriger leaks quand map invalide
+- corriger conditional jump pour data->map
+- corriger still reachable si return(0) apres un get_next_line (count_elem OK? et is_map_valid KO)
 - ajouter message d'erreur si map vide?
 
 

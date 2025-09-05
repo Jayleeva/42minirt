@@ -59,22 +59,20 @@ int	increment_elem(t_data *data, char *line)
 int	count_elem(t_data *data, int fd)
 {
 	char	*line;
-	char	*tmp;
 	int		count;
 
 	count = 0;
-	line = get_next_line(fd);
-	while (line)
+	while (1)
 	{
+		line = get_next_line(fd);
+		if (!line)
+			break;
 		if (line[0] != '\n')
 			count ++;
 		if (!increment_elem(data, line))
 			return (free(line), 0);
-		tmp = line;
-		line = get_next_line(fd);
-		free(tmp);
+		free(line);
 	}
-	free(line);
 	if (!is_n_uel_valid(data))
 		return (0);
 	if (!alloc_lel(data))

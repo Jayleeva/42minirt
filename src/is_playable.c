@@ -22,13 +22,14 @@ int	check_config(t_data *data, char *line)
 int	is_map_valid(t_data *data, int fd)
 {
 	char	*line;
-	char	*tmp;
 	int		i;
 
 	i = 0;
-	line = get_next_line(fd);
-	while (line)
+	while (1)
 	{
+		line = get_next_line(fd);
+		if (!line)
+			break ;
 		if (line[0] != '\n')
 		{
 			data->map[i] = ft_strdup(line);
@@ -39,11 +40,8 @@ int	is_map_valid(t_data *data, int fd)
 				return (free(line), 0);
 			i ++;
 		}
-		tmp = line;
-		line = get_next_line(fd);
-		free(tmp);
+		free(line);
 	}
-	free(line);
 	return (1);
 }
 
