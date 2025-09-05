@@ -72,6 +72,7 @@ int	count_elem(t_data *data, int fd)
 		if (!increment_elem(data, line))
 		{
 			free(line);
+			line = NULL;
 			return (0);
 		}
 		free(line);

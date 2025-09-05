@@ -39,6 +39,7 @@ int	is_map_valid(t_data *data, int fd)
 			if (!check_config(data, line))
 			{
 				free(line);
+				line = NULL;
 				return (0);
 			}
 			i ++;
