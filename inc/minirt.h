@@ -98,7 +98,7 @@ typedef struct s_data
 
 //essentials
 void	init(t_data *data);
-int		init_map(t_data *data);
+int		fill_map(t_data *data, int i);
 void	window(t_data *data, size_t len, int nelem);
 int		on_destroy(t_data *data);
 

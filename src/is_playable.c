@@ -33,14 +33,13 @@ int	is_map_valid(t_data *data, int fd)
 		if (line[0] != '\n')
 		{
 			data->map[i] = ft_strdup(line);
-			/*if (!data->map[i])
-				return (free(line), 0);*/
+			if (!data->map[i])
+				return (free(line), 0);
 			data->used[i] = line[0];
 			if (!check_config(data, line))
 			{
-				free(line);
-				line = NULL;
-				return (0);
+				fill_map(data, i +1);
+				return (free(line), 0);
 			}
 			i ++;
 		}
