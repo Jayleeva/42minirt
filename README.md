@@ -25,7 +25,6 @@ Programme doit pouvoir appliquer translation et rotation aux : objets, lumieres,
 
 # A FAIRE
 - corriger erreurs de contexte liees a atof
-- corriger leaks quand map invalide
 - ajouter message d'erreur si map vide?
 
 
