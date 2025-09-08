@@ -4,11 +4,14 @@ int	fill_map(t_data *data, int i)
 {
 	while (i < data->nelem)
 	{
-		data->map[i] = malloc(sizeof(char));
+/*		data->map[i] = malloc(sizeof(char));
 		if (!data->map[i])
 			return (0);
+*/
+		data->map[i] = NULL;
 		i ++;
 	}
+	data->map[i] = NULL;
 	return (1);
 }
 
