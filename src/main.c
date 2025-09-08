@@ -1,10 +1,7 @@
 #include "../inc/minirt.h"
 
-int	init_map(t_data *data)
+int	fill_map(t_data *data, int i)
 {
-	int	i;
-
-	i = 0;
 	while (i < data->nelem)
 	{
 		data->map[i] = malloc(sizeof(char));
@@ -40,8 +37,8 @@ void	init(t_data *data)
 
 	data->mlx_ptr = NULL;
 	data->win_ptr = NULL;
-	//data->map = NULL;
-	data->used = NULL;
+	data->used = NULL;\
+	data->nelem = 0;
 	init_uppercases(data);
 	i = 0;
 	while (i < 3)

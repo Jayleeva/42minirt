@@ -51,19 +51,23 @@ float	_atof(char *str)
 	char	**tab;
 	float	result;
 	int		i;
-	char	*tmp;
+	//char	*tmp1;
+	char	*tmp2;
 
 	i = 0;
+	//tmp1 = str;
 	tab = ft_split(str, '.');
+	//free(str);
+	//free(tmp1);
 	if (!tab || tab[2])
 		return (0);
 	result = (float)ft_atoi(tab[0]);
 	if (tab[1])
 	{	
 		i = count_zeros(tab[1]);
-		tmp = ft_substr(tab[1], i, ft_strlen(tab[1]));
-		result = result + ((float)ft_atoi(tmp) / get_power(i));
-		free(tmp);
+		tmp2 = ft_substr(tab[1], i, ft_strlen(tab[1]));
+		result = result + ((float)ft_atoi(tmp2) / get_power(i));
+		free(tmp2);
 	}
 	free_tab(tab);
 	return (result);

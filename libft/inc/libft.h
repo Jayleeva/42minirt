@@ -74,10 +74,10 @@ int		ft_printf(const char *s, ...);
 
 // get_next_line
 char	*get_next_line(int fd);
-ssize_t	end_of_line(char *s);
-char	*update_stash(char *stash, int eol);
-ssize_t	strchr_(char *s, char c);
-ssize_t	ft_strlen_(const char *str);
+void	ft_strcpy(char *dest, char *src, int start, int end);
+int		has_new_line(char *s);
+char	*extract_line(char *buffer);
+char	*read_line(int fd, char *buffer);
 
 //persos
 int		is_in_set(char const *set, char c);
