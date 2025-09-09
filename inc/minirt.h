@@ -130,8 +130,11 @@ int		check_ornt(t_vector *ornt, char *s);
 int		check_ratio(float *ratio_, char *s);
 int		check_diameter_or_height(float *len_, char *s);
 
-//computation
-int 	compute_intersections(t_data *data);
+//ray tracing
+int 	ray_tracing(t_data *data);
+void	cast_ray(int x, int y);
+int 	compute_intersections(t_data *data, int x, int y);
+void	set_color(t_data *data, int x, int y);
 
 //utils
 int		count_elem(t_data *data, int fd);

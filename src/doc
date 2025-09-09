@@ -1,4 +1,5 @@
-
+Dot product
+------------
 Scenario: The dot product of two tuples
 Given a ← vector(1, 2, 3)
 And b ← vector(2, 3, 4)
@@ -18,3 +19,40 @@ example, given two unit vectors, a dot product of 1 means the vectors are
 identical, and a dot product of -1 means they point in opposite directions.
 More specifically, and again if the two vectors are unit vectors, the dot product
 is actually the cosine of the angle between them
+
+
+Creating Rays
+--------------
+Each ray created by your ray tracer will have a starting point called the origin,
+and a vector called the direction which says where it points. Write the following
+test, showing how you create a ray and what its primary attributes should be:
+report erratum • discuss
+features/rays.feature
+Scenario: Creating and querying a ray
+Given origin ← point(1, 2, 3)
+And direction ← vector(4, 5, 6)
+When r ← ray(origin, direction)
+Then r.origin = origin
+And r.direction = direction
+Armed with a ray’s origin and direction, you can find points that lie any dis-
+tance t along the ray. It stands for time,
+which only makes sense once you think of the ray’s direction vector as its
+speed. For example, if the ray moves one unit every second, then the following
+figure from Scalar Multiplication and Division, on page 7, shows how far the
+ray travels in 3.5 seconds.
+t = 3.5
+Perform the following test, which introduces a new function called position(ray, t).
+This function should compute the point at the given distance t along the ray.
+features/rays.feature
+Scenario: Computing a point from a distance
+Given r ← ray(point(2, 3, 4), vector(1, 0, 0))
+Then position(r, 0) = point(2, 3, 4)
+And position(r, 1) = point(3, 3, 4)
+And position(r, -1) = point(1, 3, 4)
+And position(r, 2.5) = point(4.5, 3, 4)
+To find the position, you multiply the ray’s direction by t to find the total
+distance traveled, and then add that to the ray’s origin. In pseudocode, it
+looks like this:
+function position(ray, t)
+return ray.origin + ray.direction * t
+end function

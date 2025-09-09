@@ -65,7 +65,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	print_tab(data.map);
-	compute_intersections(&data);
+	ray_tracing(&data);
 	window(&data);
 	return (0);
 }

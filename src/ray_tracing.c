@@ -1,6 +1,6 @@
 #include "../inc/minirt.h"
 
-int compute_intersections(t_data *data)
+int ray_tracing(t_data *data)
 {
 	int	x;
 	int	y;
@@ -12,6 +12,10 @@ int compute_intersections(t_data *data)
 		while (y < W_HEIGHT)
 		{
 			(void)data;
+			//cast_ray(x, y);
+			//compute_intersections(data, x, y);
+			//set_color(data, x, y);
+			//mlx_pixel_put(xvar, win, x, y, color);
 			y ++;
 		}
 		x ++;

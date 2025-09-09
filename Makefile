@@ -14,7 +14,7 @@ SRC = 	main.c \
 		config_upper.c \
 		config_lower.c \
 		config_common.c \
-		compute_intersections.c \
+		ray_tracing.c \
 		utils.c \
 		
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC))
