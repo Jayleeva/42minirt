@@ -49,9 +49,9 @@ void	init(t_data *data)
 	data->i_sp = 0;
 	data->i_pl = 0;
 	data->i_cy = 0;
-	data->sp = NULL;
-	data->pl = NULL;
-	data->cy = NULL;
+	//data->sp = NULL;
+	//data->pl = NULL;
+	//data->cy = NULL;
 	//initialize_images(data);
 }
 
@@ -68,7 +68,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	print_tab(data.map);
-	//compute_intersections(&data);
+	compute_intersections(&data);
 	window(&data);
 	return (0);
 }

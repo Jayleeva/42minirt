@@ -1,0 +1,20 @@
+
+Scenario: The dot product of two tuples
+Given a ← vector(1, 2, 3)
+And b ← vector(2, 3, 4)
+Then dot(a, b) = 20
+Given those two vectors, the dot product is computed as the sum of the
+products of the corresponding components of each vector. Here’s pseudocode
+showing what that looks like:
+function dot(a, b)
+return a.x * b.x +
+a.y * b.y +
+a.z * b.z +
+a.w * b.w
+end function
+
+the smaller the dot product, the larger the angle between the vectors. For
+example, given two unit vectors, a dot product of 1 means the vectors are
+identical, and a dot product of -1 means they point in opposite directions.
+More specifically, and again if the two vectors are unit vectors, the dot product
+is actually the cosine of the angle between them
