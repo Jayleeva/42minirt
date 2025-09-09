@@ -25,8 +25,6 @@ int	on_destroy(t_data *data)
 		free(data->pl);
 	if (data->n_lel[2])
 		free(data->cy);
-	/*if (data->n_lel[0] || data->n_lel[1] || data->n_lel[2])
-		free_tab(data->order);*/
 	exit(0);
 	return (0);
 }

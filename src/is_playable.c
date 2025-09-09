@@ -32,7 +32,6 @@ int	is_map_valid(t_data *data, int fd)
 			break ;
 		if (line[0] != '\n')
 		{
-			//if (!fill_in_order(data, line))
 			data->map[i] = ft_strdup(line);
 			if (!data->map[i])
 				return (free(line), 0);
@@ -63,12 +62,10 @@ int	first_open(t_data *data, char *s)
 	close(fd);
 	if (!data->nelem)
 		return (0);
-	//data->map = malloc((data->nelem + 1) * sizeof(char **));
 	data->map = malloc((data->nelem + 1) * sizeof *data->map);
 	if (!data->map)
 		return (0);
 	data->map[data->nelem] = NULL;
-	//init_map(data);
 	data->used = malloc((data->nelem + 1) * sizeof(char));
 	if (!data->used)
 		return (0);

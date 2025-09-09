@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/10 10:00:56 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/09/09 13:48:54 by cyglardo         ###   ########.fr       */
+/*   Created: 2024/11/28 12:16:25 by cyglardo          #+#    #+#             */
+/*   Updated: 2025/09/09 13:58:11 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+void	ft_strcpy(char *dest, char *src, int start, int end)
 {
 	int	i;
 
 	i = 0;
-	while (s1[i])
+	while (*src)
 	{
-		if (s1[i] != s2[i])
-			return (s1 - s2);
-		i ++;
+		if (i > end)
+			break ;
+		if (i >= start)
+		{
+			*dest = *src;
+			dest++;
+		}
+		i++;
+		src++;
 	}
-	return (0);
+	*dest = '\0';
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   atof.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llabatut <llabatut@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 13:53:46 by llabatut          #+#    #+#             */
-/*   Updated: 2025/09/08 14:45:05 by llabatut         ###   ########.ch       */
+/*   Updated: 2025/09/09 13:48:21 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static int	get_power(int i)
 {
 	int	res;
 
-	//res = 100;
 	res = 1;
 	while (i)
 	{
@@ -27,7 +26,7 @@ static int	get_power(int i)
 	return (res);
 }
 
-static int count_zeros(char *s)
+static int	count_zeros(char *s)
 {
 	int	i;
 	int	count;
@@ -35,10 +34,10 @@ static int count_zeros(char *s)
 	count = 0;
 	i = 0;
 	if (s[i] == '0')
-	{	
+	{
 		count ++;
 		i ++;
-		while(s[i] == '0')
+		while (s[i] == '0')
 		{
 			count ++;
 			i ++;
@@ -46,33 +45,6 @@ static int count_zeros(char *s)
 	}
 	return (count);
 }
-
-/*float	_atof(char *str)
-{
-	char	**tab;
-	float	result;
-	int		i;
-	//char	*tmp1;
-	char	*tmp2;
-
-	i = 0;
-	//tmp1 = str;
-	tab = ft_split(str, '.');
-	//free(str);
-	//free(tmp1);
-	if (!tab || tab[2])
-		return (0);
-	result = (float)ft_atoi(tab[0]);
-	if (tab[1])
-	{	
-		i = count_zeros(tab[1]);
-		tmp2 = ft_substr(tab[1], i, ft_strlen(tab[1]));
-		result = result + ((float)ft_atoi(tmp2) / get_power(i));
-		free(tmp2);
-	}
-	free_tab(tab);
-	return (result);
-}*/
 
 static float	decimal_part(char *s, float result)
 {
