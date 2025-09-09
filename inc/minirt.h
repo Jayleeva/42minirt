@@ -1,5 +1,6 @@
 #ifndef MINIRT_H
 # define MINIRT_H 
+# define M_PI 3.14159265358979323846
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -11,6 +12,9 @@
 
 # define K_Q 113
 # define K_ESC 65307
+
+# define W_WIDTH 2400
+# define W_HEIGHT 1800
 
 typedef struct s_rgb
 {
@@ -79,6 +83,7 @@ typedef struct s_data
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
+	t_point	volume;
 	char	**map;
 	char	*used;
 	int		index;
@@ -99,7 +104,7 @@ typedef struct s_data
 //essentials
 void	init(t_data *data);
 int		fill_map(t_data *data, int i);
-void	window(t_data *data, size_t len, int nelem);
+void	window(t_data *data);
 int		on_destroy(t_data *data);
 
 //parsing

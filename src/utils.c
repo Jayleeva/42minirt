@@ -14,6 +14,34 @@ int	is_n_uel_valid(t_data *data)
 	return (1);
 }
 
+/*int	fill_in_order(t_data *data, char *line)
+{
+	static int	i = 0;
+
+	if (!ft_strncmp(line, "A ", 3))
+	{
+		data->map[0] = ft_strdup(line);
+		if (!data->map[0])
+			return (0);
+	}
+	else if (!ft_strncmp(line, "C ", 3))
+	{
+		data->map[1] = ft_strdup(line);
+		if (!data->map[1])
+			return (0);
+	}
+	else if (!ft_strncmp(line, "L ", 3))
+	{
+		data->map[2] = ft_strdup(line);
+		if (!data->map[2])
+			return (0);
+	}
+	else
+		data->map[i] = ft_strdup(line);
+	i ++;
+	return (1);
+}*/
+
 int	alloc_lel(t_data *data)
 {
 	if (data->n_lel[0] > 0)

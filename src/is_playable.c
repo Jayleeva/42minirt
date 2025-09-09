@@ -32,6 +32,7 @@ int	is_map_valid(t_data *data, int fd)
 			break ;
 		if (line[0] != '\n')
 		{
+			//if (!fill_in_order(data, line))
 			data->map[i] = ft_strdup(line);
 			if (!data->map[i])
 				return (free(line), 0);

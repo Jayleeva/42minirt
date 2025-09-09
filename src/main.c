@@ -72,6 +72,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	print_tab(data.map);
-	window(&data, 5, 5);
+	//compute_intersections(&data);
+	window(&data);
 	return (0);
 }

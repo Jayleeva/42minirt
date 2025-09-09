@@ -25,6 +25,8 @@ int	on_destroy(t_data *data)
 		free(data->pl);
 	if (data->n_lel[2])
 		free(data->cy);
+	/*if (data->n_lel[0] || data->n_lel[1] || data->n_lel[2])
+		free_tab(data->order);*/
 	exit(0);
 	return (0);
 }
@@ -36,13 +38,12 @@ int	on_keypress(int keycode, t_data *data)
 	return (0);
 }
 
-void	window(t_data *data, size_t len, int nelem)
+void	window(t_data *data)
 {
 	data->mlx_ptr = mlx_init();
 	if (!data->mlx_ptr)
 		on_destroy(data);
-	data->win_ptr = mlx_new_window(data->mlx_ptr, (int)len * 360,
-			nelem * 240, "Minirt");
+	data->win_ptr = mlx_new_window(data->mlx_ptr, W_WIDTH, W_HEIGHT, "Minirt");
 	if (!data->win_ptr)
 		on_destroy(data);
 	//load_images(data);
