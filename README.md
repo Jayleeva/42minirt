@@ -11,7 +11,7 @@ Programme doit pouvoir resize les objets (diametre de la sphere, largeur et haut
 Programme doit pouvoir appliquer translation et rotation aux : objets sauf sphere, lumieres sauf lumiere ambiante, camera --> apparemment pas en live?
 
 # Etapes
-- parser : quasi OK (C)
+- parser : OK (C)
 - gerer la fenetre : OK, sauf display des pixels (C)
 - trouver comment envoyer des rayons sur chaque pixel
 - calculer les intersections pour chaque forme
@@ -23,7 +23,6 @@ Programme doit pouvoir appliquer translation et rotation aux : objets sauf spher
 - C et L: se renseigner sur comment envoyer des rayons sur chaque pixel
 
 # A FAIRE
-- corriger erreurs de contexte liees a atof
 - ajouter message d'erreur si map vide?
 
 

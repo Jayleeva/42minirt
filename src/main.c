@@ -4,10 +4,6 @@ int	fill_map(t_data *data, int i)
 {
 	while (i < data->nelem)
 	{
-/*		data->map[i] = malloc(sizeof(char));
-		if (!data->map[i])
-			return (0);
-*/
 		data->map[i] = NULL;
 		i ++;
 	}
@@ -40,7 +36,7 @@ void	init(t_data *data)
 
 	data->mlx_ptr = NULL;
 	data->win_ptr = NULL;
-	data->used = NULL;\
+	data->used = NULL;
 	data->nelem = 0;
 	init_uppercases(data);
 	i = 0;
@@ -53,9 +49,6 @@ void	init(t_data *data)
 	data->i_sp = 0;
 	data->i_pl = 0;
 	data->i_cy = 0;
-	data->sp = NULL;
-	data->pl = NULL;
-	data->cy = NULL;
 	//initialize_images(data);
 }
 
@@ -72,6 +65,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	print_tab(data.map);
-	window(&data, 5, 5);
+	ray_tracing(&data);
+	window(&data);
 	return (0);
 }

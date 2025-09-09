@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:56:42 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/08/28 14:58:56 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/09/09 13:58:54 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,5 @@ int		tabstri(char **tab, char *s);
 int		print_tab(char **tab);
 int		is_format_valid(char *file, char *extension);
 float	_atof(char *str);
-int     ft_strcmp(const char *s1, const char *s2);
+int		ft_strcmp(const char *s1, const char *s2);
 #endif
