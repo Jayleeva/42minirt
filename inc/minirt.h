@@ -130,6 +130,9 @@ int		check_ornt(t_vector *ornt, char *s);
 int		check_ratio(float *ratio_, char *s);
 int		check_diameter_or_height(float *len_, char *s);
 
+//computation
+int 	compute_intersections(t_data *data);
+
 //utils
 int		count_elem(t_data *data, int fd);
 int		increment_elem(t_data *data, char *line);

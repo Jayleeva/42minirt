@@ -36,7 +36,7 @@ void	init(t_data *data)
 
 	data->mlx_ptr = NULL;
 	data->win_ptr = NULL;
-	data->used = NULL;\
+	data->used = NULL;
 	data->nelem = 0;
 	init_uppercases(data);
 	i = 0;
@@ -49,9 +49,6 @@ void	init(t_data *data)
 	data->i_sp = 0;
 	data->i_pl = 0;
 	data->i_cy = 0;
-	//data->sp = NULL;
-	//data->pl = NULL;
-	//data->cy = NULL;
 	//initialize_images(data);
 }
 

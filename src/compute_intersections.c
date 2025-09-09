@@ -1,34 +1,20 @@
 #include "../inc/minirt.h"
 
-void	compute_sphere(t_data *data, t_sp sp)
-{
-	float	dot;
-
-	dot = get_dot(sphere_point, current_pixel);
-	
-}
-
 int compute_intersections(t_data *data)
 {
-	int	i;
+	int	x;
+	int	y;
 
-	i = 0;
-	while (&(data->sp[i]))
+	x = 0;
+	while (x < W_WIDTH)
 	{
-		compute_sphere(data, data->sp[i]);
-		i ++;
-	}
-	i = 0;
-	while (&(data->sp[i]))
-	{
-		compute_plane(data, data->pl[i]);
-		i ++;
-	}
-	i = 0;
-	while (&(data->sp[i]))
-	{
-		compute_cylinder(data, data->cy[i]);
-		i ++;
+		y = 0;
+		while (y < W_HEIGHT)
+		{
+			(void)data;
+			y ++;
+		}
+		x ++;
 	}
 	return (1);
 }
