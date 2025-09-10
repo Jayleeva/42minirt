@@ -4,8 +4,8 @@ void	cast_ray(t_data *data, int i, int x, int y)
 {
 	data->canvas[i].x = x;
 	data->canvas[i].y = y;
-	data->canvas[i].colors.r = 0;
-	data->canvas[i].colors.g = 255;
+	data->canvas[i].colors.r = 255;
+	data->canvas[i].colors.g = 0;
 	data->canvas[i].colors.b = 0;
 	data->canvas[i].color = rgb_to_hex(data->canvas[i]);
 }
@@ -31,12 +31,13 @@ int ray_tracing(t_data *data)
 			//set_color(data, x, y);
 			printf("pixel color = %X\n", data->canvas[i].color);
 			mlx_pixel_put(data->mlx_ptr, data->win_ptr, x, y, data->canvas[i].color);
-			printf("hello\n");
+			printf("hello segfault\n");
 			i ++;
 			y ++;
 		}
 		x ++;
 	}
-
+	//au lieu de mlx_pixel_put(), changer le canevas en image xpm puis utiliser mlx_xmp_file_to_img() puis load_img() puis put_image_to_window()?
+	//utiliser format ppm P6? comment faire le lien avec la minilibx?
 	return (1);
 }

@@ -62,6 +62,5 @@ int	rgb_to_hex(t_pixel pixel)
 	rgb_to_hex_utils(tmp, n, s);
 	ret = ft_atoi_base(s, 16);
 	free(s);
-	//printf("ret = %X\n", ret);
 	return (ret);
 }
