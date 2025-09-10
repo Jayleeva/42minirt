@@ -13,8 +13,8 @@
 # define K_Q 113
 # define K_ESC 65307
 
-# define W_WIDTH 2400
-# define W_HEIGHT 1800
+# define W_WIDTH 1280
+# define W_HEIGHT 720
 
 typedef struct s_rgb
 {
@@ -79,27 +79,35 @@ typedef struct s_cy
 	t_rgb		colors;
 }				t_cy;
 
+typedef struct s_pixel
+{
+	t_rgb		colors;
+	int			color;
+	int			x;
+	int			y;
+}				t_pixel;
+
 typedef struct s_data
 {
-	void	*mlx_ptr;
-	void	*win_ptr;
-	t_point	volume;
-	char	**map;
-	char	*used;
-	int		index;
-	int		nelem;
-	int		n_uel[3];
-	t_A		a;
-	t_C		c;
-	t_L		l;
-	int		n_lel[3];
-	int		i_sp;
-	int		i_pl;
-	int		i_cy;
-	t_sp	*sp;
-	t_pl	*pl;
-	t_cy	*cy;
-}			t_data;
+	void		*mlx_ptr;
+	void		*win_ptr;
+	t_pixel		*canvas;
+	char		**map;
+	char		*used;
+	int			index;
+	int			nelem;
+	int			n_uel[3];
+	t_A			a;
+	t_C			c;
+	t_L			l;
+	int			n_lel[3];
+	int			i_sp;
+	int			i_pl;
+	int			i_cy;
+	t_sp		*sp;
+	t_pl		*pl;
+	t_cy		*cy;
+}				t_data;
 
 //essentials
 void	init(t_data *data);
@@ -132,7 +140,7 @@ int		check_diameter_or_height(float *len_, char *s);
 
 //ray tracing
 int 	ray_tracing(t_data *data);
-void	cast_ray(int x, int y);
+void	cast_ray(t_data *data, int i, int x, int y);
 int 	compute_intersections(t_data *data, int x, int y);
 void	set_color(t_data *data, int x, int y);
 

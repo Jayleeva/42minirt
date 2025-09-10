@@ -12,7 +12,54 @@
 
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+char	*define_set(int base)
+{
+	char	set[base + 2];
+	int		i;
+	int	j;
+
+	set[0] = '-';
+	set[1] = '+';
+	i = 0;
+	while (i < 10)
+	{
+		set[i + 2] = i + '0';
+		i ++;
+	}
+	if (base > 10)
+	{
+		j = 0;
+		while (i < base)
+		{
+			set[i + 2] = j + 'A';
+			j ++;
+			i ++;
+		}
+	}
+	set[i + 2] = '\0';
+	return (set);
+}
+
+static int	atoi_base_utils(int base, const char *str, int i, int n)
+{
+	int	result;
+
+	result = 0;
+	while (str[i])
+	{
+		result = result * base;
+		if (str[i] >= '0' && str[i] <= '9')
+			result = result + (str[i] - '0');
+		else if (str[i] >= 'a' && str[i] <= 'f')
+			result = result + (str[i] - 'a' + 10);
+		else if (str[i] >= 'A' && str[i] <= 'F')
+			result = result + (str[i] - 'A' + 10);
+		i ++;
+	}
+	return (result);
+}
+
+int	ft_atoi_base(const char *str, int base)
 {
 	int	i;
 	int	n;
@@ -20,22 +67,17 @@ int	ft_atoi(const char *str)
 
 	i = 0;
 	n = 1;
-	result = 0;
 	while ((str[i] >= 9 && str[i] <= 13)
 		|| str[i] == ' ')
 		i ++;
 	if (str[i] == '-' || str[i] == '+')
 	{
-		if (!is_in_set(define_set(10), str[i +1]))
+		if (!is_in_set(define_set(base), str[i +1]))
 			return (0);
 		if (str[i] == '-')
 			n = n * -1;
 		i ++;
 	}
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		result = result * 10 + (str[i] - '0');
-		i ++;
-	}
+	result = atoi_base_utils(base, str, i, n);
 	return (result * n);
 }
