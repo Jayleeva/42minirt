@@ -6,26 +6,22 @@ MLX_DIR = ./minilibx-linux
 MLX_LIB = $(MLX_DIR)/libmlx.a
 
 SRC_DIR = ./src
-OBJ_DIR = ./obj 
+OBJ_DIR = ./obj
 
 SRC = 	main.c \
 		handle_window.c \
+		is_playable.c \
+		config_upper.c \
+		config_lower.c \
+		config_common.c \
+		parsing_utils.c \
 		ray_tracing.c \
-
-SRC_PARSING =	is_playable.c \
-				config_upper.c \
-				config_lower.c \
-				config_common.c \
-				parsing_utils.c \
+		rgb_to_hex.c \
 		
-SRCS =	$(addprefix $(SRC_DIR)/, $(SRC)) \
-		$(addprefix $(SRC_DIR)/parsing/, $(SRC_PARSING))
+SRCS = $(addprefix $(SRC_DIR)/, $(SRC))
 
-OBJ =	$(SRC:.c=.o) \
-		$(SRC_PARSING:.c=.o)
-
-OBJS =	$(addprefix $(OBJ_DIR)/, $(OBJ)) \
-		$(addprefix $(OBJ_DIR)/parsing/, $(OBJ))
+OBJ = $(SRC:.c=.o)
+OBJS = $(addprefix $(OBJ_DIR)/, $(OBJ))
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -I ./inc -I ./libft/inc -g 

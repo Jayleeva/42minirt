@@ -138,6 +138,11 @@ int		check_ornt(t_vector *ornt, char *s);
 int		check_ratio(float *ratio_, char *s);
 int		check_diameter_or_height(float *len_, char *s);
 
+//rgb to hex
+int		rgb_to_hex(t_pixel pixel);
+void	rgb_to_hex_utils(int *tmp, int n, char *s);
+int		get_n(int *tmp);
+
 //ray tracing
 int 	ray_tracing(t_data *data);
 void	cast_ray(t_data *data, int i, int x, int y);

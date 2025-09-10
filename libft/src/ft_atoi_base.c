@@ -12,10 +12,9 @@
 
 #include "libft.h"
 
-char	*define_set(int base)
+char	*define_set(char *set, int base)
 {
-	char	set[base + 2];
-	int		i;
+	int	i;
 	int	j;
 
 	set[0] = '-';
@@ -40,10 +39,11 @@ char	*define_set(int base)
 	return (set);
 }
 
-static int	atoi_base_utils(int base, const char *str, int i, int n)
+static int	atoi_base_utils(int base, const char *str, int i)
 {
 	int	result;
 
+	//ft_printf("str = %s\n", str);
 	result = 0;
 	while (str[i])
 	{
@@ -54,6 +54,7 @@ static int	atoi_base_utils(int base, const char *str, int i, int n)
 			result = result + (str[i] - 'a' + 10);
 		else if (str[i] >= 'A' && str[i] <= 'F')
 			result = result + (str[i] - 'A' + 10);
+		//ft_printf("result = %d\n", result);
 		i ++;
 	}
 	return (result);
@@ -61,10 +62,14 @@ static int	atoi_base_utils(int base, const char *str, int i, int n)
 
 int	ft_atoi_base(const char *str, int base)
 {
-	int	i;
-	int	n;
-	int	result;
+	int		i;
+	int		n;
+	int		result;
+	char	*set;
 
+	set = malloc((base + 2 + 1) * sizeof(char));
+	if (!set)
+		return (0);
 	i = 0;
 	n = 1;
 	while ((str[i] >= 9 && str[i] <= 13)
@@ -72,12 +77,13 @@ int	ft_atoi_base(const char *str, int base)
 		i ++;
 	if (str[i] == '-' || str[i] == '+')
 	{
-		if (!is_in_set(define_set(base), str[i +1]))
-			return (0);
+		if (!is_in_set(define_set(set, base), str[i +1]))
+			return (free(set), 0);
 		if (str[i] == '-')
 			n = n * -1;
 		i ++;
 	}
-	result = atoi_base_utils(base, str, i, n);
+	free(set);
+	result = atoi_base_utils(base, str, i);
 	return (result * n);
 }
