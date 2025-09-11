@@ -7,16 +7,18 @@ MLX_LIB = $(MLX_DIR)/libmlx.a
 
 SRC_DIR = ./src
 OBJ_DIR = ./obj
+DIR = ./obj ./obj/parsing
 
 SRC = 	main.c \
 		handle_window.c \
-		is_playable.c \
-		config_upper.c \
-		config_lower.c \
-		config_common.c \
-		parsing_utils.c \
-		ray_tracing.c \
+		parsing/is_playable.c \
+		parsing/config_upper.c \
+		parsing/config_lower.c \
+		parsing/config_common.c \
+		parsing/parsing_utils.c \
 		rgb_to_hex.c \
+		ray_tracing.c \
+		
 		
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC))
 
@@ -35,13 +37,13 @@ RM = rm -rf
 
 all: $(MLX_LIB) $(NAME)
 
-$(OBJ_DIR):
-	$(MKDIR) $(OBJ_DIR)
+$(DIR):
+	$(MKDIR) $(DIR)
 
-$(NAME): $(OBJS) | $(OBJ_DIR) $(LIBFT_LIB)
+$(NAME): $(OBJS) | $(DIR) $(LIBFT_LIB)
 	@${CC} ${CFLAGS} ${OBJS} $(LIBFT_LIB) $(MLX_LIB) -o $(NAME) $(MLX_FLAGS) $(MATH_FLAGS)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(DIR)
 	@$(CC) $(CFLAGS) -o $@ -c $< $(INCLUDES)
 
 $(LIBFT_LIB):
