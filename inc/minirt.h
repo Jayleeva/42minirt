@@ -87,6 +87,15 @@ typedef struct s_pixel
 	int			y;
 }				t_pixel;
 
+typedef struct s_img_data
+{
+	void	*img_ptr;
+	char	*address;
+	int		bits_per_pixel;
+	int		size_line;
+	int		endian;
+}			t_img_data;
+
 typedef struct s_data
 {
 	void		*mlx_ptr;
@@ -94,6 +103,7 @@ typedef struct s_data
 	t_pixel		*canvas;
 	char		**map;
 	char		*used;
+	t_img_data	img_data;
 	int			index;
 	int			nelem;
 	int			n_uel[3];
