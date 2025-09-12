@@ -4,7 +4,7 @@ int	on_destroy(t_data *data)
 {
 	if (!data)
 		return (0);
-	//destroy_images(data);
+	mlx_destroy_image(data->mlx_ptr, data->img_data.img_ptr);
 	if (data->win_ptr)
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	if (data->mlx_ptr)
@@ -25,6 +25,8 @@ int	on_destroy(t_data *data)
 		free(data->pl);
 	if (data->n_lel[2])
 		free(data->cy);
+	if (data->canvas)
+		free(data->canvas);
 	exit(0);
 	return (0);
 }
