@@ -49,6 +49,11 @@ void	init(t_data *data)
 	data->i_sp = 0;
 	data->i_pl = 0;
 	data->i_cy = 0;
+	data->sp = NULL;
+	data->pl = NULL;
+	data->cy = NULL;
+	data->img_data.img_ptr = NULL;
+	data->canvas = NULL;
 	//initialize_images(data);
 }
 

@@ -21,6 +21,12 @@ void ft_put_pixel(t_img_data *data, int x, int y, int color)
     }
 }
 
+/*int	set_color(t_pixel *canvas, int i)
+{
+	canvas->color[i] = ; //calcul. Besoin de connaitre l'objet et sa couleur!
+	return (0);
+}*/
+
 int ray_tracing(t_data *data)
 {
 	int		x;
@@ -45,7 +51,7 @@ int ray_tracing(t_data *data)
 		{
 			cast_ray(data, i, x, y);
 			//compute_intersections(data, x, y);
-			//set_color(data, x, y);
+			//set_color(data->canvas, i);
 			ft_put_pixel(&(data->img_data), x, y, data->canvas[i].color);
 			i ++;
 			y ++;
