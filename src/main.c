@@ -64,7 +64,6 @@ int	main(int argc, char **argv)
 		on_destroy(&data);
 		return (1);
 	}
-	printf("hehe");
 	print_tab(data.map);
 	window(&data);
 	return (0);
