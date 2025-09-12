@@ -21,6 +21,8 @@ Programme doit pouvoir appliquer translation et rotation aux : objets sauf spher
 
 # D'ICI PROCHAINE REU
 - C et L: se renseigner sur comment envoyer des rayons sur chaque pixel
+- L : calculer les intersections
+- C : calculer les couleurs
 
 # A FAIRE
 - ajouter message d'erreur si map vide?
