@@ -47,14 +47,11 @@ int ray_tracing(t_data *data)
 			//compute_intersections(data, x, y);
 			//set_color(data, x, y);
 			ft_put_pixel(&(data->img_data), x, y, data->canvas[i].color);
-			//mlx_pixel_put(data->mlx_ptr, data->win_ptr, x, y, data->canvas[i].color);
 			i ++;
 			y ++;
 		}
 		x ++;
 	}
-	//au lieu de mlx_pixel_put(), changer le canevas en image xpm puis utiliser mlx_xmp_file_to_img() puis load_img() puis put_image_to_window()?
-	//utiliser format ppm P6? comment faire le lien avec la minilibx?
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img_data.img_ptr, 0, 0);
 	return (1);
 }

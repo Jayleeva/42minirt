@@ -154,6 +154,7 @@ void	rgb_to_hex_utils(int *tmp, int n, char *s);
 int		get_n(int *tmp);
 
 //ray tracing
+void 	ft_put_pixel(t_img_data *data, int x, int y, int color);
 int 	ray_tracing(t_data *data);
 void	cast_ray(t_data *data, int i, int x, int y);
 int 	compute_intersections(t_data *data, int x, int y);
