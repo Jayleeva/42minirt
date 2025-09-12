@@ -65,7 +65,6 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	print_tab(data.map);
-	ray_tracing(&data);
 	window(&data);
 	return (0);
 }

@@ -12,27 +12,62 @@
 
 #include "libft.h"
 
-int	atoi_utils(const char *str, int i)
+char	*define_set(char *set, int base)
+{
+	int	i;
+	int	j;
+
+	set[0] = '-';
+	set[1] = '+';
+	i = 0;
+	while (i < 10)
+	{
+		set[i + 2] = i + '0';
+		i ++;
+	}
+	if (base > 10)
+	{
+		j = 0;
+		while (i < base)
+		{
+			set[i + 2] = j + 'A';
+			j ++;
+			i ++;
+		}
+	}
+	set[i + 2] = '\0';
+	return (set);
+}
+
+static int	atoi_base_utils(int base, const char *str, int i)
 {
 	int	result;
 
+	//ft_printf("str = %s\n", str);
 	result = 0;
-	while (str[i] >= '0' && str[i] <= '9')
+	while (str[i])
 	{
-		result = result * 10 + (str[i] - '0');
+		result = result * base;
+		if (str[i] >= '0' && str[i] <= '9')
+			result = result + (str[i] - '0');
+		else if (str[i] >= 'a' && str[i] <= 'f')
+			result = result + (str[i] - 'a' + 10);
+		else if (str[i] >= 'A' && str[i] <= 'F')
+			result = result + (str[i] - 'A' + 10);
+		//ft_printf("result = %d\n", result);
 		i ++;
 	}
 	return (result);
 }
 
-int	ft_atoi(const char *str)
+int	ft_atoi_base(const char *str, int base)
 {
 	int		i;
 	int		n;
 	int		result;
 	char	*set;
 
-	set = malloc((10 + 2 + 1) * sizeof(char));
+	set = malloc((base + 2 + 1) * sizeof(char));
 	if (!set)
 		return (0);
 	i = 0;
@@ -42,13 +77,13 @@ int	ft_atoi(const char *str)
 		i ++;
 	if (str[i] == '-' || str[i] == '+')
 	{
-		if (!is_in_set(define_set(set, 10), str[i +1]))
+		if (!is_in_set(define_set(set, base), str[i +1]))
 			return (free(set), 0);
 		if (str[i] == '-')
 			n = n * -1;
 		i ++;
 	}
 	free(set);
-	result = atoi_utils(str, i);
+	result = atoi_base_utils(base, str, i);
 	return (result * n);
 }
