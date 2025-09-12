@@ -21,11 +21,33 @@ void ft_put_pixel(t_img_data *data, int x, int y, int color)
     }
 }
 
-/*int	set_color(t_pixel *canvas, int i)
+void	set_final_color(t_pixel *canvas, int i)
 {
-	canvas->color[i] = ; //calcul. Besoin de connaitre l'objet et sa couleur!
-	return (0);
-}*/
+	/*canvas[i].colors.r = canvas[i].colors.r * 100 / 255;
+	canvas[i].colors.g = canvas[i].colors.g * 100 / 255;
+	canvas[i].colors.b = canvas[i].colors.b * 100 / 255;*/
+
+	if (i > 100000 && i <= 432000)
+	{
+		canvas[i].colors.r *= 1;
+		canvas[i].colors.g *= 1;
+		canvas[i].colors.b *= 1;
+		canvas[i].color = rgb_to_hex(canvas[i]);
+	}
+	else if (i > 432000 && i <= 764000)
+	{
+		canvas[i].colors.r *= 0;
+		canvas[i].colors.g *= 0;
+		canvas[i].colors.b *= 0;
+		canvas[i].color = rgb_to_hex(canvas[i]);
+	}
+
+	/*if (i > 100000 && i <= 432000)
+		canvas[i].color += 0xFFFFFF;
+	else if (i > 432000 && i <= 864000)
+		canvas[i].color -= 0xFFFFFF;*/
+	//canvas[i].color = ; //calcul. Besoin de connaitre l'objet et sa couleur!
+}
 
 int ray_tracing(t_data *data)
 {
@@ -51,7 +73,7 @@ int ray_tracing(t_data *data)
 		{
 			cast_ray(data, i, x, y);
 			//compute_intersections(data, x, y);
-			//set_color(data->canvas, i);
+			set_final_color(data->canvas, i);
 			ft_put_pixel(&(data->img_data), x, y, data->canvas[i].color);
 			i ++;
 			y ++;

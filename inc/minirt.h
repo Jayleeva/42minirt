@@ -158,7 +158,7 @@ void 	ft_put_pixel(t_img_data *data, int x, int y, int color);
 int 	ray_tracing(t_data *data);
 void	cast_ray(t_data *data, int i, int x, int y);
 int 	compute_intersections(t_data *data, int x, int y);
-void	set_color(t_data *data, int x, int y);
+void	set_final_color(t_pixel *canvas, int i);
 
 //utils
 int		count_elem(t_data *data, int fd);
