@@ -119,6 +119,22 @@ typedef struct s_data
 	t_cy		*cy;
 }				t_data;
 
+typedef enum s_shape_type
+{
+	SPHERE,
+	PLANE,
+	CYLINDER,
+}	t_shape_type;
+
+typedef struct s_hit
+{
+	float		t;
+	t_point 	p;
+	t_vector 	n;
+	int			kind;
+	int			idx;
+}				t_hit;
+
 //essentials
 void	init(t_data *data);
 int		fill_map(t_data *data, int i);
