@@ -7,7 +7,7 @@ MLX_LIB = $(MLX_DIR)/libmlx.a
 
 SRC_DIR = ./src
 OBJ_DIR = ./obj
-DIR = ./obj ./obj/parsing
+DIR = ./obj ./obj/parsing ./obj/vectors ./obj/intersections
 
 SRC = 	main.c \
 		handle_window.c \
@@ -16,8 +16,15 @@ SRC = 	main.c \
 		parsing/config_lower.c \
 		parsing/config_common.c \
 		parsing/parsing_utils.c \
+		vectors/vectors.c \
+		vectors/vectors_calculs.c \
+		intersections/cylinder.c \
+		intersections/intersections.c \
+		intersections/plane.c \
+		intersections/sphere.c \
 		rgb_to_hex.c \
 		ray_tracing.c \
+		camera.c \
 		
 		
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC))

@@ -67,3 +67,13 @@ t_vector    v_norm(t_vector a)
         res = a;
     return (res);
 }
+
+t_vector v_cross(t_vector a, t_vector b)
+{
+    t_vector r;
+
+    r.o_x = a.o_y * b.o_z - a.o_z * b.o_y;
+    r.o_y = a.o_z * b.o_x - a.o_x * b.o_z;
+    r.o_z = a.o_x * b.o_y - a.o_y * b.o_x;
+    return (r);
+}
