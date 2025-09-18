@@ -2,11 +2,25 @@
 
 void	cast_ray(t_data *data, int i, int x, int y)
 {
+	t_ray r;
+	t_hit h;
+
+	r = make_primary_ray(data, x, y);
+	if (world_hit(data, &r, EPS, 1e30f, &h))
+	{
+		if (h.kind == SPHERE)
+		{
+			data->canvas[i].colors = data->sp[h.idx].colors;
+		}
+	}
+	else
+	{
+		data->canvas[i].colors.r = 20;
+		data->canvas[i].colors.g = 20;
+		data->canvas[i].colors.b = 25;
+	}
 	data->canvas[i].x = x;
 	data->canvas[i].y = y;
-	data->canvas[i].colors.r = 255;
-	data->canvas[i].colors.g = 0;
-	data->canvas[i].colors.b = 0;
 	data->canvas[i].color = rgb_to_hex(data->canvas[i]);
 }
 
@@ -42,6 +56,7 @@ int ray_tracing(t_data *data)
 		return (0);
 	data->img_data.img_ptr = mlx_new_image(data->mlx_ptr, W_WIDTH, W_HEIGHT);
 	data->img_data.address = mlx_get_data_addr(data->img_data.img_ptr, &(data->img_data).bits_per_pixel, &(data->img_data).size_line, &(data->img_data).endian);
+	cam_prepare_view(data);
 	i = 0;
 	x = 0;
 	while (x < W_WIDTH)

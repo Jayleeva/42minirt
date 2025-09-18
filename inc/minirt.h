@@ -16,6 +16,8 @@
 # define W_WIDTH 1280
 # define W_HEIGHT 720
 
+# define EPS 1e-4f
+
 typedef struct s_rgb
 {
 	int	r;
@@ -96,6 +98,14 @@ typedef struct s_img_data
 	int		endian;
 }			t_img_data;
 
+typedef struct s_camview {
+	t_vector	u;
+	t_vector	v;
+	t_vector	w;
+	float		half_w;
+	float		half_h;
+}				t_camview;
+
 typedef struct s_data
 {
 	void		*mlx_ptr;
@@ -117,7 +127,30 @@ typedef struct s_data
 	t_sp		*sp;
 	t_pl		*pl;
 	t_cy		*cy;
+	t_camview	view;
 }				t_data;
+
+typedef enum s_shape_type
+{
+	SPHERE,
+	PLANE,
+	CYLINDER,
+}	t_shape_type;
+
+typedef struct s_hit
+{
+	float		t;
+	t_point 	p;
+	t_vector 	n;
+	int			kind;
+	int			idx;
+}				t_hit;
+
+typedef struct s_ray {
+	t_point		o;
+	t_vector	d; // normalisée
+}				t_ray;
+
 
 //essentials
 void	init(t_data *data);
@@ -159,6 +192,26 @@ int 	ray_tracing(t_data *data);
 void	cast_ray(t_data *data, int i, int x, int y);
 int 	compute_intersections(t_data *data, int x, int y);
 void	set_color(t_data *data, int x, int y);
+void	cam_prepare_view(t_data *d);
+t_ray	make_primary_ray(t_data *d, int x, int y);
+
+// vectors
+t_vector  v_make(float x, float y, float z);
+t_point   p_make(float x, float y, float z);
+t_vector  v_from_points(t_point a, t_point b);
+t_point   p_add_v(t_point p, t_vector v);
+
+t_vector  v_add(t_vector a, t_vector b);
+t_vector  v_sub(t_vector a, t_vector b);
+t_vector  v_scale(t_vector a, float k);
+float     v_dot(t_vector a, t_vector b);
+t_vector  v_cross(t_vector a, t_vector b);
+float     v_len(t_vector a);
+t_vector  v_norm(t_vector a);
+
+//intersections
+int	hit_sphere(const t_ray *r, const t_sp *s, float tmin, float tmax, t_hit *out);
+int	world_hit(t_data *d, const t_ray *r, float tmin, float tmax, t_hit *h);
 
 //utils
 int		count_elem(t_data *data, int fd);
