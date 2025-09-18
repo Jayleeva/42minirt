@@ -11,6 +11,7 @@ void	cast_ray(t_data *data, int i, int x, int y)
 		if (h.kind == SPHERE)
 		{
 			data->canvas[i].colors = data->sp[h.idx].colors;
+			data->canvas[i].color  = rgb_to_hex(data->canvas[i]);
 		}
 	}
 	else
