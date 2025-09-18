@@ -12,17 +12,15 @@ Programme doit pouvoir appliquer translation et rotation aux : objets sauf spher
 
 # Etapes
 - parser : OK (C)
-- gerer la fenetre : OK, sauf display des pixels (C)
-- trouver comment envoyer des rayons sur chaque pixel
-- calculer les intersections pour chaque forme
-- calculer la distance avec la camera pour determiner l'ordre de proximite
-- attribuer une couleur a chaque pixel en fonction
+- gerer la fenetre : OK (C)
+- trouver comment envoyer des rayons sur chaque pixel : OK (L)
+- calculer les intersections pour chaque forme : O/K (L)
+- calculer la distance avec la camera pour determiner l'ordre de proximite : O/K (L)
+- attribuer une couleur a chaque pixel en fonction : O/K (C)
 - gerer la lumiere
 
 # D'ICI PROCHAINE REU
-- C et L: se renseigner sur comment envoyer des rayons sur chaque pixel
-- L : calculer les intersections
-- C : calculer les couleurs
+- C et L: se renseigner sur comment gerer si plusieurs spheres
 
 # A FAIRE
 - ajouter message d'erreur si map vide?
