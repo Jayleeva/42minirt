@@ -8,7 +8,7 @@ static int	try_spheres(t_data *d, const t_ray *r, float tmin, t_hit *best)
 
 	found = 0;
 	i = 0;
-	while (i < d->i_sp)
+	while (i < d->n_lel[0])
 	{
 		if (hit_sphere(r, &d->sp[i], tmin, best->t, &tmp))
 		{
