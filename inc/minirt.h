@@ -230,6 +230,4 @@ int		alloc_lel(t_data *data);
 int		is_already_used(char *used, char c);
 int		is_usable(char *line, char *used, int i);
 int		is_n_uel_valid(t_data *data);
-void	free_big_tab(char ***bigtab);
-
 #endif

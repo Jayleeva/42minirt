@@ -1,5 +1,6 @@
 #include "../inc/minirt.h"
 
+// Verifie si le code rgb est valable.
 int	check_colors(t_rgb *colors, char *s)
 {
 	char	**clr_tab;
@@ -24,6 +25,7 @@ int	check_colors(t_rgb *colors, char *s)
 	return (1);
 }
 
+// Verifie si les coordonnees sont valables.
 int	check_coord(t_point *coord, char *s)
 {
 	char	**coord_tab;
@@ -41,6 +43,7 @@ int	check_coord(t_point *coord, char *s)
 	return (1);
 }
 
+// Verifie si les orientations sont valables.
 int	check_ornt(t_vector *ornt, char *s)
 {
 	char	**ornt_tab;
@@ -67,6 +70,7 @@ int	check_ornt(t_vector *ornt, char *s)
 	return (1);
 }
 
+// Verifie si le ratio est valable.
 int	check_ratio(float *ratio_, char *s)
 {
 	float	ratio;
@@ -78,6 +82,7 @@ int	check_ratio(float *ratio_, char *s)
 	return (1);
 }
 
+// Verifie si le diametre ou la taille est valable.
 int	check_diameter_or_height(float *len_, char *s)
 {
 	float	len;

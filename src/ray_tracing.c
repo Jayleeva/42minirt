@@ -1,5 +1,7 @@
 #include "../inc/minirt.h"
 
+// Envoie un rayon sur le pixel recu et verifie si on y trouve des elements.
+// Si oui, lance le melange de la couleur ambiante avec celle de l'element.
 void	cast_ray(t_data *data, int i, int x, int y)
 {
 	t_ray	r;
@@ -15,10 +17,9 @@ void	cast_ray(t_data *data, int i, int x, int y)
 			//data->canvas[i].color  = rgb_to_hex(&(data->canvas[i]).colors);
 		}
 	}
-	data->canvas[i].x = x;
-	data->canvas[i].y = y;
 }
 
+// Donne la couleur recue aux coordonnees de pixel recues.
 void	ft_put_pixel(t_img_data *data, int x, int y, int color)
 {
 	char	*pxl;
@@ -30,6 +31,7 @@ void	ft_put_pixel(t_img_data *data, int x, int y, int color)
 	}
 }
 
+// Parcourt chaque pixel et lance l'envoi de rayon puis l'attribuation de couleur.
 void	loop_on_pixels(t_data *d)
 {
 	int	x;
@@ -53,6 +55,9 @@ void	loop_on_pixels(t_data *d)
 	}
 }
 
+// Alloue la place pour le canvas, cree une image et en recupere l'adresse pour l'attribution de couleur des pixels,
+// lance la preparation de la camera, l'initialisation de la couleur de la lumiere ambiante, l'iteration sur chaque pixel;
+// affiche l'image sur la fenetre. 
 int	ray_tracing(t_data *d)
 {
 	int		*bpp;

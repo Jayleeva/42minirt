@@ -1,5 +1,6 @@
 #include "../inc/minirt.h"
 
+// Remplis la map de NULL pour initialiser les valeurs.
 int	fill_map(t_data *data, int i)
 {
 	while (i < data->nelem)
@@ -11,6 +12,7 @@ int	fill_map(t_data *data, int i)
 	return (1);
 }
 
+// Initialise les elements en majuscules.
 static void	init_uppercases(t_data *data)
 {
 	data->a.ratio = -1.0;
@@ -30,6 +32,7 @@ static void	init_uppercases(t_data *data)
 	data->l.ratio = -1.0;
 }
 
+// Initialise les donnees a NULL.
 void	init(t_data *data)
 {
 	int	i;

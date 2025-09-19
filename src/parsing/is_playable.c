@@ -1,5 +1,6 @@
 #include "../inc/minirt.h"
 
+// Verification des configs en fonction de l'element.
 int	check_config(t_data *data, char *line)
 {
 	if (!ft_strncmp(line, "A ", 2))
@@ -19,6 +20,7 @@ int	check_config(t_data *data, char *line)
 	return (1);
 }
 
+// Detail de la 2eme lecture: lit, verifie validite et enregistre.
 int	is_map_valid(t_data *data, int fd)
 {
 	char	*line;
@@ -48,6 +50,27 @@ int	is_map_valid(t_data *data, int fd)
 	return (1);
 }
 
+// Deuxieme lecture: verifie si le contenu du fichier est valable et si oui, le stock dans la structure.
+int	second_open(t_data *data, char *s)
+{
+	int	fd;
+
+	fd = open(s, O_RDONLY);
+	if (fd < 0)
+	{
+		perror("Error\nFile could not open.\n");
+		return (0);
+	}
+	if (!is_map_valid(data, fd))
+	{
+		perror("Error\nMap invalid.\n");
+		return (close(fd), 0);
+	}
+	close(fd);
+	return (1);
+}
+
+// Premiere lecture: compte le nombre d'elements et fait les allocations necessaires.
 int	first_open(t_data *data, char *s)
 {
 	int	fd;
@@ -72,25 +95,7 @@ int	first_open(t_data *data, char *s)
 	return (data->nelem);
 }
 
-int	second_open(t_data *data, char *s)
-{
-	int	fd;
-
-	fd = open(s, O_RDONLY);
-	if (fd < 0)
-	{
-		perror("Error\nFile could not open.\n");
-		return (0);
-	}
-	if (!is_map_valid(data, fd))
-	{
-		perror("Error\nMap invalid.\n");
-		return (close(fd), 0);
-	}
-	close(fd);
-	return (1);
-}
-
+// Verifie si le fichier est valable, en deux lectures.
 int	is_valid(t_data *data, char *s)
 {
 	int	nelem;

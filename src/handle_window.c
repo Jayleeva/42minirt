@@ -1,5 +1,6 @@
 #include "../inc/minirt.h"
 
+// Libere la memoire allouee.
 void	free_all(t_data *data)
 {
 	if (data->nelem)
@@ -19,6 +20,7 @@ void	free_all(t_data *data)
 		free(data->canvas);
 }
 
+// Detruit les images, la fenetre, et lance la liberation de toute la memoire allouee.
 int	on_destroy(t_data *data)
 {
 	if (!data)
@@ -37,6 +39,7 @@ int	on_destroy(t_data *data)
 	return (0);
 }
 
+// Gere les inputs claviers.
 int	on_keypress(int keycode, t_data *data)
 {
 	if (keycode == K_Q || keycode == K_ESC)
@@ -44,6 +47,7 @@ int	on_keypress(int keycode, t_data *data)
 	return (0);
 }
 
+//Initialise la fenetre, l'ouvre, lance le ray tracing, fait tourner le programme jusqu'a sa fermeture, detruit tout.
 void	window(t_data *data)
 {
 	data->mlx_ptr = mlx_init();

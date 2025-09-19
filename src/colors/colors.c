@@ -1,5 +1,6 @@
 #include "../inc/minirt.h"
 
+// Transforme les int de 0 a 255 en float de 0.0 a 1.0 si type == 1, et l'inverse si type == 0.
 void	rgb_rescale(t_rgb *colors, int type)
 {
 	if (type)
@@ -16,6 +17,7 @@ void	rgb_rescale(t_rgb *colors, int type)
 	}
 }
 
+// Recouvre tout l'ecran avec la couleur de la lumiere ambiante.
 void	initialize_color(t_data *data, t_pixel *canvas)
 {
 	int		x;
@@ -41,6 +43,7 @@ void	initialize_color(t_data *data, t_pixel *canvas)
 	}
 }
 
+// Melange la couleur du pixel recu avec la couleur recue.
 void	mix_colors(t_pixel *pixel, t_rgb color2)
 {
 	rgb_rescale(&color2, 1);
@@ -51,6 +54,7 @@ void	mix_colors(t_pixel *pixel, t_rgb color2)
 	pixel->color = rgb_to_hex(&(pixel->colors));
 }
 
+// Test pour verifier que le melange de couleur fonctionne bien. A SUPPRIMER AVANT DE RENDRE
 void	test_mix_color(t_pixel *canvas, int i)
 {
 	float	s[3];
