@@ -30,8 +30,8 @@ void	initialize_color(t_data *data, t_pixel *canvas)
 		while (y < W_HEIGHT)
 		{
 			canvas[i].colors.r = data->a.colors.r * data->a.ratio;
-			canvas[i].colors.g = data->a.colors.g * data->a.ratio;;
-			canvas[i].colors.b = data->a.colors.b * data->a.ratio;;
+			canvas[i].colors.g = data->a.colors.g * data->a.ratio;
+			canvas[i].colors.b = data->a.colors.b * data->a.ratio;
 			rgb_rescale(&(canvas[i].colors), 1);
 			canvas[i].color = rgb_to_hex(&(canvas[i].colors));
 			i ++;
@@ -54,11 +54,11 @@ void	mix_colors(t_pixel *pixel, t_rgb color2)
 void	test_mix_color(t_pixel *canvas, int i)
 {
 	float	s[3];
+
 	//attention: melanger couleur "pure" avec couleur "pure" = noir, car multiplier nimp avec 0 = 0.
-	s[0] = 0.3;	
+	s[0] = 0.3;
 	s[1] = 0.3;
 	s[2] = 0.9;
-
 	if (i > 288000 && i <= 620000) // objectif: melanger la couleur 1 avec ce que je lui donne ici en dur -> OK
 	{
 		canvas[i].colors.s_r *= s[0];

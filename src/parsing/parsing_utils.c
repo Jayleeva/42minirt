@@ -66,7 +66,7 @@ int	count_elem(t_data *data, int fd)
 	{
 		line = get_next_line(fd);
 		if (!line)
-			break;
+			break ;
 		if (line[0] != '\n')
 			count ++;
 		if (!increment_elem(data, line))

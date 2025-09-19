@@ -95,9 +95,9 @@ typedef struct s_pixel
 typedef struct s_img_data
 {
 	void	*img_ptr;
-	char	*address;
-	int		bits_per_pixel;
-	int		size_line;
+	char	*addr;
+	int		bpp;
+	int		size;
 	int		endian;
 }			t_img_data;
 
@@ -116,7 +116,7 @@ typedef struct s_data
 	t_pixel		*canvas;
 	char		**map;
 	char		*used;
-	t_img_data	img_data;
+	t_img_data	img;
 	int			index;
 	int			nelem;
 	int			n_uel[3];
@@ -197,6 +197,7 @@ void	test_mix_color(t_pixel *canvas, int i);
 
 //ray tracing
 void 	ft_put_pixel(t_img_data *data, int x, int y, int color);
+void	loop_on_pixels(t_data *d);
 int 	ray_tracing(t_data *data);
 void	cast_ray(t_data *data, int i, int x, int y);
 int 	compute_intersections(t_data *data, int x, int y);

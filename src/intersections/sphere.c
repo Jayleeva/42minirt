@@ -2,8 +2,8 @@
 
 int	hit_sphere(const t_ray *r, const t_sp *s, float tmin, float tmax, t_hit *out)
 {
-	t_vector oc;
-	float a, half_b, c, disc, sqrtd, t;
+	t_vector	oc;
+	float		a, half_b, c, disc, sqrtd, t;
 
 	oc = v_from_points(s->coord, r->o);
 	a = v_dot(r->d, r->d);
@@ -28,4 +28,3 @@ int	hit_sphere(const t_ray *r, const t_sp *s, float tmin, float tmax, t_hit *out
 	out->kind = SPHERE;
 	return (1);
 }
-

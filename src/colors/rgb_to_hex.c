@@ -15,7 +15,7 @@ int	get_n(int *tmp)
 			break ;
 		n ++;
 	}
-    return (n);
+	return (n);
 }
 
 void	rgb_to_hex_utils(int *tmp, int n, char *s)

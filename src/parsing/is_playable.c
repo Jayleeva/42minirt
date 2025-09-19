@@ -38,7 +38,7 @@ int	is_map_valid(t_data *data, int fd)
 			data->used[i] = line[0];
 			if (!check_config(data, line))
 			{
-				fill_map(data, i +1);
+				fill_map(data, i + 1);
 				return (free(line), 0);
 			}
 			i ++;
@@ -62,7 +62,7 @@ int	first_open(t_data *data, char *s)
 	close(fd);
 	if (!data->nelem)
 		return (0);
-	data->map = malloc((data->nelem + 1) * sizeof *data->map);
+	data->map = malloc((data->nelem + 1) * sizeof(char *));
 	if (!data->map)
 		return (0);
 	data->map[data->nelem] = NULL;
@@ -71,7 +71,6 @@ int	first_open(t_data *data, char *s)
 		return (0);
 	return (data->nelem);
 }
-
 
 int	second_open(t_data *data, char *s)
 {

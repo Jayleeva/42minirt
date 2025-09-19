@@ -52,9 +52,8 @@ void	init(t_data *data)
 	data->sp = NULL;
 	data->pl = NULL;
 	data->cy = NULL;
-	data->img_data.img_ptr = NULL;
+	data->img.img_ptr = NULL;
 	data->canvas = NULL;
-	//initialize_images(data);
 }
 
 int	main(int argc, char **argv)

@@ -2,8 +2,8 @@
 
 void	cast_ray(t_data *data, int i, int x, int y)
 {
-	t_ray r;
-	t_hit h;
+	t_ray	r;
+	t_hit	h;
 
 	r = make_primary_ray(data, x, y);
 	if (world_hit(data, &r, EPS, 1e30f, &h))
@@ -19,34 +19,23 @@ void	cast_ray(t_data *data, int i, int x, int y)
 	data->canvas[i].y = y;
 }
 
-void ft_put_pixel(t_img_data *data, int x, int y, int color)
+void	ft_put_pixel(t_img_data *data, int x, int y, int color)
 {
-    char *pxl;
+	char	*pxl;
 
-    if (x >= 0 && x < W_WIDTH && y >= 0 && y < W_HEIGHT)
-    {
-        pxl = data->address + (y * data->size_line + x * (data->bits_per_pixel / 8));
-        *(unsigned int *)pxl = color;
-    }
+	if (x >= 0 && x < W_WIDTH && y >= 0 && y < W_HEIGHT)
+	{
+		pxl = data->addr + (y * data->size + x * (data->bpp / 8));
+		*(unsigned int *)pxl = color;
+	}
 }
 
-int ray_tracing(t_data *data)
+void	loop_on_pixels(t_data *d)
 {
-	int		x;
-	int		y;
-	int		i;
+	int	x;
+	int	y;
+	int	i;
 
-	data->img_data.endian = 1;
-	data->img_data.size_line = W_WIDTH;
-	data->img_data.bits_per_pixel = 1;
-
-	data->canvas = malloc((W_HEIGHT * W_WIDTH + 1) * sizeof(t_pixel));
-	if (!data->canvas)
-		return (0);
-	data->img_data.img_ptr = mlx_new_image(data->mlx_ptr, W_WIDTH, W_HEIGHT);
-	data->img_data.address = mlx_get_data_addr(data->img_data.img_ptr, &(data->img_data).bits_per_pixel, &(data->img_data).size_line, &(data->img_data).endian);
-	cam_prepare_view(data);
-	initialize_color(data, data->canvas);
 	i = 0;
 	x = 0;
 	while (x < W_WIDTH)
@@ -54,14 +43,36 @@ int ray_tracing(t_data *data)
 		y = 0;
 		while (y < W_HEIGHT)
 		{
-			cast_ray(data, i, x, y);
+			cast_ray(d, i, x, y);
 			//test_mix_color(data->canvas, i);
-			ft_put_pixel(&(data->img_data), x, y, data->canvas[i].color);
+			ft_put_pixel(&(d->img), x, y, d->canvas[i].color);
 			i ++;
 			y ++;
 		}
 		x ++;
 	}
-	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img_data.img_ptr, 0, 0);
+}
+
+int	ray_tracing(t_data *d)
+{
+	int		*bpp;
+	int		*size;
+	int		*endian;
+
+	d->img.endian = 1;
+	d->img.size = W_WIDTH;
+	d->img.bpp = 1;
+	bpp = &(d->img).bpp;
+	size = &(d->img).size;
+	endian = &(d->img).endian;
+	d->canvas = malloc((W_HEIGHT * W_WIDTH + 1) * sizeof(t_pixel));
+	if (!d->canvas)
+		return (0);
+	d->img.img_ptr = mlx_new_image(d->mlx_ptr, W_WIDTH, W_HEIGHT);
+	d->img.addr = mlx_get_data_addr(d->img.img_ptr, bpp, size, endian);
+	cam_prepare_view(d);
+	initialize_color(d, d->canvas);
+	loop_on_pixels(d);
+	mlx_put_image_to_window(d->mlx_ptr, d->win_ptr, d->img.img_ptr, 0, 0);
 	return (1);
 }
