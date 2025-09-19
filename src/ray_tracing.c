@@ -10,19 +10,13 @@ void	cast_ray(t_data *data, int i, int x, int y)
 	{
 		if (h.kind == SPHERE)
 		{
-			data->canvas[i].colors = data->sp[h.idx].colors;
-			data->canvas[i].color  = rgb_to_hex(data->canvas[i]);
+			mix_colors(&(data->canvas[i]), data->sp[h.idx].colors);
+			//data->canvas[i].colors = data->sp[h.idx].colors;
+			//data->canvas[i].color  = rgb_to_hex(&(data->canvas[i]).colors);
 		}
-	}
-	else
-	{
-		data->canvas[i].colors.r = 20;
-		data->canvas[i].colors.g = 20;
-		data->canvas[i].colors.b = 25;
 	}
 	data->canvas[i].x = x;
 	data->canvas[i].y = y;
-	data->canvas[i].color = rgb_to_hex(data->canvas[i]);
 }
 
 void ft_put_pixel(t_img_data *data, int x, int y, int color)
@@ -35,12 +29,6 @@ void ft_put_pixel(t_img_data *data, int x, int y, int color)
         *(unsigned int *)pxl = color;
     }
 }
-
-/*int	set_color(t_pixel *canvas, int i)
-{
-	canvas->color[i] = ; //calcul. Besoin de connaitre l'objet et sa couleur!
-	return (0);
-}*/
 
 int ray_tracing(t_data *data)
 {
@@ -58,6 +46,7 @@ int ray_tracing(t_data *data)
 	data->img_data.img_ptr = mlx_new_image(data->mlx_ptr, W_WIDTH, W_HEIGHT);
 	data->img_data.address = mlx_get_data_addr(data->img_data.img_ptr, &(data->img_data).bits_per_pixel, &(data->img_data).size_line, &(data->img_data).endian);
 	cam_prepare_view(data);
+	initialize_color(data, data->canvas);
 	i = 0;
 	x = 0;
 	while (x < W_WIDTH)
@@ -66,8 +55,7 @@ int ray_tracing(t_data *data)
 		while (y < W_HEIGHT)
 		{
 			cast_ray(data, i, x, y);
-			//compute_intersections(data, x, y);
-			//set_color(data->canvas, i);
+			//test_mix_color(data->canvas, i);
 			ft_put_pixel(&(data->img_data), x, y, data->canvas[i].color);
 			i ++;
 			y ++;

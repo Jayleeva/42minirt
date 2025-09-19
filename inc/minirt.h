@@ -20,9 +20,12 @@
 
 typedef struct s_rgb
 {
-	int	r;
-	int	g;
-	int	b;
+	int		r;
+	int		g;
+	int		b;
+	float	s_r;
+	float	s_g;
+	float	s_b;
 }		t_rgb;
 
 typedef struct s_point
@@ -182,9 +185,15 @@ int		check_ratio(float *ratio_, char *s);
 int		check_diameter_or_height(float *len_, char *s);
 
 //rgb to hex
-int		rgb_to_hex(t_pixel pixel);
+int		rgb_to_hex(t_rgb *colors);
 void	rgb_to_hex_utils(int *tmp, int n, char *s);
 int		get_n(int *tmp);
+
+//colors
+void	mix_colors(t_pixel *pixel, t_rgb color2);
+void	rgb_rescale(t_rgb *color, int type);
+void	initialize_color(t_data *data, t_pixel *canvas);
+void	test_mix_color(t_pixel *canvas, int i);
 
 //ray tracing
 void 	ft_put_pixel(t_img_data *data, int x, int y, int color);
