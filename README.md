@@ -6,9 +6,8 @@ Creer un programme de ray tracing.
 - pas d'obligation de nombre: plane (pl), sphere (sp), cylinder (cy) order is not important
 - strictly one: ambiant lighting (A), camera (C), light (L). order is not important
 
-Programme doit pouvoir resize les objets (diametre de la sphere, largeur et hauteur du cylindre) --> apparemment pas en live?
+Pas besoin de faire des transformations en live (bonus).
 
-Programme doit pouvoir appliquer translation et rotation aux : objets sauf sphere, lumieres sauf lumiere ambiante, camera --> apparemment pas en live?
 
 # Etapes
 - parser : OK (C)
@@ -20,7 +19,8 @@ Programme doit pouvoir appliquer translation et rotation aux : objets sauf spher
 - gerer la lumiere
 
 # D'ICI PROCHAINE REU
-- C et L: se renseigner sur comment gerer si plusieurs spheres
+- C: trouver calcul pour plane
+- L: trouver calcul pour cylindre
 
 # A FAIRE
 - ajouter message d'erreur si map vide?
