@@ -1,9 +1,6 @@
 #include "../inc/minirt.h"
 
-//{ "red" , 0xff0000 }
-//{ "green" , 0xff00 }
-//{ "blue" , 0xff }
-
+// Cherche la premiere valeur du rgb (ignore les premiers zeros)
 int	get_n(int *tmp)
 {
 	int	n;
@@ -15,9 +12,10 @@ int	get_n(int *tmp)
 			break ;
 		n ++;
 	}
-    return (n);
+	return (n);
 }
 
+// Utils de la fonction rgb_to_hex: transforme les decimal (recus sous forme de string) en hexadecimal
 void	rgb_to_hex_utils(int *tmp, int n, char *s)
 {
 	int	j;
@@ -37,19 +35,20 @@ void	rgb_to_hex_utils(int *tmp, int n, char *s)
 	s[6 - n] = '\0';
 }
 
-int	rgb_to_hex(t_pixel pixel)
+// Transforme le code rgb en format hexadecimal.
+int	rgb_to_hex(t_rgb *colors)
 {
 	int		tmp[6];
 	char	*s;
 	int		ret;
 	int		n;
 
-	tmp[0] = pixel.colors.r / 16;
-	tmp[1] = pixel.colors.r % 16;
-	tmp[2] = pixel.colors.g / 16;
-	tmp[3] = pixel.colors.g % 16;
-	tmp[4] = pixel.colors.b / 16;
-	tmp[5] = pixel.colors.b % 16;
+	tmp[0] = colors->r / 16;
+	tmp[1] = colors->r % 16;
+	tmp[2] = colors->g / 16;
+	tmp[3] = colors->g % 16;
+	tmp[4] = colors->b / 16;
+	tmp[5] = colors->b % 16;
 	n = get_n(tmp);
 	if (n == 6)
 		return (0);

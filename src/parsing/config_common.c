@@ -1,5 +1,6 @@
 #include "../inc/minirt.h"
 
+// Verifie si le code rgb est valable.
 int	check_colors(t_rgb *colors, char *s)
 {
 	char	**clr_tab;
@@ -24,36 +25,25 @@ int	check_colors(t_rgb *colors, char *s)
 	return (1);
 }
 
+// Verifie si les coordonnees sont valables.
 int	check_coord(t_point *coord, char *s)
 {
 	char	**coord_tab;
-	/*char	*c_x;
-	char	*c_y;
-	char	*c_z;*/
 
 	coord_tab = ft_split(s, ',');
 	if (!coord_tab)
 		return (0);
 	if (!coord_tab[2] || coord_tab[3])
 		return (free_tab(coord_tab), 0);
-	//print_tab(coord_tab);
-	/*c_x = ft_strdup(coord_tab[0]);
-	c_y = ft_strdup(coord_tab[1]);
-	c_z = ft_strdup(coord_tab[2]);
-	coord->x = _atof(c_x);
-	coord->y = _atof(c_y);
-	coord->z = _atof(c_z);*/
 	printf("coord tab[0] = %s\n", coord_tab[0]);
 	coord->x = _atof(coord_tab[0]);
 	coord->y = _atof(coord_tab[1]);
 	coord->z = _atof(coord_tab[2]);
-	/*free(c_x);
-	free(c_y);
-	free(c_z);*/
 	free_tab(coord_tab);
 	return (1);
 }
 
+// Verifie si les orientations sont valables.
 int	check_ornt(t_vector *ornt, char *s)
 {
 	char	**ornt_tab;
@@ -80,6 +70,7 @@ int	check_ornt(t_vector *ornt, char *s)
 	return (1);
 }
 
+// Verifie si le ratio est valable.
 int	check_ratio(float *ratio_, char *s)
 {
 	float	ratio;
@@ -91,6 +82,7 @@ int	check_ratio(float *ratio_, char *s)
 	return (1);
 }
 
+// Verifie si le diametre ou la taille est valable.
 int	check_diameter_or_height(float *len_, char *s)
 {
 	float	len;

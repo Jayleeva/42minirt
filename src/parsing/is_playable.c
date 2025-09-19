@@ -1,5 +1,6 @@
 #include "../inc/minirt.h"
 
+// Verification des configs en fonction de l'element.
 int	check_config(t_data *data, char *line)
 {
 	if (!ft_strncmp(line, "A ", 2))
@@ -19,6 +20,7 @@ int	check_config(t_data *data, char *line)
 	return (1);
 }
 
+// Detail de la 2eme lecture: lit, verifie validite et enregistre.
 int	is_map_valid(t_data *data, int fd)
 {
 	char	*line;
@@ -38,7 +40,7 @@ int	is_map_valid(t_data *data, int fd)
 			data->used[i] = line[0];
 			if (!check_config(data, line))
 			{
-				fill_map(data, i +1);
+				fill_map(data, i + 1);
 				return (free(line), 0);
 			}
 			i ++;
@@ -48,31 +50,7 @@ int	is_map_valid(t_data *data, int fd)
 	return (1);
 }
 
-int	first_open(t_data *data, char *s)
-{
-	int	fd;
-
-	fd = open(s, O_RDONLY);
-	if (fd < 0)
-	{
-		perror("Error\nFile invalid.\n");
-		return (-1);
-	}
-	data->nelem = count_elem(data, fd);
-	close(fd);
-	if (!data->nelem)
-		return (0);
-	data->map = malloc((data->nelem + 1) * sizeof *data->map);
-	if (!data->map)
-		return (0);
-	data->map[data->nelem] = NULL;
-	data->used = malloc((data->nelem + 1) * sizeof(char));
-	if (!data->used)
-		return (0);
-	return (data->nelem);
-}
-
-
+// Deuxieme lecture: verifie si le contenu du fichier est valable et si oui, le stock dans la structure.
 int	second_open(t_data *data, char *s)
 {
 	int	fd;
@@ -92,6 +70,32 @@ int	second_open(t_data *data, char *s)
 	return (1);
 }
 
+// Premiere lecture: compte le nombre d'elements et fait les allocations necessaires.
+int	first_open(t_data *data, char *s)
+{
+	int	fd;
+
+	fd = open(s, O_RDONLY);
+	if (fd < 0)
+	{
+		perror("Error\nFile invalid.\n");
+		return (-1);
+	}
+	data->nelem = count_elem(data, fd);
+	close(fd);
+	if (!data->nelem)
+		return (0);
+	data->map = malloc((data->nelem + 1) * sizeof(char *));
+	if (!data->map)
+		return (0);
+	data->map[data->nelem] = NULL;
+	data->used = malloc((data->nelem + 1) * sizeof(char));
+	if (!data->used)
+		return (0);
+	return (data->nelem);
+}
+
+// Verifie si le fichier est valable, en deux lectures.
 int	is_valid(t_data *data, char *s)
 {
 	int	nelem;

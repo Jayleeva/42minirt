@@ -1,6 +1,6 @@
 #include "../inc/minirt.h"
 
-//liberer tous les split au moment de free toute la structure?
+// Verifie si les configs de la lumiere ambiante sont valables.
 int	check_a(t_data *data, char *type)
 {
 	char	**tab;
@@ -19,6 +19,7 @@ int	check_a(t_data *data, char *type)
 	return (1);
 }
 
+// Verifie si les configs de la camera sont valables.
 int	check_c(t_data *data, char *type)
 {
 	char	**tab;
@@ -39,6 +40,7 @@ int	check_c(t_data *data, char *type)
 	return (1);
 }
 
+// Verifie si les configs de la source de lumiere sont valables.
 int	check_l(t_data *data, char *type)
 {
 	char	**tab;
@@ -57,6 +59,7 @@ int	check_l(t_data *data, char *type)
 	return (1);
 }
 
+// Verifie si le fov est valable.
 int	check_fov(int *fov_, char *s)
 {
 	int	fov;

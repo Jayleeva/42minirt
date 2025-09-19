@@ -1,6 +1,6 @@
 #include "../inc/minirt.h"
 
-//liberer tous les split au moment de free toute la structure?
+// Verifie si les configs de la sphere sont valables.
 int	check_sp(t_data *data, char *sp)
 {
 	char	**tab;
@@ -22,6 +22,7 @@ int	check_sp(t_data *data, char *sp)
 	return (1);
 }
 
+// Verifie si les configs du plane sont valables.
 int	check_pl(t_data *data, char *pl)
 {
 	char	**tab;
@@ -43,6 +44,7 @@ int	check_pl(t_data *data, char *pl)
 	return (1);
 }
 
+// Verifie si les configs du cylindre sont valables.
 int	check_cy(t_data *data, char *cy)
 {
 	char	**tab;

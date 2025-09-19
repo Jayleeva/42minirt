@@ -2,9 +2,9 @@
 
 static void	cam_build_basis(t_data *d)
 {
-	t_vector up;
-	t_vector dir;
-	t_vector tmp;
+	t_vector	up;
+	t_vector	dir;
+	t_vector	tmp;
 
 	up = v_make(0.0f, 1.0f, 0.0f);
 	dir = v_norm(d->c.ornt);
@@ -18,9 +18,9 @@ static void	cam_build_basis(t_data *d)
 
 void	cam_prepare_view(t_data *d)
 {
-	float aspect;
-	float vh;
-	float vfov;
+	float	aspect;
+	float	vh;
+	float	vfov;
 
 	aspect = (float)W_WIDTH / (float)W_HEIGHT;
 	vfov = (float)d->c.fov * (float)M_PI / 180.0f;
@@ -32,12 +32,12 @@ void	cam_prepare_view(t_data *d)
 
 t_ray	make_primary_ray(t_data *d, int x, int y)
 {
-	t_ray r;
-	float u;
-	float v;
-	t_vector dir;
-	float fx;
-	float fy;
+	t_ray		r;
+	float		u;
+	float		v;
+	t_vector	dir;
+	float		fx;
+	float		fy;
 
 	fx = ((float)x + 0.5f) / (float)W_WIDTH;
 	fy = ((float)y + 0.5f) / (float)W_HEIGHT;

@@ -1,19 +1,6 @@
 #include "../inc/minirt.h"
 
-int	is_n_uel_valid(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < 3)
-	{
-		if (data->n_uel[i] != 1)
-			return (0);
-		i ++;
-	}
-	return (1);
-}
-
+// Alloue la memoire pour les elements en minuscule, en fonction de leurs nombres respectifs.
 int	alloc_lel(t_data *data)
 {
 	if (data->n_lel[0] > 0)
@@ -37,6 +24,22 @@ int	alloc_lel(t_data *data)
 	return (1);
 }
 
+// Verifie si tous les elements en majuscules sont bien presents qu'une seule fois.
+int	is_n_uel_valid(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		if (data->n_uel[i] != 1)
+			return (0);
+		i ++;
+	}
+	return (1);
+}
+
+// Incremente le nombre du type d'element recu pour qu'on puisse les compter.
 int	increment_elem(t_data *data, char *line)
 {
 	if (!ft_strncmp(line, "A ", 2))
@@ -56,6 +59,7 @@ int	increment_elem(t_data *data, char *line)
 	return (1);
 }
 
+// Compte le nombre d'elements, lance la verification qu'il y ait le bon nombre d'element en majuscules, lance l'allocation de la memoire pour les autres.
 int	count_elem(t_data *data, int fd)
 {
 	char	*line;
@@ -66,7 +70,7 @@ int	count_elem(t_data *data, int fd)
 	{
 		line = get_next_line(fd);
 		if (!line)
-			break;
+			break ;
 		if (line[0] != '\n')
 			count ++;
 		if (!increment_elem(data, line))
@@ -78,10 +82,4 @@ int	count_elem(t_data *data, int fd)
 	if (!alloc_lel(data))
 		return (0);
 	return (count);
-}
-
-void	free_big_tab(char ***bigtab)
-{
-	(void)bigtab;
-	printf("liberer memoire\n");
 }

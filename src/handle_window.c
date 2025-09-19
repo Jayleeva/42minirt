@@ -1,18 +1,8 @@
 #include "../inc/minirt.h"
 
-int	on_destroy(t_data *data)
+// Libere la memoire allouee.
+void	free_all(t_data *data)
 {
-	if (!data)
-		return (0);
-	if (data->img_data.img_ptr)
-		mlx_destroy_image(data->mlx_ptr, data->img_data.img_ptr);
-	if (data->win_ptr)
-		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-	if (data->mlx_ptr)
-	{
-		mlx_destroy_display(data->mlx_ptr);
-		free(data->mlx_ptr);
-	}
 	if (data->nelem)
 	{
 		if (data->map)
@@ -28,10 +18,28 @@ int	on_destroy(t_data *data)
 		free(data->cy);
 	if (data->canvas)
 		free(data->canvas);
+}
+
+// Detruit les images, la fenetre, et lance la liberation de toute la memoire allouee.
+int	on_destroy(t_data *data)
+{
+	if (!data)
+		return (0);
+	if (data->img.img_ptr)
+		mlx_destroy_image(data->mlx_ptr, data->img.img_ptr);
+	if (data->win_ptr)
+		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+	if (data->mlx_ptr)
+	{
+		mlx_destroy_display(data->mlx_ptr);
+		free(data->mlx_ptr);
+	}
+	free_all(data);
 	exit(0);
 	return (0);
 }
 
+// Gere les inputs claviers.
 int	on_keypress(int keycode, t_data *data)
 {
 	if (keycode == K_Q || keycode == K_ESC)
@@ -39,6 +47,7 @@ int	on_keypress(int keycode, t_data *data)
 	return (0);
 }
 
+//Initialise la fenetre, l'ouvre, lance le ray tracing, fait tourner le programme jusqu'a sa fermeture, detruit tout.
 void	window(t_data *data)
 {
 	data->mlx_ptr = mlx_init();
@@ -48,7 +57,6 @@ void	window(t_data *data)
 	if (!data->win_ptr)
 		on_destroy(data);
 	ray_tracing(data);
-	//load_images(data);
 	mlx_hook(data->win_ptr, KeyRelease, KeyReleaseMask, &on_keypress, data);
 	mlx_hook(data->win_ptr, DestroyNotify, StructureNotifyMask, &on_destroy,
 		data);

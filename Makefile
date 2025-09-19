@@ -7,7 +7,7 @@ MLX_LIB = $(MLX_DIR)/libmlx.a
 
 SRC_DIR = ./src
 OBJ_DIR = ./obj
-DIR = ./obj ./obj/parsing ./obj/vectors ./obj/intersections
+DIR = ./obj ./obj/parsing ./obj/colors ./obj/vectors ./obj/intersections
 
 SRC = 	main.c \
 		handle_window.c \
@@ -22,7 +22,8 @@ SRC = 	main.c \
 		intersections/intersections.c \
 		intersections/plane.c \
 		intersections/sphere.c \
-		rgb_to_hex.c \
+		colors/rgb_to_hex.c \
+		colors/colors.c \
 		ray_tracing.c \
 		camera.c \
 		

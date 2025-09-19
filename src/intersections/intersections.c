@@ -2,9 +2,9 @@
 
 static int	try_spheres(t_data *d, const t_ray *r, float tmin, t_hit *best)
 {
-	t_hit tmp;
-	int found;
-	int i;
+	t_hit	tmp;
+	int		found;
+	int		i;
 
 	found = 0;
 	i = 0;
@@ -23,7 +23,7 @@ static int	try_spheres(t_data *d, const t_ray *r, float tmin, t_hit *best)
 
 int	world_hit(t_data *d, const t_ray *r, float tmin, float tmax, t_hit *h)
 {
-	int any;
+	int	any;
 
 	h->t = tmax;
 	h->idx = -1;

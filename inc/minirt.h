@@ -20,9 +20,12 @@
 
 typedef struct s_rgb
 {
-	int	r;
-	int	g;
-	int	b;
+	int		r;
+	int		g;
+	int		b;
+	float	s_r;
+	float	s_g;
+	float	s_b;
 }		t_rgb;
 
 typedef struct s_point
@@ -92,9 +95,9 @@ typedef struct s_pixel
 typedef struct s_img_data
 {
 	void	*img_ptr;
-	char	*address;
-	int		bits_per_pixel;
-	int		size_line;
+	char	*addr;
+	int		bpp;
+	int		size;
 	int		endian;
 }			t_img_data;
 
@@ -113,7 +116,7 @@ typedef struct s_data
 	t_pixel		*canvas;
 	char		**map;
 	char		*used;
-	t_img_data	img_data;
+	t_img_data	img;
 	int			index;
 	int			nelem;
 	int			n_uel[3];
@@ -182,12 +185,19 @@ int		check_ratio(float *ratio_, char *s);
 int		check_diameter_or_height(float *len_, char *s);
 
 //rgb to hex
-int		rgb_to_hex(t_pixel pixel);
+int		rgb_to_hex(t_rgb *colors);
 void	rgb_to_hex_utils(int *tmp, int n, char *s);
 int		get_n(int *tmp);
 
+//colors
+void	mix_colors(t_pixel *pixel, t_rgb color2);
+void	rgb_rescale(t_rgb *color, int type);
+void	initialize_color(t_data *data, t_pixel *canvas);
+void	test_mix_color(t_pixel *canvas, int i);
+
 //ray tracing
 void 	ft_put_pixel(t_img_data *data, int x, int y, int color);
+void	loop_on_pixels(t_data *d);
 int 	ray_tracing(t_data *data);
 void	cast_ray(t_data *data, int i, int x, int y);
 int 	compute_intersections(t_data *data, int x, int y);
@@ -220,6 +230,4 @@ int		alloc_lel(t_data *data);
 int		is_already_used(char *used, char c);
 int		is_usable(char *line, char *used, int i);
 int		is_n_uel_valid(t_data *data);
-void	free_big_tab(char ***bigtab);
-
 #endif
