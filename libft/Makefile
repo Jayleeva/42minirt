@@ -48,6 +48,7 @@ SRC = strchri.c \
 	print_pointer.c \
 	print_unsigned.c \
 	get_next_line_bonus.c \
+	get_next_line_utils.c \
 	ft_strcpy.c \
 	is_format_valid.c \
 	atof.c \

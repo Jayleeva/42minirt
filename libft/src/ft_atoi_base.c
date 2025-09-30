@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_atoi_base.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 09:59:17 by cyglardo          #+#    #+#             */
-/*   Updated: 2024/10/23 12:33:05 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/09/30 14:43:32 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static int	atoi_base_utils(int base, const char *str, int i)
 {
 	int	result;
 
-	//ft_printf("str = %s\n", str);
 	result = 0;
 	while (str[i])
 	{
@@ -54,7 +53,6 @@ static int	atoi_base_utils(int base, const char *str, int i)
 			result = result + (str[i] - 'a' + 10);
 		else if (str[i] >= 'A' && str[i] <= 'F')
 			result = result + (str[i] - 'A' + 10);
-		//ft_printf("result = %d\n", result);
 		i ++;
 	}
 	return (result);
