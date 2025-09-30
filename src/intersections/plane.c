@@ -15,12 +15,15 @@ int	hit_plane(const t_ray *r, const t_pl *pl, float tmin, float tmax, t_hit *out
 
     if (v_dot(r->d, pl->ornt) == 0)
         return (0); // impossible de diviser par 0, donc on s'arrete la
+
     //t = dot product de -X (- Origine - Centre) et V divise par dot product de Direction et V
     t = v_dot(neg_oc, pl->ornt) / v_dot(r->d, pl->ornt); // si different de 0, on calcule le t.
 
     // verifier si t est dans les bornes, s'il n'y est pas, ne sera pas affiche
-    if (t < tmin || t > tmax)
-        return (0); // n'est pas dans les bornes
+    /*if (t < tmin || t > tmax)
+        return (0); // n'est pas dans les bornes*/
+    (void)tmin;
+    (void)tmax;
 
     // precalculer un tmp pour le v_dot
     tmp.o_x = (r->o.x + r->d.o_x * t) - pl->coord.x;

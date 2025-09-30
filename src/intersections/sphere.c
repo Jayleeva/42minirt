@@ -5,9 +5,9 @@ int	hit_sphere(const t_ray *r, const t_sp *s, float tmin, float tmax, t_hit *out
 	t_vector	oc;
 	float		a, half_b, c, disc, sqrtd, t;
 
-	oc = v_from_points(s->coord, r->o); // hipothemuse
-	a = v_dot(r->d, r->d); // 
-	half_b = v_dot(oc, r->d); // besoin de la moitie de l'hipothemuse? pourquoi?
+	oc = v_from_points(s->coord, r->o);
+	a = v_dot(r->d, r->d);
+	half_b = v_dot(oc, r->d);
 	c = v_dot(oc, oc) - (s->diameter * 0.5f) * (s->diameter * 0.5f);
 	disc = half_b * half_b - a * c;
 	if (disc < 0.0f)
