@@ -26,6 +26,29 @@ static int	try_spheres(t_data *d, const t_ray *r, float tmin, t_hit *best)
 	return (found);
 }
 
+static int	try_cylinders(t_data *d, const t_ray *r, float tmin, t_hit *best)
+{
+	t_hit	tmp;
+	int		found;
+	int		i;
+
+	found = 0;
+	i = 0;
+	while (i < d->n_lel[2])
+	{
+		tmp = *best;
+		if (hit_cylinder(r, &d->cy[i], tmin, &tmp))
+		{
+			*best = tmp;
+			best->idx = i;
+			found = 1;
+		}
+		i++;
+	}
+	return (found);
+}
+
+
 // Cherche l'intersection la plus proche entre le rayon et tous les objets du monde
 // (pour l’instant seulement les sphères). 
 // Initialise "h" avec les infos du hit le plus proche trouvé.
@@ -39,6 +62,8 @@ int	world_hit(t_data *d, const t_ray *r, float tmin, float tmax, t_hit *h)
 	h->kind = -1;
 	any = 0;
 	if (try_spheres(d, r, tmin, h))
+		any = 1;
+	if (try_cylinders(d, r, tmin, h))
 		any = 1;
 	return (any);
 }
