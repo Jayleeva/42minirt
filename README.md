@@ -8,7 +8,6 @@ Creer un programme de ray tracing.
 
 Pas besoin de faire des transformations en live (bonus).
 
-
 # Etapes
 - parser : OK (C)
 - gerer la fenetre : OK (C)
@@ -22,10 +21,12 @@ Pas besoin de faire des transformations en live (bonus).
 - C: trouver calcul pour plane
 - L: trouver calcul pour cylindre
 
+
 # A FAIRE
 - ajouter message d'erreur si map vide?
 
 # Concepts
+
 - la fenetre n'est pas le viewport, le viewport est l'ecran de la camera, la fenetre affiche le viewport en fonction du fov (plus ou moins compresse / etire). La width = la largeur de la fenetre en pixels. La v_width est la largeur du viewport en unites. Ainsi, les deux largeurs ne sont pas forcement en 1:1, un pixel ne vaut pas forcement une unite. Pour savoir combien d'unites sont necessaires pour remplir un pixel, je dois calculer la v_width et la diviser par la width.
 - Pour calculer la v_wdith, j'ai besoin du fov transforme en radian (au lieu de degres) et divise par deux, sur lequel j'effectue une tangeante avant de multiplier le resultat par deux (trigonometrie). Pour obtenir la v_height, je divise la w_width par l'aspect ratio.
 - Si je veux un aspect ratio de 16:9, je determine une width et une height (taille de la fenetre donc) qui respectent ce ratio: width / height doit pouvoir etre reduit a 16/9. Je peux aussi choisir une width et une height au hasard et calculer l'aspect ratio avec width / height. Bien de le faire et de gerer les cas bizarres (if aspect ratio < 1) si jamais evaluateurs modifient width et/ou height?

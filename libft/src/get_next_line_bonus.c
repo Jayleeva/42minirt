@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 12:16:25 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/09/09 14:03:25 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/09/30 14:41:21 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,20 @@ char	*read_line(int fd, char *buffer)
 {
 	int		read_bytes;
 	char	*line;
-	char	*temp;
 
 	line = ft_strdup(buffer);
 	read_bytes = 1;
 	while (read_bytes)
 	{
 		read_bytes = read(fd, buffer, BUFFER_SIZE);
+		if (read_bytes == -1)
+			return (NULL);
+		else if (read_bytes == 0)
+			break ;
 		buffer[read_bytes] = '\0';
 		if (has_new_line(buffer))
 			return (read_line_utils(line, buffer));
-		temp = line;
-		line = ft_strjoin(temp, buffer);
-		free(temp);
+		line = join_buffer(line, buffer);
 	}
 	if (*buffer)
 	{
