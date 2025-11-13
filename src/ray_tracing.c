@@ -16,7 +16,9 @@ void	cast_ray(t_data *data, int i, int x, int y)
 			//data->canvas[i].colors = data->sp[h.idx].colors;
 			//data->canvas[i].color  = rgb_to_hex(&(data->canvas[i]).colors);
 		}
-		if (h.kind == PLANE)
+		else if (h.kind == CYLINDER)
+			mix_colors(&(data->canvas[i]), data->cy[h.idx].colors);
+		else if (h.kind == PLANE)
 		{
 			mix_colors(&(data->canvas[i]), data->pl[h.idx].colors);
 		}

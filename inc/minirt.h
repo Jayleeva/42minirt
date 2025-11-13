@@ -154,6 +154,13 @@ typedef struct s_ray {
 	t_vector	d; // normalisée
 }				t_ray;
 
+typedef struct s_cap {
+	t_point   center;
+	t_vector  normal;   // doit être unitaire
+	float     radius;
+} t_cap;
+
+
 
 //essentials
 void	init(t_data *data);
@@ -217,10 +224,13 @@ t_vector  v_scale(t_vector a, float k);
 float     v_dot(t_vector a, t_vector b);
 t_vector  v_cross(t_vector a, t_vector b);
 float     v_len(t_vector a);
+float 	  v_len2(t_vector a);
 t_vector  v_norm(t_vector a);
 
 //intersections
 int	hit_sphere(const t_ray *r, const t_sp *s, float tmin, float tmax, t_hit *out);
+int	hit_cylinder(const t_ray *r, const t_cy *cy,
+						float tmin, t_hit *out);
 int	hit_plane(const t_ray *r, const t_pl *pl, float tmin, float tmax, t_hit *out);
 int	world_hit(t_data *d, const t_ray *r, float tmin, float tmax, t_hit *h);
 
