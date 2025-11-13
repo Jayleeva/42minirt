@@ -16,6 +16,7 @@ Pas besoin de faire des transformations en live (bonus).
 - calculer la distance avec la camera pour determiner l'ordre de proximite : O/K (L)
 - attribuer une couleur a chaque pixel en fonction : O/K (C)
 - gerer la lumiere
+- ajouter les ombres
 
 # D'ICI PROCHAINE REU
 - C: se renseigner sur les hard shadow
