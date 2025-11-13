@@ -35,7 +35,6 @@ int	check_coord(t_point *coord, char *s)
 		return (0);
 	if (!coord_tab[2] || coord_tab[3])
 		return (free_tab(coord_tab), 0);
-	printf("coord tab[0] = %s\n", coord_tab[0]);
 	coord->x = _atof(coord_tab[0]);
 	coord->y = _atof(coord_tab[1]);
 	coord->z = _atof(coord_tab[2]);

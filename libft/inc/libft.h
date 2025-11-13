@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:56:42 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/09/09 13:58:54 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/09/30 14:42:44 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	ft_strcpy(char *dest, char *src, int start, int end);
 int		has_new_line(char *s);
 char	*extract_line(char *buffer);
 char	*read_line(int fd, char *buffer);
+char	*join_buffer(char *line, char *buffer);
 
 //persos
 int		is_in_set(char const *set, char c);

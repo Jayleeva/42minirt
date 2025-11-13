@@ -231,6 +231,7 @@ t_vector  v_norm(t_vector a);
 int	hit_sphere(const t_ray *r, const t_sp *s, float tmin, float tmax, t_hit *out);
 int	hit_cylinder(const t_ray *r, const t_cy *cy,
 						float tmin, t_hit *out);
+int	hit_plane(const t_ray *r, const t_pl *pl, float tmin, float tmax, t_hit *out);
 int	world_hit(t_data *d, const t_ray *r, float tmin, float tmax, t_hit *h);
 
 //utils

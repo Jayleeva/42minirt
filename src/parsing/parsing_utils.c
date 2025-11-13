@@ -42,7 +42,9 @@ int	is_n_uel_valid(t_data *data)
 // Incremente le nombre du type d'element recu pour qu'on puisse les compter.
 int	increment_elem(t_data *data, char *line)
 {
-	if (!ft_strncmp(line, "A ", 2))
+	if (line[0] == '\n')
+		return (1);
+	else if (!ft_strncmp(line, "A ", 2))
 		data->n_uel[0]++;
 	else if (!ft_strncmp(line, "C ", 2))
 		data->n_uel[1]++;
