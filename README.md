@@ -18,8 +18,8 @@ Pas besoin de faire des transformations en live (bonus).
 - gerer la lumiere
 
 # D'ICI PROCHAINE REU
-- C: trouver calcul pour plane
-- L: trouver calcul pour cylindre
+- C: se renseigner sur les hard shadow
+- L: appliquer formule pour la lumiere
 
 
 # A FAIRE
