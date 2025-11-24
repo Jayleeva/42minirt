@@ -109,6 +109,13 @@ typedef struct s_camview {
 	float		half_h;
 }				t_camview;
 
+typedef struct s_specular
+{
+    float ks;
+    float shiny;
+}   t_specular;
+
+
 typedef struct s_data
 {
 	void		*mlx_ptr;
@@ -131,6 +138,7 @@ typedef struct s_data
 	t_pl		*pl;
 	t_cy		*cy;
 	t_camview	view;
+	t_specular	spec;
 }				t_data;
 
 typedef enum s_shape_type
@@ -203,6 +211,7 @@ void	initialize_color(t_data *data, t_pixel *canvas);
 void	test_mix_color(t_pixel *canvas, int i);
 
 //ray tracing
+t_rgb	compute_lighting(t_data *d, t_hit *h, t_rgb obj);
 void 	ft_put_pixel(t_img_data *data, int x, int y, int color);
 void	loop_on_pixels(t_data *d);
 int 	ray_tracing(t_data *data);
