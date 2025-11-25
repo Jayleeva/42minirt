@@ -57,6 +57,8 @@ void	init(t_data *data)
 	data->cy = NULL;
 	data->img.img_ptr = NULL;
 	data->canvas = NULL;
+	data->spec.ks = 1.0f;
+	data->spec.shiny = 64.0f;
 }
 
 int	main(int argc, char **argv)

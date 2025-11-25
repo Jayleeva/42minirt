@@ -2,7 +2,7 @@
 
 // Envoie un rayon sur le pixel recu et verifie si on y trouve des elements.
 // Si oui, lance le melange de la couleur ambiante avec celle de l'element.
-void	cast_ray(t_data *data, int i, int x, int y)
+/*void	cast_ray(t_data *data, int i, int x, int y)
 {
 	t_ray	r;
 	t_hit	h;
@@ -23,7 +23,30 @@ void	cast_ray(t_data *data, int i, int x, int y)
 			mix_colors(&(data->canvas[i]), data->pl[h.idx].colors);
 		}
 	}
+}*/
+
+void	cast_ray(t_data *data, int i, int x, int y)
+{
+	t_ray	r;
+	t_hit	h;
+	t_rgb	obj;
+	t_rgb	final;
+
+	r = make_primary_ray(data, x, y);
+	if (world_hit(data, &r, EPS, 1e30f, &h))
+	{
+		if (h.kind == SPHERE)
+			obj = data->sp[h.idx].colors;
+		else if (h.kind == CYLINDER)
+			obj = data->cy[h.idx].colors;
+		else
+			obj = data->pl[h.idx].colors;
+		final = compute_lighting(data, &h, obj);
+		data->canvas[i].colors = final;
+		data->canvas[i].color = rgb_to_hex(&(data->canvas[i].colors));
+	}
 }
+
 
 // Donne la couleur recue aux coordonnees de pixel recues.
 void	ft_put_pixel(t_img_data *data, int x, int y, int color)

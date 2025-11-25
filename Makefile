@@ -7,7 +7,7 @@ MLX_LIB = $(MLX_DIR)/libmlx.a
 
 SRC_DIR = ./src
 OBJ_DIR = ./obj
-DIR = ./obj ./obj/parsing ./obj/colors ./obj/vectors ./obj/intersections
+DIR = ./obj ./obj/parsing ./obj/colors ./obj/vectors ./obj/intersections ./obj/reflection
 
 SRC = 	main.c \
 		handle_window.c \
@@ -26,6 +26,7 @@ SRC = 	main.c \
 		colors/colors.c \
 		ray_tracing.c \
 		camera.c \
+		reflection/diffuse.c
 		
 		
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC))
