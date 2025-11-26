@@ -2,9 +2,9 @@
 
 int	hit_plane(const t_ray *r, const t_pl *pl, float tmin, float tmax, t_hit *out)
 {
-	float denom;
-	float t;
-	t_point p;
+	float 		denom;
+	float 		t;
+	t_point 	p;
 	t_vector	n;
 
 	// Si D·n ≈ 0 : rayon // au plan -> pas d'intersection stable
@@ -17,16 +17,11 @@ int	hit_plane(const t_ray *r, const t_pl *pl, float tmin, float tmax, t_hit *out
 	t = v_dot(v_from_points(r->o, pl->coord), n) / denom;
 	if (t < tmin || t > tmax)
 	{
-		printf("try commenting the return\n");
+		//printf("try commenting the return\n");
 		return (0);
 	}
 
-
 	p = p_add_v(r->o, v_scale(r->d, t));
-
-	// Test disque : distance au carré au centre ≤ r^2
-	//if (v_len2(v_from_points(pl->coord, p)) > cap->radius * cap->radius)
-	//	return (0);
 
 	out->t    = t;
 	out->p    = p;
@@ -35,33 +30,6 @@ int	hit_plane(const t_ray *r, const t_pl *pl, float tmin, float tmax, t_hit *out
 		out->n = v_scale(out->n, -1.0f);
 	out->kind = PLANE;
 	return (1);
-	/*float	t;
-
-	if (r->d.o_y < EPS)
-	{
-		//printf("no intersection\n");
-		return (0); // pas d'intersection car paralleles ou coplanaire
-	}
-
-	t = (r->o.y * -1) / r->d.o_y;
-
-	if (t < tmin || t > tmax)
-	{
-		//printf("hors borne\n");
-		return (0); // n'est pas dans les bornes
-	}
-
-
-	out->t = t;
-	out->p = p_add_v(r->o, v_scale(r->d, t));
-
-	out->n = v_scale(pl->ornt, -1.0f);
-	out->n = v_norm(out->n);
-	//out->n = v_norm(v_from_points(pl->coord, out->p)); // manque prise en compte de l'orientation?
-	if (v_dot(out->n, r->d) > 0.0f) // si normale inversee, reinverser
-		out->n = v_scale(out->n, -1.0f);
-	out->kind = PLANE;
-	return (1);*/
 }
 
 /*The logic to intersect a ray with a plane is the only other bit that needs
