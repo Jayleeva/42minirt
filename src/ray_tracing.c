@@ -1,30 +1,7 @@
 #include "../inc/minirt.h"
 
 // Envoie un rayon sur le pixel recu et verifie si on y trouve des elements.
-// Si oui, lance le melange de la couleur ambiante avec celle de l'element.
-/*void	cast_ray(t_data *data, int i, int x, int y)
-{
-	t_ray	r;
-	t_hit	h;
-
-	r = make_primary_ray(data, x, y);
-	if (world_hit(data, &r, EPS, 1e30f, &h))
-	{
-		if (h.kind == SPHERE)
-		{
-			mix_colors(&(data->canvas[i]), data->sp[h.idx].colors);
-			//data->canvas[i].colors = data->sp[h.idx].colors;
-			//data->canvas[i].color  = rgb_to_hex(&(data->canvas[i]).colors);
-		}
-		else if (h.kind == CYLINDER)
-			mix_colors(&(data->canvas[i]), data->cy[h.idx].colors);
-		else if (h.kind == PLANE)
-		{
-			mix_colors(&(data->canvas[i]), data->pl[h.idx].colors);
-		}
-	}
-}*/
-
+// Si oui, lance le calcul de la couleur finale, lumieres comprises
 void	cast_ray(t_data *data, int i, int x, int y)
 {
 	t_ray	r;
