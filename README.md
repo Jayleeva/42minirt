@@ -12,19 +12,24 @@ Pas besoin de faire des transformations en live (bonus).
 - parser : OK (C)
 - gerer la fenetre : OK (C)
 - trouver comment envoyer des rayons sur chaque pixel : OK (L)
-- calculer les intersections pour chaque forme : O/K (L)
-- calculer la distance avec la camera pour determiner l'ordre de proximite : O/K (L)
-- attribuer une couleur a chaque pixel en fonction : O/K (C)
-- gerer la lumiere
-- ajouter les ombres
+- calculer les intersections pour chaque forme : OK (L)
+- calculer la distance avec la camera pour determiner l'ordre de proximite : OK (L)
+- gerer la lumiere : OK (L)
+- ajouter les ombres : OK (L)
+- attribuer une couleur a chaque pixel : OK (C et L)
+- mettre a la norme
 
 # D'ICI PROCHAINE REU
-- C: se renseigner sur les hard shadow
-- L: appliquer formule pour la lumiere
-
+- C: mettre a la norme
+- C & L: corriger l'acne en ajustant le point de hit de EPSILON dans la direction de la normale
+- C & L: corriger forme du cylindre en fonction de l'inclinaison
+- C & L: corriger le segfault quand plus de x cylindres
 
 # A FAIRE
 - ajouter message d'erreur si map vide?
+- preparer des maps interessantes pour les evals
+- verifier si les floats sont bien geres par le parsing
+
 
 # Concepts
 

@@ -94,10 +94,8 @@ int	world_hit(t_data *d, const t_ray *r, float tmin, float tmax, t_hit *h)
 }
 
 /*
-Explication :
-
-Le rôle de world_hit est de trouver quel objet de la scène est touché en premier
-par un rayon. Pour l’instant, la scène ne contient que des sphères,
+Explications :
+if ue des sphères,
 donc world_hit appelle try_spheres.
 
 - try_spheres parcourt toutes les sphères de d->sp[]
