@@ -4,7 +4,6 @@ int	hit_plane(const t_ray *r, const t_pl *pl, float tmin, float tmax, t_hit *out
 {
 	float 		denom;
 	float 		t;
-	t_point 	p;
 	t_vector	n;
 
 	// Si D·n ≈ 0 : rayon // au plan -> pas d'intersection stable
@@ -21,11 +20,10 @@ int	hit_plane(const t_ray *r, const t_pl *pl, float tmin, float tmax, t_hit *out
 		return (0);
 	}
 
-	p = p_add_v(r->o, v_scale(r->d, t));
-
-	out->t    = t;
-	out->p    = p;
-	out->n    = n; // déjà unitaire (utiliser V ou -V)
+	out->t = t;
+	out->p = p_add_v(r->o, v_scale(r->d, t)); // point d’impact : origine + t*direction
+	//out->n = v_norm(v_from_points(pl->coord, out->p)); // normale = (P - centre)/|...|
+	out->n = n; // déjà unitaire (utiliser V ou -V)
 	if (v_dot(out->n, r->d) > 0.0f)
 		out->n = v_scale(out->n, -1.0f);
 	out->kind = PLANE;
