@@ -105,7 +105,6 @@ t_rgb	compute_lighting(t_data *d, t_hit *h, t_rgb obj)
 	amb_s.s_g *= d->a.ratio;
 	amb_s.s_b *= d->a.ratio;
 	
-	//compensate(h); //compenser pour eviter l'acne
 	n = v_norm(h->n);
 	diffuse = compute_diffuse(d, h, n);
 	spec = compute_specular(d, h, n);

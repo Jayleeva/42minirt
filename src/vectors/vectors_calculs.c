@@ -75,19 +75,3 @@ t_vector	v_cross(t_vector a, t_vector b)
 	r.o_z = a.o_x * b.o_y - a.o_y * b.o_x;
 	return (r);
 }
-
-void	compensate(t_hit *h)
-{
-	h->p.x = h->p.x + h->p.x * EPS/2;
-	h->p.y = h->p.y + h->p.y * EPS/2;
-	h->p.z = h->p.z + h->p.z * EPS/2;
-	/*h->p.x = h->p.x + h->p.x;
-	h->p.y = h->p.y + h->p.y;
-	h->p.z = h->p.z + h->p.z;*/
-	/*h->p.x = h->p.x + h->n.o_x * EPS/2;
-	h->p.y = h->p.y + h->n.o_y * EPS/2;
-	h->p.z = h->p.z + h->n.o_z * EPS/2;*/
-	/*h->p.x = h->p.x + h->n.o_x;
-	h->p.y = h->p.y + h->n.o_y;
-	h->p.z = h->p.z + h->n.o_z;*/
-}

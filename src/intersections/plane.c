@@ -11,6 +11,7 @@ int	hit_plane(const t_ray *r, const t_pl *pl, float tmin, float tmax, t_hit *out
 	denom = v_dot(r->d, n);
 	if (fabsf(denom) < 1e-6f)
 		return (0);
+	//n = v_norm(n); // change rien
 
 	// t = ((center - O)·n) / (D·n)
 	t = v_dot(v_from_points(r->o, pl->coord), n) / denom;
@@ -20,10 +21,10 @@ int	hit_plane(const t_ray *r, const t_pl *pl, float tmin, float tmax, t_hit *out
 		return (0);
 	}
 
-	out->t = t;
-	out->p = p_add_v(r->o, v_scale(r->d, t)); // point d’impact : origine + t*direction
-	//out->n = v_norm(v_from_points(pl->coord, out->p)); // normale = (P - centre)/|...|
-	out->n = n; // déjà unitaire (utiliser V ou -V)
+	out->t    = t;
+	out->p    = p_add_v(r->o, v_scale(r->d, t)); // point d’impact : origine + t*direction
+	//out->n = v_norm(v_from_points(pl->coord, out->p)); // normale = (P - centre)/|...| fait des effets chelous
+	out->n    = n;
 	if (v_dot(out->n, r->d) > 0.0f)
 		out->n = v_scale(out->n, -1.0f);
 	out->kind = PLANE;
