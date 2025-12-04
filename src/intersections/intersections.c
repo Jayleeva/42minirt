@@ -73,7 +73,6 @@ static int	try_planes(t_data *d, const t_ray *r, float tmin, t_hit *best)
 
 
 // Cherche l'intersection la plus proche entre le rayon et tous les objets du monde
-// (pour l’instant seulement les sphères). 
 // Initialise "h" avec les infos du hit le plus proche trouvé.
 // Retourne 1 si un objet est touché, 0 sinon.
 int	world_hit(t_data *d, const t_ray *r, float tmin, float tmax, t_hit *h)

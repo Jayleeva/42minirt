@@ -43,3 +43,13 @@ t_point	p_add_v(t_point p, t_vector v)
 	res.z = p.z + v.o_z;
 	return (res);
 }
+
+t_vector	mult_vect(t_point p, t_vector v)
+{
+	t_vector	res;
+
+	res.o_x = p.x * v.o_x;
+	res.o_y = p.y * v.o_y;
+	res.o_z = p.z * v.o_z;
+	return (res);
+}

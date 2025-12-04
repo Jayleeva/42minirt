@@ -126,10 +126,11 @@ int	hit_cylinder(const t_ray *r, const t_cy *cy, float tmin, t_hit *out)
 
 	// Caps : (C, -V) et (C + V*height, +V)
 	cap_lo.center = cy->coord;
-	cap_lo.normal = v_scale(cy->ornt, -1.0f);
+	cap_lo.normal = mult_vect(cap_lo.center, v_scale(cy->ornt, -1.0f));
 	cap_lo.radius = cy->diameter * 0.5f;
 	cap_hi.center = p_add_v(cy->coord, v_scale(cy->ornt, cy->height));
-	cap_hi.normal = cy->ornt;
+	//cap_hi.normal = cy->ornt;
+	cap_hi.normal = mult_vect(cap_hi.center, cy->ornt); 
 	cap_hi.radius = cap_lo.radius;
 
 	// Chaque cap respecte la fenêtre [tmin, out->t] courante.

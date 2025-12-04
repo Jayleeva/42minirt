@@ -49,10 +49,15 @@ N = normale, L = direction vers la lumière.
 static float	compute_diffuse(t_data *d, t_hit *h, t_vector n)
 {
 	t_vector	l;
+	t_vector	tmp;
 	float		diff;
 
-	l = v_from_points(h->p, d->l.coord);
-	l = v_norm(l);
+	tmp = v_from_points(h->p, d->l.coord);
+	l = v_norm(tmp);
+	/*if (l.o_x == tmp.o_x && l.o_y == tmp.o_y && l.o_z == tmp.o_z)
+		printf("same\n");
+	else
+		printf("different\n");*/
 	diff = v_dot(n, l);
 	if (diff < 0.0f || is_in_shadow(d, h))
 		diff = 0.0f;

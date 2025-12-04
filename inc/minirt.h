@@ -236,6 +236,7 @@ float     v_len(t_vector a);
 float 	  v_len2(t_vector a);
 t_vector  v_norm(t_vector a);
 void		compensate(t_hit *h);
+t_vector	mult_vect(t_point p, t_vector v);
 
 //intersections
 int	hit_sphere(const t_ray *r, const t_sp *s, float tmin, float tmax, t_hit *out);
