@@ -79,6 +79,8 @@ int	world_hit(t_data *d, const t_ray *r, float tmin, float tmax, t_hit *h)
 {
 	int	any;
 
+	if (h->idx == -2)
+		printf("shadow\n");
 	h->t = tmax;
 	h->idx = -1;
 	h->kind = -1;
