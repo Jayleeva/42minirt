@@ -84,8 +84,23 @@ int	world_hit(t_data *d, const t_ray *r, float tmin, float tmax, t_hit *h)
 	h->idx = -1;
 	h->kind = -1;
 	any = 0;
+	if (try_spheres(d, r, tmin, h))
+		any = 1;
+	if (try_cylinders(d, r, tmin, h))
+		any = 1;
 	if (try_planes(d, r, tmin, h))
 		any = 1;
+	return (any);
+}
+
+int	world_hit_shadow(t_data *d, const t_ray *r, float tmin, float tmax, t_hit *h)
+{
+	int	any;
+
+	h->t = tmax;
+	h->idx = -1;
+	h->kind = -1;
+	any = 0;
 	if (try_spheres(d, r, tmin, h))
 		any = 1;
 	if (try_cylinders(d, r, tmin, h))

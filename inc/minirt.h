@@ -16,7 +16,7 @@
 # define W_WIDTH 1280
 # define W_HEIGHT 720
 
-# define EPS 1e-4f
+# define EPS 1e-3f
 
 typedef struct s_rgb
 {
@@ -242,6 +242,7 @@ int	hit_cylinder(const t_ray *r, const t_cy *cy,
 						float tmin, t_hit *out);
 int	hit_plane(const t_ray *r, const t_pl *pl, float tmin, float tmax, t_hit *out);
 int	world_hit(t_data *d, const t_ray *r, float tmin, float tmax, t_hit *h);
+int world_hit_shadow(t_data *d, const t_ray *r, float tmin, float tmax, t_hit *h);
 
 //utils
 int		count_elem(t_data *data, int fd);

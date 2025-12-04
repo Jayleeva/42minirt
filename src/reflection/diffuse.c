@@ -21,7 +21,7 @@ static int	is_in_shadow(t_data *d, t_hit *hit)
 	tmp.t = dist_light;
 	tmp.idx = -1;
 	tmp.kind = -1;
-	if (world_hit(d, &shadow, EPS, dist_light, &tmp))
+	if (world_hit_shadow(d, &shadow, EPS, dist_light, &tmp))
 		return (1);
 	return (0);
 }
