@@ -7,8 +7,7 @@ int	hit_plane(const t_ray *r, const t_pl *pl, float tmin, float tmax, t_hit *out
 	t_vector	n;
 
 	// Si D·n ≈ 0 : rayon // au plan -> pas d'intersection stable
-	n = pl->ornt;
-	n = v_norm(n); // change rien
+	n = v_norm(pl->ornt);
 	/*if (pl->ornt.o_x == n.o_x && pl->ornt.o_y == n.o_y && pl->ornt.o_z == n.o_z)
 		printf("same\n");
 	else

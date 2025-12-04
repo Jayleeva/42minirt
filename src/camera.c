@@ -8,19 +8,11 @@ static void	cam_build_basis(t_data *d)
 
 	up = v_make(0.0f, 1.0f, 0.0f);
 	dir = v_norm(d->c.ornt);
-	/*if (d->c.ornt.o_x == dir.o_x && d->c.ornt.o_y == dir.o_y && d->c.ornt.o_z == dir.o_z)
-		printf("same\n");
-	else
-		printf("different\n");*/
 	d->view.w = dir;
 	if (fabsf(v_dot(dir, up)) > 0.999f)
 		up = v_make(0.0f, 0.0f, 1.0f);
 	tmp = v_cross(up, dir);
 	d->view.u = v_norm(tmp);
-	/*if (tmp.o_x == d->view.u.o_x && tmp.o_y == d->view.u.o_y && tmp.o_z == d->view.u.o_z)
-		printf("same\n");
-	else
-		printf("different\n");*/
 	d->view.v = v_cross(dir, d->view.u);
 }
 
@@ -54,9 +46,5 @@ t_ray	make_primary_ray(t_data *d, int x, int y)
 	dir = v_add(v_add(v_scale(d->view.u, u), v_scale(d->view.v, v)), d->view.w);
 	r.o = d->c.coord;
 	r.d = v_norm(dir);
-	/*if (r.d.o_x == dir.o_x && r.d.o_y == dir.o_y && r.d.o_z == dir.o_z)
-		printf("same\n");
-	else
-		printf("different\n");*/
 	return (r);
 }
