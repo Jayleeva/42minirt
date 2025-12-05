@@ -8,20 +8,24 @@ static int	try_spheres(t_data *d, const t_ray *r, float tmin, t_hit *best)
 	t_hit	tmp;
 	int		found;
 	int		i;
+	//int		index;
 
+	//index = best->idx;
 	found = 0;
 	i = 0;
-	//printf("d->n_lel[0] = %d\n", d->n_lel[0]);
 	while (i < d->n_lel[0])
 	{
 		// On teste si le rayon touche la sphère i
-		if (hit_sphere(r, &d->sp[i], tmin, best->t, &tmp))
-		{
-			// Si oui -> mise à jour du "meilleur" hit (le plus proche)
-			found = 1;
-			*best = tmp;
-			best->idx = i;
-		}
+		//if (index != i) // protection pour qu'il ne se cherche pas lui-meme NOPE enleve l'ombre de la sphere
+		//{		
+			if (hit_sphere(r, &d->sp[i], tmin, best->t, &tmp))
+			{
+				// Si oui -> mise à jour du "meilleur" hit (le plus proche)
+				found = 1;
+				*best = tmp;
+				best->idx = i;
+			}
+		//}
 		i++;
 	}
 	return (found);
@@ -32,18 +36,23 @@ static int	try_cylinders(t_data *d, const t_ray *r, float tmin, t_hit *best)
   	t_hit	tmp;
 	int		found;
 	int		i;
+	//int		index;
 
+	//index = best->idx;
 	found = 0;
 	i = 0;
   	while (i < d->n_lel[2])
 	{
 		tmp = *best;
-		if (hit_cylinder(r, &d->cy[i], tmin, &tmp))
-		{
-			*best = tmp;
-			best->idx = i;
-			found = 1;
-		}
+		//if (index != i) // protection pour qu'il ne se cherche pas lui-meme NOPE enleve l'ombre du cylindre
+		//{
+			if (hit_cylinder(r, &d->cy[i], tmin, &tmp))
+			{
+				*best = tmp;
+				best->idx = i;
+				found = 1;
+			}
+		//}
 		i++;
 	}
 	return (found);
@@ -54,17 +63,16 @@ static int	try_planes(t_data *d, const t_ray *r, float tmin, t_hit *best)
 	t_hit	tmp;
 	int		found;
 	int		i;
-	int		index;
+	//int		index;
 
-	index = best->idx;
+	//index = best->idx;
 	found = 0;
 	i = 0;
-
 	while (i < d->n_lel[1])
 	{
-		//tmp = *best;
-		if (index != i) // protection pour qu'il ne se cherche pas lui-meme
-		{		
+		tmp = *best;
+		//if (index != i) // protection pour qu'il ne se cherche pas lui-meme NOPE fout la merde sur certaines maps, meme si regle en partie l'acne sur d'autres
+		//{		
 			if (hit_plane(r, &d->pl[i], tmin, best->t, &tmp))
 			{
 				//printf("touch plane from plane, index = %d and i = %d\n", index, i);
@@ -72,7 +80,7 @@ static int	try_planes(t_data *d, const t_ray *r, float tmin, t_hit *best)
 				*best = tmp;
 				best->idx = i;
 			}
-		}
+		//}
 		i++;
 	}
 	return (found);
