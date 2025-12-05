@@ -63,16 +63,16 @@ static int	try_planes(t_data *d, const t_ray *r, float tmin, t_hit *best)
 	t_hit	tmp;
 	int		found;
 	int		i;
-	//int		index;
+	int		index;
 
-	//index = best->idx;
+	index = best->idx;
 	found = 0;
 	i = 0;
 	while (i < d->n_lel[1])
 	{
 		tmp = *best;
-		//if (index != i) // protection pour qu'il ne se cherche pas lui-meme NOPE fout la merde sur certaines maps, meme si regle en partie l'acne sur d'autres
-		//{		
+		if (index != i) // protection pour qu'il ne se cherche pas lui-meme NOPE fout la merde sur certaines maps, meme si regle en partie l'acne sur d'autres
+		{		
 			if (hit_plane(r, &d->pl[i], tmin, best->t, &tmp))
 			{
 				//printf("touch plane from plane, index = %d and i = %d\n", index, i);
@@ -80,7 +80,7 @@ static int	try_planes(t_data *d, const t_ray *r, float tmin, t_hit *best)
 				*best = tmp;
 				best->idx = i;
 			}
-		//}
+		}
 		i++;
 	}
 	return (found);
