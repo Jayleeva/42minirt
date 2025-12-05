@@ -54,19 +54,20 @@ static int	try_planes(t_data *d, const t_ray *r, float tmin, t_hit *best)
 	t_hit	tmp;
 	int		found;
 	int		i;
-	int		tmp_index;
+	int		index;
 
-	tmp_index = best->idx;
+	index = best->idx;
 	found = 0;
 	i = 0;
 
 	while (i < d->n_lel[1])
 	{
 		//tmp = *best;
-		if (tmp_index != i)
+		if (index != i)
 		{		
 			if (hit_plane(r, &d->pl[i], tmin, best->t, &tmp))
 			{
+				//printf("touch plane from plane, index = %d and i = %d\n", index, i);
 				found = 1;
 				*best = tmp;
 				best->idx = i;
