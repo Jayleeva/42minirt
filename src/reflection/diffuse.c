@@ -8,27 +8,9 @@
 static int	is_in_shadow(t_data *d, t_hit *hit)
 {
 	t_ray		shadow;
-	t_hit		tmp;
+	//t_hit		tmp;
 	t_vector	to_light;
 	float		dist_light;
-
-	/*if (hit->p.z == d->l.coord.z)
-	{
-		printf("same Z\n");
-		return (0);
-	}
-
-	if (hit->p.y == d->l.coord.y)
-	{
-		printf("same Y\n");
-		return (0);
-	}
-
-	if (hit->p.x == d->l.coord.x)
-	{
-		printf("same X\n");
-		return (0);
-	}*/
 
 	to_light = v_from_points(hit->p, d->l.coord); // si utilise shadow.o au lieu de hit->p, sphere a de l'acne aussi
 	dist_light = v_len(to_light);
@@ -39,10 +21,11 @@ static int	is_in_shadow(t_data *d, t_hit *hit)
 	}
 	shadow.o = p_add_v(hit->p, v_scale(hit->n, 1e-3f)); // si on assigne juste hit->p, donne la meme chose que le test en-dessus
 	shadow.d = v_scale(to_light, 1.0f / dist_light);
-	tmp.t = dist_light;
-	tmp.idx = -1;
-	tmp.kind = -1;
-	if (world_hit_shadow(d, &shadow, EPS, dist_light, &tmp))
+	//tmp.t = dist_light;
+	//tmp.idx = -1;
+	//tmp.kind = -1;
+
+	if (world_hit_shadow(d, &shadow, EPS, dist_light, hit))
 		return (1);
 	return (0);
 }

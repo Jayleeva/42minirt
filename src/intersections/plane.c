@@ -12,12 +12,7 @@ int	hit_plane(const t_ray *r, const t_pl *pl, float tmin, float tmax, t_hit *out
 	denom = v_dot(r->d, n);
 	if (fabsf(denom) < 1e-6f)
 	{
-		printf("denom too small\n");
-		return (0);
-	}
-	if (fabsf(denom) == 1e-6f)
-	{
-		printf("denom equals 0\n");
+		//printf("denom too small\n");
 		return (0);
 	}
 
