@@ -11,17 +11,7 @@ static int	is_in_shadow(t_data *d, t_hit *hit)
 	t_hit		tmp;
 	t_vector	to_light;
 	float		dist_light;
-	t_vector	test;
-	float		dist_test;
 
-	shadow.o = p_add_v(hit->p, v_scale(hit->n, 1e-3f));
-	test = v_from_points(shadow.o, d->l.coord);
-	dist_test = v_len(test);
-	if (dist_test <= 0.0f)
-	{
-		printf("too small dist_test\n");
-		return (0);
-	}
 	to_light = v_from_points(hit->p, d->l.coord); // si utilise shadow.o au lieu de hit->p, sphere a de l'acne aussi
 	dist_light = v_len(to_light);
 	if (dist_light <= 0.0f)
@@ -29,6 +19,7 @@ static int	is_in_shadow(t_data *d, t_hit *hit)
 		printf("too small dist light\n");
 		return (0);
 	}
+	shadow.o = p_add_v(hit->p, v_scale(hit->n, 1e-3f)); // si on assigne juste hit->p, donne la meme chose que le test en-dessus
 	shadow.d = v_scale(to_light, 1.0f / dist_light);
 	tmp.t = dist_light;
 	tmp.idx = -1;

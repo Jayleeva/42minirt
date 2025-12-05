@@ -13,8 +13,6 @@ int	hit_plane(const t_ray *r, const t_pl *pl, float tmin, float tmax, t_hit *out
 	if (fabsf(denom) < 1e-6f)
 		return (0);
 
-	//(void)tmax;
-	//(void)tmin;
 	// t = ((center - O)·n) / (D·n)
 	t = v_dot(v_from_points(r->o, pl->coord), n) / denom;
 	if (t < tmin || t > tmax) //essayer en gardant un seul des deux
