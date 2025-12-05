@@ -63,7 +63,7 @@ static int	try_planes(t_data *d, const t_ray *r, float tmin, t_hit *best)
 	while (i < d->n_lel[1])
 	{
 		//tmp = *best;
-		if (index != i)
+		if (index != i) // protection pour qu'il ne se cherche pas lui-meme
 		{		
 			if (hit_plane(r, &d->pl[i], tmin, best->t, &tmp))
 			{
