@@ -8,10 +8,13 @@ int	hit_plane(const t_ray *r, const t_pl *pl, float tmin, float tmax, t_hit *out
 	t_vector	n;
 
 	// Si D·n ≈ 0 : rayon // au plan -> pas d'intersection stabl
-	n = v_norm(v_scale(v_norm(pl->ornt), -1.0f));
-	denom = v_dot(v_norm(r->d), n);
+	n = v_norm(pl->ornt);
+	denom = v_dot(r->d, n);
 	if (fabsf(denom) < 1e-6f)
+	{
+		//printf("denom too small\n");
 		return (0);
+	}
 
 	// t = ((center - O)·n) / (D·n)
 	t = v_dot(v_from_points(r->o, pl->coord), n) / denom;

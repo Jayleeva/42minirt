@@ -21,7 +21,7 @@ Pas besoin de faire des transformations en live (bonus).
 
 # D'ICI PROCHAINE REU
 - C: mettre a la norme
-- C & L: corriger l'acne en ajustant le point de hit de EPSILON dans la direction de la normale
+- C & L: corriger l'acne quand plusieurs planes
 - C & L: corriger forme du cylindre en fonction de l'inclinaison
 - C & L: corriger le segfault quand plus de x cylindres
 

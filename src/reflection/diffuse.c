@@ -8,7 +8,7 @@
 static int	is_in_shadow(t_data *d, t_hit *hit)
 {
 	t_ray		shadow;
-	t_hit		tmp;
+	//t_hit		tmp;
 	t_vector	to_light;
 	float		dist_light;
 
@@ -21,10 +21,11 @@ static int	is_in_shadow(t_data *d, t_hit *hit)
 	}
 	shadow.o = p_add_v(hit->p, v_scale(hit->n, 1e-3f)); // si on assigne juste hit->p, donne la meme chose que le test en-dessus
 	shadow.d = v_scale(to_light, 1.0f / dist_light);
-	tmp.t = dist_light;
-	tmp.idx = -1;
-	tmp.kind = -1;
-	if (world_hit_shadow(d, &shadow, EPS, dist_light, &tmp))
+	//tmp.t = dist_light;
+	//tmp.idx = -1;
+	//tmp.kind = -1;
+
+	if (world_hit_shadow(d, &shadow, EPS, dist_light, hit))
 		return (1);
 	return (0);
 }
