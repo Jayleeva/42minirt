@@ -7,9 +7,20 @@ int	hit_plane(const t_ray *r, const t_pl *pl, float tmin, float tmax, t_hit *out
 	t_point 	p;
 	t_vector	n;
 
+	/*static int			i = 0;
+	static int			j = 0;
+
+	if (fabsf(r->d.o_y) <= EPS)
+	{
+		printf("entered %d times\n", i++);
+		return (0);
+	}
+	else
+		printf("did not entered %d times\n", j++);*/
+
 	// Si D·n ≈ 0 : rayon // au plan -> pas d'intersection stabl
-	n = v_norm(v_scale(v_norm(pl->ornt), -1.0f));
-	denom = v_dot(v_norm(r->d), n);
+	n = v_scale(pl->ornt, -1.0f);
+	denom = v_dot(r->d, n);
 	if (fabsf(denom) < 1e-6f)
 		return (0);
 
