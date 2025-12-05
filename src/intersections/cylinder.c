@@ -86,7 +86,7 @@ static int	hit_cylinder_cap(const t_ray *r, const t_cap *cap,
 
 	// Si D·n ≈ 0 : rayon // au plan -> pas d'intersection stable
 	denom = v_dot(r->d, cap->normal);
-	if (fabsf(denom) < 1e-6f)
+	if (fabsf(denom) <= 1e-6f)
 		return (0);
 
 	// t = ((center - O)·n) / (D·n)
