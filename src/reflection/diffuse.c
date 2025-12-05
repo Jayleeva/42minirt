@@ -12,16 +12,9 @@ static int	is_in_shadow(t_data *d, t_hit *hit)
 	t_vector	to_light;
 	float		dist_light;
 
-	/*if (hit->p.x - d->l.coord.x <= EPS && 
-		hit->p.y - d->l.coord.y <= EPS &&
-		hit->p.z - d->l.coord.z <= EPS)
-	{
-		printf("same coord\n");
-		return (0);
-	}*/
 	to_light = v_from_points(hit->p, d->l.coord); // si utilise shadow.o au lieu de hit->p, sphere a de l'acne aussi
 	dist_light = v_len(to_light);
-	if (dist_light <= EPS) // revient au meme que l'autre if
+	if (dist_light <= EPS)
 	{
 		printf("too small dist light\n");
 		return (0);
