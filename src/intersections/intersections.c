@@ -71,7 +71,7 @@ static int	try_planes(t_data *d, const t_ray *r, float tmin, t_hit *best)
 	while (i < d->n_lel[1])
 	{
 		tmp = *best;
-		if (index != i) // protection pour qu'il ne se cherche pas lui-meme NOPE fout la merde sur certaines maps, meme si regle en partie l'acne sur d'autres
+		if (index != i) // protection pour qu'il ne se cherche pas lui-meme NOPE fout la merde sur certaines maps, meme si regle en partie l'acne sur d'autres (map_OK1.rt)
 		{		
 			if (hit_plane(r, &d->pl[i], tmin, best->t, &tmp))
 			{
