@@ -9,22 +9,22 @@ static int	is_in_shadow(t_data *d, t_hit *hit)
 {
 	t_ray		shadow;
 	//t_hit		tmp;
-	t_vector	to_light;
+	t_vector	from_light;
 	float		dist_light;
 
-	to_light = v_from_points(hit->p, d->l.coord); // si utilise shadow.o au lieu de hit->p, sphere a de l'acne aussi
-	dist_light = v_len(to_light);
+	from_light = v_from_points(d->l.coord, hit->p);
+	dist_light = v_len(from_light);
 	if (dist_light <= EPS)
 	{
 		printf("too small dist light\n");
 		return (0);
 	}
-	shadow.o = p_add_v(hit->p, v_scale(hit->n, 1e-3f)); // si on assigne juste hit->p, donne la meme chose que le test en-dessus
-	shadow.d = v_scale(to_light, 1.0f / dist_light);
+	shadow.o = d->l.coord;
+	shadow.d = v_norm(from_light);
+
 	//tmp.t = dist_light;
 	//tmp.idx = -1;
 	//tmp.kind = -1;
-
 	if (world_hit_shadow(d, &shadow, EPS, dist_light, hit))
 		return (1);
 	return (0);
@@ -58,7 +58,7 @@ static float	compute_diffuse(t_data *d, t_hit *h, t_vector n)
 	l = v_from_points(h->p, d->l.coord);
 	l = v_norm(l);
 	diff = v_dot(n, l);
-	if (diff <= 0.0f || is_in_shadow(d, h))
+	if (diff <= 0.0f)
 		diff = 0.0f;
 	return (diff * d->l.ratio);
 }
@@ -80,7 +80,7 @@ static float	compute_specular(t_data *d, t_hit *h, t_vector n)
 	v = v_norm(v_from_points(h->p, d->c.coord));
 	r = v_norm(v_reflect(l, n));
 	spec = v_dot(r, v);
-	if (spec <= 0.0f || is_in_shadow(d, h))
+	if (spec <= 0.0f)
 		return (0.0f);
 	spec = powf(spec, d->spec.shiny);
 	spec *= d->spec.ks * d->l.ratio;
@@ -111,6 +111,11 @@ t_rgb	compute_lighting(t_data *d, t_hit *h, t_rgb obj)
 	n = v_norm(h->n);
 	diffuse = compute_diffuse(d, h, n);
 	spec = compute_specular(d, h, n);
+	if(is_in_shadow(d, h)) // tester ici une fois au lieu de dans les deux autres compute
+	{
+		diffuse = 0.f;
+		spec = 0.f;
+	}
 	obj_s.s_r = obj_s.s_r * (amb_s.s_r + diffuse) + spec;
 	obj_s.s_g = obj_s.s_g * (amb_s.s_g + diffuse) + spec;
 	obj_s.s_b = obj_s.s_b * (amb_s.s_b + diffuse) + spec;
