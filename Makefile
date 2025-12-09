@@ -35,8 +35,8 @@ OBJ = $(SRC:.c=.o)
 OBJS = $(addprefix $(OBJ_DIR)/, $(OBJ))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I ./inc -I ./libft/inc -g 
-
+CFLAGS =  -I ./inc -I ./libft/inc -g 
+#-Wall -Wextra -Werror
 MATH_FLAGS = -lm
 MLX_FLAGS = -lXext -lX11
 INCLUDES = -I/usr/include -Imlx
