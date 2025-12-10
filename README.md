@@ -113,12 +113,17 @@ origin.y + (objective.y * t);
 origin.z + (objective.z * t);
 ````
 
+## Les couleurs: du format RGB au format HEX (et vice-versa)
+Vous y avez peut-etre deja pense, mais finalement, le format RGB des couleurs, c'est un peu des vecteurs non? Eh bien, informatiquement parlant, oui, car c'est bien une combinaison de chiffres (par ex.: 255,0,80). C'est pertinent car on peut utiliser la meme logique pour les operations: si vous voulez additionner deux couleurs, vous additionnez le r avec le r, le g avec le g, ... Ca vous rappelle quelque chose?
+
+Seulement, bien que la map vous fournisse les couleur au format RGB, la minilibx ne travaille qu'avec le format HEX. Il va donc vous falloir des fonctions qui permettent de passer d'un format a l'autre.
+
 ## La normale, la norme, normaliser
 Vous savez ce qui est marrant (non)? C'est qu'on pourrait croire que ces trois mots ont des choses en commun, voire que c'est la meme chose. Apres tout, ils se ressemblent tellement! He bien non. Nous avons bien affaire a trois choses differente.
 
 La normale est un vecteur perpendiculaire a un point d'impact par exemple. Elle va etre largement utilisee dans les formules des formes, c'est donc important d'en comprendre le concept.
 
-La norme est la longueur de l'interpretation physique d'un vecteur ("deplacement"). C'est notre "t" dont on aura besoin pour calculer les intersections comme vu plus haut.
+La norme est la longueur de l'interpretation physique d'un vecteur ("deplacement"). C'est notre "t" dont on aura besoin pour calculer les intersections comme vu plus haut. Pour chaque forme, on verifie si le "t" est contenu dans des bornes predefinies (appelons-les ``tmin`` et ``tmax``); s'il ne l'est pas, il n'y a pas d'intersection, sinon, oui. ``tmin`` correspond a EPSILON, et ``tmax`` a 1e30f.
 
 Normaliser signifie effectuer un calcul sur une variable qui la rend egale a 1. Cette operation est utilisee pour s'assurer qu'on compare et transforme des valeurs en se basant sur la meme echelle / limiter les imprecisions dues aux floats?
 
@@ -177,11 +182,11 @@ Ici, nous devons verifier si cette valeur est inferieure a zero: si tel est le c
 
 Ajoutons encore une variable (courage, c'est bientot fini). Appelons-la ``squareroot``. Sa valeur est obtenue grace a la fonction ``sqrtf()`` de la librairie <maths.h>, en lui passant le discriminant calcule plus haut.
 ```
-float   squareroot = sqrtf(disc);
+float   squareroot = sqrtf(discr);
 ```
 Nous arrivons enfin (ENFIN!!) a notre derniere variable, le fameux `t`!
 
-Nous allons devoir tester deux valeurs de ``t``, la premiere obtenue en utilisant ``squareroot`` en positif, et la deuxieme en l'utilisant en negatif. Si la premiere valeur est en-dehors des bornes, on teste la deuxieme: si la deuxieme est aussi en-dehors des bornes, alors il n'y a pas d'intersection. Sinon, la fonction renvoie l'equivalent de "cette sphere est bien sur le chemin de ce rayon".
+Nous allons devoir tester deux valeurs de ``t``, la premiere obtenue en utilisant ``squareroot`` en positif, et la deuxieme en l'utilisant en negatif. Si la premiere valeur est en-dehors des bornes (``tmin`` et ``tmax`` dont nous avons parle plus haut), on teste la deuxieme: si la deuxieme est aussi en-dehors des bornes, alors il n'y a pas d'intersection. Sinon, la fonction renvoie l'equivalent de "cette sphere est bien sur le chemin de ce rayon".
 
 Les valeurs en question sont obtenues en passant ``half_b`` en negatif, puis en lui soustrayant (pour la premiere) ou lui additionnant (pour la deuxieme) ``squareroot``, et enfin en divisant le resultat par ``a``.
 
@@ -201,5 +206,9 @@ Votre programme doit donc recevoir comme information:
 - s'il y a une intersection avec la sphere
 - ou exactement cette intersection a lieu
 - quelle est la sphere rencontree exactement et quelle est sa couleur
+
 Envoyez toutes ces informations a une fonction qui calculera quel eclairage s'applique au point d'intersection.
-Dans un premier temps, vous pouvez simplement appliquer au pixel la couleur de la forme, sans vous preoccuper de la lumiere. Si tout est correct, vous devrez voir apparaitre des cercles colores la ou vous avez place vos spheres!
+
+Dans un premier temps, vous pouvez simplement appliquer au pixel la couleur de la forme, sans vous preoccuper de la lumiere. Si tout est correct, vous devrez voir apparaitre des cercles colores la ou vous avez place vos spheres! Vous les voyez? Bravo!
+
+
