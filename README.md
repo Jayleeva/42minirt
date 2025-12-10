@@ -118,6 +118,8 @@ Vous y avez peut-etre deja pense, mais finalement, le format RGB des couleurs, c
 
 Seulement, bien que la map vous fournisse les couleur au format RGB, la minilibx ne travaille qu'avec le format HEX. Il va donc vous falloir des fonctions qui permettent de passer d'un format a l'autre.
 
+Une fois que vous savez quelle couleur doit avoir un pixel, vous le transformez donc en format HEX, et vous stockez cette information dans votre canevas (ou array de pixels). Lorsque tous vos pixels auront leur couleur assignee, vous pourrez creer une image avec la fonction ``mlx_put_image_to_window()``.
+
 ## La normale, la norme, normaliser
 Vous savez ce qui est marrant (non)? C'est qu'on pourrait croire que ces trois mots ont des choses en commun, voire que c'est la meme chose. Apres tout, ils se ressemblent tellement! He bien non. Nous avons bien affaire a trois choses differente.
 
@@ -207,7 +209,7 @@ Votre programme doit donc recevoir comme information:
 - ou exactement cette intersection a lieu
 - quelle est la sphere rencontree exactement et quelle est sa couleur
 
-Envoyez toutes ces informations a une fonction qui calculera quel eclairage s'applique au point d'intersection.
+Envoyez toutes ces informations a une fonction qui calculera quel eclairage s'applique au point d'intersection et en modulera donc la couleur.
 
 Dans un premier temps, vous pouvez simplement appliquer au pixel la couleur de la forme, sans vous preoccuper de la lumiere. Si tout est correct, vous devrez voir apparaitre des cercles colores la ou vous avez place vos spheres! Vous les voyez? Bravo!
 
