@@ -71,6 +71,27 @@ Ce qui peut etre perturbant, c'est qu'on ne cherche pas la position des formes, 
 
 BON. On a vu les bases en gros, il est l'heure de passer aux choses concretes.
 
+## Creer et afficher une image
+La minilibx est parfois un peu obscure. 
+
+D'une part, il vous allouer de la memoire pour une image, dont vous devrez definir l'endian, la size et le bpp (bit per pixel). Ensuite, il vous faudra utiliser la fonction ``mlx_new_image()`` pour attribuer un pointeur a votre image. Puis, vous utiliserez la fonction ``mlx_get_data_addr()`` pour obtenir l'adresse de l'image, ce qui vous permettra finalement d'utiliser la fonction ``mlx_put_image_to_window()`` qui affichera votre image.
+
+D'autre part, 
+il vous faut allouer de la memoire pour votre canevas, qui consistera en une array de pixels, dans laquelle vous stockerez notamment la couleur de chacun. Pour cela, vous creerez une fonction ``put_pixel()`` qui attribuera la couleur au pixel:
+```
+void	ft_put_pixel(t_img_data *data, int x, int y, int color)
+{
+	char	*pxl;
+
+	if (x >= 0 && x < W_WIDTH && y >= 0 && y < W_HEIGHT)
+	{
+		pxl = data->addr + (y * data->size + x * (data->bpp / 8));
+		*(unsigned int *)pxl = color;
+	}
+} 
+```
+
+
 ## Le FOV: les calculs
 Comme j'en ai une pauvre comprehension, je me contenterai de vous transmettre les operations a suivre, sans pouvoir en expliquer le pourquoi (desolee).
 
