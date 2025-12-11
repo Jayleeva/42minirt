@@ -265,7 +265,7 @@ t_vector	hit_point = vector_plus_vector(ray->origin, scale(ray->direction, t));
 ```
 Nous avons le point d'impact! Reste, c'est très important pour la suite, à calculer la normale de ce point.
 
-Préparez une variable (appelons-la ``n``). Sa valeur sera le résultat de la normalisation de l'inclinaison du plan. A nouveau, je vous conseille de créer une fonction ``normalize()``, elle-même faisant appel à d'autres fonctions qui vont beaucoup vous servir.
+Préparez une variable (appelons-la ``n``). Sa valeur sera le résultat de la normalisation de la longueur entre les coordonnées de la sphère et le point d'impact. A nouveau, je vous conseille de créer une fonction ``normalize()``, elle-même faisant appel à d'autres fonctions qui vont beaucoup vous servir.
 
 Voici un exemple de comment les coder:
 ```
@@ -335,8 +335,92 @@ Une chose importante à savoir est que les coordonnées du cylindre corresponden
 #### Tuyau
 Le calcul du tuyau utilise, comme la sphère, une fonction quadratique. En revanche, des calculs supplémentaires sont nécessaires afin d'envoyer les bons argument à cette fonction quadratique.
 
+Plus précisément, c'est notre ``a``, et notre ``half_b`` qui seront calculés en deux temps. Cela nécessitera 2 nouvelles variables, appelons-les ``A`` et ``B``. 
 
+Tout d'abord, pour obtenir la valeur de ``A``, multiplions l'inclinaison du cylindre par le dot product de la direction du rayon et de l'inclinaison du cylindre, et soustrayons le résultat à la direction du rayon. Pour obtenir la valeur de ``B``, suivons la même opération, à la différence que la direction du rayon est remplacé par  ``oc``. 
 
+Notre ``oc`` quant à lui se calcule de la même façon que pour la sphère, en substrayant l'origine du rayon aux coordonnées du cylindre.
+
+Notre ``a`` prend la valeur du dot product de ``A``, alors que notre ``half_b`` prend celui du dot product de ``A`` et ``B``. Notre ``c`` de son côté consiste en le même calcul que pour la sphère, seulement, au lieu de faire le dot product de ``oc`` au carré, on fait celui de ``B``.
+
+Voici à quoi cela peut ressembler:
+```
+oc = vector_minus_vector(cylinder->coord, ray->origin);
+
+tmpA = dot_product(ray->direction, cylinder->incline);
+tmpB = dot_product(oc, cylinder->incline);
+
+A = vector_minus_vector(ray->direction, scale(cylinder->incline, tmpA));
+B = vector_minus_vector(oc, scale(cylinder->incline, tmpB));
+
+a = dot_product(A, A);
+half_b = dot_product(A, B);
+c = dot_product(B, B) - (cylinder->diameter * 0.5f) * (cylinder->diameter * 0.5f);
+```
+
+Ensuite, tout comme pour la sphère, nous calculons un discriminant (``discr``) de la même manière, et nous en servons également pour vérifier s'il y n'a pas d'intersection, à la différence que la condition est double: soit le discriminant est inférieur à zéro, soit ``a`` est égal à 0 (ce qui voudrait dire que le rayon est parallèle à l'axe du cylindre et ne touchera donc jamais le tuyau).
+
+Voici un exemple de code:
+```
+discr = half_b * half_b - a * c;
+if (discr < 0.0f || a == 0.0f)
+	return ("pas d'intersection");
+```
+
+Il nous manque encore notre ``squareroot``, obtenue de la même manière que pour la sphère.
+```
+squareroot = sqrtf(discr);
+```
+
+Toujours sur la même lancée, nous calculerons aussi deux valeurs pour ``t``, une fois en soustrayant ``squareroot``, et l'autre en l'additionnant:
+```
+t1 = (-half_b - squareroot) / a;
+t2 = (-half_b + squareroot) / a;
+```
+
+Cependant, au lieu de tester t2 uniquement si t1 est en-dehors des bornes comme pour la sphère, on va cette fois vérifier si t1 puis t2 sont soit l'une soit les deux dans les bornes, et si c'est le cas, on fera pour chaque ``t`` une seconde vérification qui nécessite au préalable le calcul d'une nouvelle variable, ``m``.
+
+La valeur de celle-ci s'obtient en additionnant ``tmpB`` au produit de ``tmpA`` et ``t``:
+```
+m = tmpA * t + tmpB;
+```
+
+BON. On a nos t. Cette fois, au lieu de vérifier si on est en-dehors des bornes, on va vérifier si on est dedans, ET si notre m est valable: plus grand ou égal à zéro, ET plus petit ou égal à la hauteur du cylindre. S'il est valable, on calcule le ``hit_point`` et la normale et on fait en sorte de transmettre les informations nécessaires au calcul de la couleur du pixel.
+
+NOTE: erreur vient de là? devrait être testé comme la sphère, sinon en cas d'intersections on prend de toute façon les infos de la deuxième. 
+```
+t_vector	n;
+int			intersection = 0;
+
+if (t1 >= tmin && t1 <= tmax)
+{
+	m = tmpA * t1 + tmpB;
+	if (m >= 0.0f && m <= cylinder->height)
+	{
+		hit_point = vector_plus_vector(ray->origin, scale(ray->direction, t1));
+		n = compute_normale(cylinder, hit_point, m);
+		assign_hitpoint(t1, n, hit_point);
+		intersection = 1;
+	}
+}
+if (t2 >= tmin && t2 <= tmax)
+{
+	m = tmpA * t2 + tmpB;
+	if (m >= 0.0f && m <= cylinder->height)
+	{
+		hit_point = vector_plus_vector(ray->origin, scale(ray->direction, t2));
+		n = compute_normale(cylinder, hit_point, m);
+		assign_hitpoint(t2, n, hit_point);
+		intersection = 1;
+	}
+}
+return (intersection);
+```
+
+Le calcul de la normale d'un point d'impact sur le tuyau se fait 
+			n = vector_minus_vector(cylinder->coord, hit_point);
+			n = vector_minus_vector(n, scale(cylinder->incline, m));
+			n = normalize(n);
 
 #### Capsules
 La formule pour vérifier si la capsule est sur le chemin du rayon est la même pour les deux capsules du cylindre, en revanche!! La normale utilisée pour le calcul change en fonction de quelle capsule il s'agit.
@@ -367,7 +451,7 @@ Il nous reste encore un test, car pour l'instant, nous avons les mêmes calculs 
 
 Voici un exemple de comment le coder:
 ```
-if (dot_product(vector_minus_vector(cap->center, hit_point)) > cylinder->diameter/2 * cylinder->diameter/2)
+if (dot_product(vector_minus_vector(cap->center, hit_point)) > (cylinder->diameter * 0.5f) * (cylinder->diameter * 0.5f))
 	return ("pas d'intersection");
 ```
 
