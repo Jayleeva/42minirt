@@ -2,6 +2,8 @@
 
 void assign_hitpoint(float t, t_cy *cy, float m, t_vector p)
 {
+	t_vector	n;
+
 	n = v_from_points(cy->coord, p);
 	n = v_sub(n, v_scale(cy->ornt, m));
 	n = v_norm(n);
