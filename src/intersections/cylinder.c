@@ -1,6 +1,6 @@
 #include "../inc/minirt.h"
 
-void assign_hitpoint(float t, t_cy *cy, float m, t_vector p)
+void assign_hitpoint(float t, t_cy *cy, float m, t_vector p, t_ray *r)
 {
 	t_vector	n;
 
@@ -58,7 +58,7 @@ static int	hit_cylinder_side(const t_ray *r, const t_cy *cy,
 		if (m >= 0.0f && m <= cy->height)
 		{
 			p = p_add_v(r->o, v_scale(r->d, t1));
-			assign_hitpoint(t1, cy, m, p);
+			assign_hitpoint(t1, cy, m, p, r);
 			hit = 1;
 		}
 	}
@@ -68,7 +68,7 @@ static int	hit_cylinder_side(const t_ray *r, const t_cy *cy,
 		if (m >= 0.0f && m <= cy->height)
 		{
 			p = p_add_v(r->o, v_scale(r->d, t2));
-			assign_hitpoint(t1, cy, m, p);
+			assign_hitpoint(t1, cy, m, p, r);
 			hit = 1;
 		}
 	}
