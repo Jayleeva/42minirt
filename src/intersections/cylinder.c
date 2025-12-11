@@ -1,41 +1,28 @@
 #include "../inc/minirt.h"
 
-int test_t(float t, float m, t_vector p, t_cy *cy, float tmin, float tmax)
+void assign_hitpoint(float t, t_cy *cy, float m, t_vector p)
 {
-	t_vector	n;
-
-	if (t >= tmin && t <= tmax)
-	{
-		if (m >= 0.0f && m <= cy->height)
-		{
-			n = v_from_points(cy->coord, p);
-			n = v_sub(n, v_scale(cy->ornt, m));
-			n = v_norm(n);
-			if (v_dot(n, r->d) > 0.0f)
-				n = v_scale(n, -1.0f);
-			out->t = t1;
-			out->p = p;
-			out->n = n;
-			out->kind = CYLINDER;
-			return (1);
-		}
-		return (0);
-	}
-	return (0);
+	n = v_from_points(cy->coord, p);
+	n = v_sub(n, v_scale(cy->ornt, m));
+	n = v_norm(n);
+	if (v_dot(n, r->d) > 0.0f)
+		n = v_scale(n, -1.0f);
+	out->t = t1;
+	out->p = p;
+	out->n = n;
+	out->kind = CYLINDER;
 }
+
 // out->t sert de tmax à l'entrée, on ne met à jour que si on trouve un t plus petit (plus proche)
 static int	hit_cylinder_side(const t_ray *r, const t_cy *cy,
 							 float tmin, t_hit *out)
 {
-	t_vector X, A, B;
-	float    rads, dv, xv;
-	float    a, half_b, c, disc, sqrtd;
-	float    t1, t2, m, t;
-	t_point  p;
-
-	int      hit;
-
-	hit = 0;
+	t_vector	X, A, B;
+	float		rads, dv, xv;
+	float		a, half_b, c, disc, sqrtd;
+	float		t1, t2, m, t;
+	t_point		p;
+	int			hit = 0;
 
 	// X = O - C : vecteur de la base du cylindre vers l'origine du rayon
 	X = v_from_points(cy->coord, r->o);
@@ -63,12 +50,26 @@ static int	hit_cylinder_side(const t_ray *r, const t_cy *cy,
 	t2 = (-half_b + sqrtd) / a;   // racine lointaine
 
 	// On teste dans l'ordre croissant (t1 puis t2)
-	p = p_add_v(r->o, v_scale(r->d, t1));
-	m = dv * t1 + xv;
-	hit = test_t(t1, m, p, cy, tmin, tmax);
-	p = p_add_v(r->o, v_scale(r->d, t2));
-	m = dv * t2 + xv;
-	hit = test_t(t2, m, cy, tmin, tmax);
+	if (t1 >= tmin && t1 <= tmax)
+	{
+		m = dv * t1 + xv;
+		if (m >= 0.0f && m <= cy->height)
+		{
+			p = p_add_v(r->o, v_scale(r->d, t1));
+			assign_hitpoint(t1, cy, m, p);
+			hit = 1;
+		}
+	}
+	if (t2 >= tmin && t2 <= t1)
+	{
+		m = dv * t2 + xv;
+		if (m >= 0.0f && m <= cy->height)
+		{
+			p = p_add_v(r->o, v_scale(r->d, t2));
+			assign_hitpoint(t1, cy, m, p);
+			hit = 1;
+		}
+	}
 	return (hit);
 }
 
