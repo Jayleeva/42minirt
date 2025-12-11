@@ -52,7 +52,7 @@ static int	hit_cylinder_side(const t_ray *r, const t_cy *cy,
 	t2 = (-half_b + sqrtd) / a;   // racine lointaine
 
 	// On teste dans l'ordre croissant (t1 puis t2)
-	if (t1 >= tmin && t1 <= tmax)
+	if (t1 >= tmin && t1 <= out->t)
 	{
 		m = dv * t1 + xv;
 		if (m >= 0.0f && m <= cy->height)
@@ -62,7 +62,7 @@ static int	hit_cylinder_side(const t_ray *r, const t_cy *cy,
 			hit = 1;
 		}
 	}
-	if (t2 >= tmin && t2 <= t1)
+	if (t2 >= tmin && t2 <= out->t)
 	{
 		m = dv * t2 + xv;
 		if (m >= 0.0f && m <= cy->height)
