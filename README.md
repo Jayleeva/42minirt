@@ -387,7 +387,7 @@ m = tmpA * t + tmpB;
 
 BON. On a nos t. Cette fois, au lieu de vérifier si on est en-dehors des bornes, on va vérifier si on est dedans, ET si notre m est valable: plus grand ou égal à zéro, ET plus petit ou égal à la hauteur du cylindre. S'il est valable, on calcule le ``hit_point`` et la normale et on fait en sorte de transmettre les informations nécessaires au calcul de la couleur du pixel.
 
-NOTE: erreur vient de là? devrait être testé comme la sphère, sinon en cas d'intersections on prend de toute façon les infos de la deuxième. 
+NOTE: erreur vient de là? devrait être testé comme la sphère? 
 ```
 t_vector	n;
 int			intersection = 0;
@@ -403,7 +403,7 @@ if (t1 >= tmin && t1 <= tmax)
 		intersection = 1;
 	}
 }
-if (t2 >= tmin && t2 <= tmax)
+if (t2 >= tmin && t2 <= tmax) // ou t1 ?
 {
 	m = tmpA * t2 + tmpB;
 	if (m >= 0.0f && m <= cylinder->height)
