@@ -44,7 +44,7 @@ On va pas se mentir, si les maths c'est pas votre truc, le ray tracing ça sera 
 
 ## Les bases, en gros
 ### La fenêtre sur un monde imaginaire
-La base de la technologie du ray tracing consiste à imaginer des chose: on imagine un monde en 3D dans lequel seront présentes ou non des formes (pour minirt: des sphères, des cylindres, et des plans), et où une caméra mobile filmera ce qu'il s'y passe. La caméra est donc elle aussi présente *dans* le monde en 3D. La fenêtre de minirt nous transmet ce que filme cette caméra. Autrement dit, le contenu de la fenêtre correspond à celui du viewport de la caméra (ce qu'on voit à travers elle). 
+La base de la technologie du ray tracing consiste à imaginer des chose: on imagine un monde en 3D dans lequel seront présentes ou non des formes (pour minirt: des sphères, des cylindres, et des plans), et où une caméra filmera ce qu'il s'y passe. La caméra est donc elle aussi présente *dans* le monde en 3D et peut y être placée n'importe où. La fenêtre de minirt nous transmet ce que filme cette caméra. Autrement dit, le contenu de la fenêtre correspond à celui du viewport de la caméra (ce qu'on voit à travers elle). 
 
 ATTENTION: la fenêtre N'EST PAS le viewport, la distinction est importante. Voyez cela comme deux écrans séparés: l'un est dans le monde imaginaire en 3D, rattaché à la caméra (= le viewport); l'autre est sur votre très réel écran à vous (= la fenêtre). Chacun a ses propres dimensions et unités. Les unités qui composent votre fenêtre sont des pixels. Celles qui composent le viewport, des unités différentes (appelez-les comme vous le voulez). Cela permet de mettre plusieurs unités dans un pixel, et donc d'étirer plus ou moins l'image rendue sur votre fenêtre. Ce ratio "x unités dans 1 pixel" dépend de votre FOV.
 
@@ -335,9 +335,9 @@ Une chose importante à savoir est que les coordonnées du cylindre corresponden
 #### Tuyau
 Le calcul du tuyau utilise, comme la sphère, une fonction quadratique. En revanche, des calculs supplémentaires sont nécessaires afin d'envoyer les bons argument à cette fonction quadratique.
 
-Plus précisément, c'est notre ``a``, et notre ``half_b`` qui seront calculés en deux temps. Cela nécessitera 2 nouvelles variables, appelons-les ``A`` et ``B``. 
+Plus précisément, c'est notre ``a``, et notre ``half_b`` qui seront calculés en deux temps. Cela nécessitera 4 nouvelles variables, appelons-les ``tmpA``, ``tmpB``, ``A`` et ``B``. 
 
-Tout d'abord, pour obtenir la valeur de ``A``, multiplions l'inclinaison du cylindre par le dot product de la direction du rayon et de l'inclinaison du cylindre, et soustrayons le résultat à la direction du rayon. Pour obtenir la valeur de ``B``, suivons la même opération, à la différence que la direction du rayon est remplacé par  ``oc``. 
+Tout d'abord, pour obtenir la valeur de ``tmpA``, calculons le dot product de la direction du rayon et de l'inclinaison du cylindre, et pour obtenir celle de ``A``, multiplions l'inclinaison du cylindre par ce ``tmpA``, et soustrayons le résultat à la direction du rayon. Pour obtenir les valeurs de ``tmpB`` et de ``B``, suivons la même opération, à la différence que la direction du rayon est remplacé par  ``oc``. 
 
 Notre ``oc`` quant à lui se calcule de la même façon que pour la sphère, en substrayant l'origine du rayon aux coordonnées du cylindre.
 
