@@ -9,7 +9,7 @@ void assign_hitpoint(float t, t_cy *cy, float m, t_vector p, t_ray *r)
 	n = v_norm(n);
 	if (v_dot(n, r->d) > 0.0f)
 		n = v_scale(n, -1.0f);
-	out->t = t1;
+	out->t = t;
 	out->p = p;
 	out->n = n;
 	out->kind = CYLINDER;
