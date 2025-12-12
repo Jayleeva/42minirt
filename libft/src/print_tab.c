@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 int	print_tab(char **tab)
 {
@@ -22,5 +23,6 @@ int	print_tab(char **tab)
 		ft_printf("%s\n", tab[i]);
 		i ++;
 	}
+	
 	return (i);
 }

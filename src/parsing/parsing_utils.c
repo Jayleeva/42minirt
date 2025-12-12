@@ -17,7 +17,7 @@ int	alloc_lel(t_data *data)
 	}
 	if (data->n_lel[2] > 0)
 	{
-		data->cy = malloc((data->n_lel[2] + 1) * sizeof(t_sp));
+		data->cy = malloc((data->n_lel[2] + 1) * sizeof(t_cy));
 		if (!data->cy)
 			return (0);
 	}

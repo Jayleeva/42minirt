@@ -56,6 +56,7 @@ void	window(t_data *data)
 	data->win_ptr = mlx_new_window(data->mlx_ptr, W_WIDTH, W_HEIGHT, "Minirt");
 	if (!data->win_ptr)
 		on_destroy(data);
+
 	ray_tracing(data);
 	mlx_hook(data->win_ptr, KeyRelease, KeyReleaseMask, &on_keypress, data);
 	mlx_hook(data->win_ptr, DestroyNotify, StructureNotifyMask, &on_destroy,
