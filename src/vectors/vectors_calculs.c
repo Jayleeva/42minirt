@@ -75,3 +75,13 @@ t_vector	v_cross(t_vector a, t_vector b)
 	r.o_z = a.o_x * b.o_y - a.o_y * b.o_x;
 	return (r);
 }
+
+t_vector	v_minus_float(t_vector v, float f)
+{
+	t_vector	res;
+
+	res.o_x = v.o_x + f;
+	res.o_y = v.o_y + f;
+	res.o_z = v.o_z + f;
+	return (res);
+}
