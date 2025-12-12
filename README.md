@@ -22,7 +22,6 @@ Pas besoin de faire des transformations en live (bonus).
 # D'ICI PROCHAINE REU
 - C: mettre a la norme
 - C & L: corriger forme du cylindre en fonction de l'inclinaison
-- C & L: corriger le segfault quand plus de x cylindres
 
 # A FAIRE
 - ajouter message d'erreur si map vide?
