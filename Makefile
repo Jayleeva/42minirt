@@ -18,12 +18,12 @@ SRC = 	main.c \
 		parsing/parsing_utils.c \
 		vectors/vectors.c \
 		vectors/vectors_calculs.c \
+		vectors/normalize.c \
 		intersections/cylinder.c \
 		intersections/intersections.c \
 		intersections/plane.c \
 		intersections/sphere.c \
 		colors/rgb_to_hex.c \
-		colors/colors.c \
 		ray_tracing.c \
 		camera.c \
 		reflection/diffuse.c

@@ -30,21 +30,23 @@ void	cam_prepare_view(t_data *d)
 	cam_build_basis(d);
 }
 
-t_ray	make_primary_ray(t_data *d, int x, int y)
+static t_vector	compute_dir(t_camview view, int x, int y)
 {
-	t_ray		r;
+	t_vector	dir;
 	float		u;
 	float		v;
-	t_vector	dir;
-	float		fx;
-	float		fy;
 
-	fx = ((float)x + 0.5f) / (float)W_WIDTH;
-	fy = ((float)y + 0.5f) / (float)W_HEIGHT;
-	u = (fx - 0.5f) * (2.0f * d->view.half_w);
-	v = (0.5f - fy) * (2.0f * d->view.half_h);
-	dir = v_add(v_add(v_scale(d->view.u, u), v_scale(d->view.v, v)), d->view.w);
+	u = ((((float)x + 0.5f) / (float)W_WIDTH) - 0.5f) * (2.0f * view.half_w);
+	v = (0.5f - (((float)y + 0.5f) / (float)W_HEIGHT)) * (2.0f * view.half_h);
+	dir = v_add(v_add(v_scale(view.u, u), v_scale(view.v, v)), view.w);
+	return (dir);
+}
+
+t_ray	make_primary_ray(t_data *d, int x, int y)
+{
+	t_ray	r;
+
 	r.o = d->c.coord;
-	r.d = v_norm(dir);
+	r.d = v_norm(compute_dir(d->view, x, y));
 	return (r);
 }

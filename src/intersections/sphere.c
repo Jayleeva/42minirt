@@ -21,9 +21,9 @@ int	hit_sphere(const t_ray *r, const t_sp *s, float tmin, float tmax, t_hit *out
 
 	// discriminant = (b/2)^2 - a*c
 	disc = half_b * half_b - a * c;
-
 	if (disc < 0.0f)
 		return (0); // pas de solution réelle -> pas d’intersection
+
 	sqrtd = sqrtf(disc);
 
 	// première racine (la plus proche)
@@ -35,7 +35,6 @@ int	hit_sphere(const t_ray *r, const t_sp *s, float tmin, float tmax, t_hit *out
 		if (t < tmin || t > tmax)
 			return (0); // aucune racine valide -> pas de hit
 	}
-
 	// On a trouvé une intersection valide
 	out->t = t; // distance le long du rayon
 	out->p = p_add_v(r->o, v_scale(r->d, t)); // point d’impact : origine + t*direction

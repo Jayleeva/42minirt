@@ -1,35 +1,85 @@
 #include "../inc/minirt.h"
 
+t_vector	v_minus_float(t_vector v, float f);
+
+void assign_hitpoint(float t, const t_cy *cy, float m, t_point p, const t_ray *r, t_hit *out)
+{
+	t_vector	n;
+	t_vector	tmp1;
+	t_vector	tmp2;
+
+	tmp1 = v_from_points(cy->coord, p);
+	tmp2 = v_scale(cy->ornt, m);
+	n = v_norm(v_sub(tmp1, tmp2));
+
+	/*n = v_from_points(cy->coord, p);
+	n = v_sub(n, v_scale(cy->ornt, m));
+	n = v_norm(n);*/
+	if (v_dot(n, r->d) > 0.0f)
+		n = v_scale(n, -1.0f);
+	out->t = t;
+	out->p = p;
+	out->n = n;
+	out->kind = CYLINDER;
+
+	   //N = nrm( P-C-V*m )
+}
+
 // out->t sert de tmax à l'entrée, on ne met à jour que si on trouve un t plus petit (plus proche)
 static int	hit_cylinder_side(const t_ray *r, const t_cy *cy,
 							 float tmin, t_hit *out)
 {
-	t_vector X, A, B;
-	float    rads, dv, xv;
-	float    a, half_b, c, disc, sqrtd;
-	float    t1, t2, m, t;
-	t_point  p;
-	t_vector n;
-	int      hit;
-
-	hit = 0;
+	t_vector	X; //, A, B;
+	float		rads, dv, xv;
+	float		a, half_b, c, disc, sqrtd;
+	float		t1, t2, m, t;
+	t_point		p;
+	int			hit = 0;
+	float		tmax;
 
 	// X = O - C : vecteur de la base du cylindre vers l'origine du rayon
 	X = v_from_points(cy->coord, r->o);
 	rads = cy->diameter * 0.5f;
-
+	
 	// Projections sur l'axe : dv = D·V, xv = X·V  (V DOIT être normalisé)
-	dv = v_dot(r->d, cy->ornt);
-	xv = v_dot(X, cy->ornt);
-
-	// Composantes perpendiculaires à l'axe (on “retire” l'axe)
-	A = v_sub(r->d, v_scale(cy->ornt, dv)); // A = D - V*(D·V)
-	B = v_sub(X, v_scale(cy->ornt, xv)); // B = X - V*(X·V)
+	dv = v_dot(r->d, v_norm(cy->ornt));
+	xv = v_dot(X, v_norm(cy->ornt));
 
 	// Quadratique sur le flanc : a t^2 + 2*half_b t + c = 0
-	a = v_dot(A, A);
-	half_b = v_dot(A, B);
-	c = v_dot(B, B) - rads * rads;
+	a = v_dot(r->d, r->d) - (dv * dv);	//   a   = D|D - (D|V)^2
+	//a = v_dot(r->d, r->d); // NOPE
+	//a = v_dot(v_sub(r->d, v_scale(cy->ornt, dv)), v_sub(r->d, v_scale(cy->ornt, dv))); // meme chose que A et A
+	
+	half_b = v_dot(r->d, X) - (dv * xv);	//   b/2 = D|X - (D|V)*(X|V) CLOOOOSE
+	//half_b = v_dot(v_sub(r->d, v_scale(v_norm(cy->ornt), dv)), v_sub(X, v_scale(v_norm(cy->ornt), xv))); // meme chose que A et B
+
+	//half_b = v_dot(r->d, X); // NOPE CASSE TOUTES LES AUTRES MAPS
+
+	//half_b = v_dot(r->d, X) - v_dot(r->d, v_scale(r->d, dv)) - v_dot(X, v_scale(X, xv)); // NOPE 
+	/*t_vector	tmp_rd = v_minus_float(r->d, dv * xv);
+	t_vector	tmp_x = v_minus_float(X, dv * xv);
+	half_b = v_dot(tmp_rd, tmp_x);*/
+	//half_b = v_dot(v_scale(r->d, dv * xv), v_scale(X, dv * xv)); //NOPE
+	//half_b = v_dot(v_scale(r->d, dv), v_scale(X, xv)); // NOPE
+	//half_b = v_dot(v_scale(r->d, xv), v_scale(X, dv)); // NOPE
+
+	//half_b = v_dot(v_sub(r->d, cy->ornt), v_sub(X, cy->ornt)); .// NOPE
+	//half_b = v_dot(r->d, cy->ornt); // NOPE
+	//half_b = v_dot(r->d, v_sub(X, v_scale(cy->ornt, xv))); // NOPE
+	//half_b = v_dot(v_scale(cy->ornt, dv), v_scale(cy->ornt, xv)); // NOPE
+
+	//half_b = v_dot(v_sub(r->d, v_scale(cy->ornt, dv)), v_sub(X, v_scale(cy->ornt, xv)));
+	c = v_dot(X, X) - (xv * xv) - (rads * rads);	//   c   = X|X - (X|V)^2 - r*r
+	//c = v_dot(X, X) - (rads * rads); // NOPE
+
+
+	// Composantes perpendiculaires à l'axe (on “retire” l'axe)
+	//A = v_sub(r->d, v_scale(cy->ornt, dv)); // A = D - V*(D·V)
+	//B = v_sub(X, v_scale(cy->ornt, xv)); // B = X - V*(X·V)
+
+	//a = v_dot(A, A);
+	//half_b = v_dot(A, B);
+	//c = v_dot(B, B) - rads * rads;
 
 	disc = half_b * half_b - a * c;
 	if (disc < 0.0f || a == 0.0f) // pas d'intersection réelle, ou rayon // à l'axe (A ≈ 0)
@@ -40,37 +90,27 @@ static int	hit_cylinder_side(const t_ray *r, const t_cy *cy,
 	t2 = (-half_b + sqrtd) / a;   // racine lointaine
 
 	// On teste dans l'ordre croissant (t1 puis t2)
-	t = t1;
-	while (1)
+	tmax = out->t;
+	if (t1 >= tmin && t1 <= tmax)
 	{
-		// fenêtre valide : devant la caméra et plus proche que le meilleur hit courant
-		if (t >= tmin && t <= out->t)
+		m = dv * t1 + xv;
+		if (m >= 0.0f && m <= cy->height)
 		{
-			// m = position du point le long de l'axe (0 = base, height = cap haut)
-			m = dv * t + xv;
-			if (m >= 0.0f && m <= cy->height) // coupe le flanc à l'intérieur des caps ?
-			{
-				p = p_add_v(r->o, v_scale(r->d, t)); // point d'impact
-				// normale du flanc : n = nrm( (P-C) - V*m )
-				n = v_from_points(cy->coord, p);
-				n = v_sub(n, v_scale(cy->ornt, m));
-				n = v_norm(n);
-				// convention : normale opposée au rayon (évite faces “à l’envers”)
-				if (v_dot(n, r->d) > 0.0f)
-					n = v_scale(n, -1.0f);
-
-				// Mise à jour du meilleur hit
-				out->t = t;
-				out->p = p;
-				out->n = n;
-				out->kind = CYLINDER;
-				hit = 1;
-				// pas de break : on laisse la boucle tester t2 au cas où
-			}
+			p = p_add_v(r->o, v_scale(r->d, t1));
+			assign_hitpoint(t1, cy, m, p, r, out);
+			hit = 1;
 		}
-		if (t == t2)
-			break ;
-		t = t2;
+	}
+	tmax = out->t;
+	if (t2 >= tmin && t2 <= tmax)
+	{
+		m = dv * t2 + xv;
+		if (m >= 0.0f && m <= cy->height)
+		{
+			p = p_add_v(r->o, v_scale(r->d, t2));
+			assign_hitpoint(t2, cy, m, p, r, out);
+			hit = 1;
+		}
 	}
 	return (hit);
 }

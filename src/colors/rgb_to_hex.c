@@ -1,5 +1,22 @@
 #include "../inc/minirt.h"
 
+// Transforme les int de 0 a 255 en float de 0.0 a 1.0 si type == 1, et l'inverse si type == 0.
+void	rgb_rescale(t_rgb *colors, int type)
+{
+	if (type)
+	{
+		colors->s_r = ((float)colors->r) / 255;
+		colors->s_g = ((float)colors->g) / 255;
+		colors->s_b = ((float)colors->b) / 255;
+	}
+	else
+	{
+		colors->r = (int)(colors->s_r * 255);
+		colors->g = (int)(colors->s_g * 255);
+		colors->b = (int)(colors->s_b * 255);
+	}
+}
+
 // Cherche la premiere valeur du rgb (ignore les premiers zeros)
 int	get_n(int *tmp)
 {
