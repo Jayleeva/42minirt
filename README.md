@@ -454,3 +454,68 @@ if (dot_product(vector_minus_vector(cap->center, hit_point)) > (cylinder->diamet
 	return ("pas d'intersection");
 ```
 
+# Explication de notre dernier soucis
+Un peu de contexte: 
+
+- Le ray tracing consiste à crééer une image 3D en "envoyant des rayons" (utilisant des vecteurs) depuis la position de la caméra dans la direction de chaque pixel de son viewport. Si ce rayon rencontre des formes sur son chemin, le pixel en question prendra la couleur de cette forme.
+- Notre programme reçoit en argument une "carte" qui lui dit quelles formes doivent être représentées, où, avec quelle inclinaison, de quelles dimensions et de quelles couleurs elles sont. Elle transmet également d'où vient la lumière pour créer l'illusion de la 3D. Enfin, elle nous donne la position et l'inclinaison de la caméra, en plus de son FOV.
+- Cette "carte" est un simple fichier texte où sont écrits des paramètres (par ex: "L -40,20,30 1" signifie que la Lumière est en position -40,20,30 et a un ratio de 1, donc qu'elle est à pleine puissance).
+- Concrètement, le programme itère sur chaque pixel et vérifie pour chaque forme si celle-ci se trouve sur le chemin du rayon parti de la position de la caméra en direction du pixel concerné. Ainsi, si on a 3 sphères, on vérifiera si la sphère 1, puis 2, puis 3 est sur le chemin du rayon parti en direction du pixel [0,0], puis du pixel [0,1], puis du pixel [0,2], etc.
+- Pour ce faire, on a besoin de formules mathématique propres à chaque forme, puisqu'elles n'occupent pas l'espace de la même manière (chacune leur aire / surface). Pour cet exercice, il nous est demandé de gérer les sphères, les cylindres, et les plans.
+
+Où on en est:
+
+- Les calculs pour vérifier les sphères et les plans sont terminés et semblent fonctionner comme attendu.
+- En revanche, ceux pour vérifier les cylindre comportent une ou plusieurs erreurs.
+- Plus précisément, c'est la partie en tuyau du cylindre qui n'est pas calculée correctement: les "capsules" qui ferment les deux bouts du tuyau ne sont pas concernées.
+- Plus précisément encore, les erreurs se manifestent uniquement lorsque le cylindre a une inclinaison "complexe": pas juste couché ou debout (avec un x,y,z de 0,0,1 par exemple), mais une combinaison de manipulations (-1,0.5,1 par exemple).
+
+La formule de laquelle on part est la suivante: 
+- il est dit que a * t2 + b * t + c = 0
+
+Le t correspond à la longueur du déplacement depuis l'origine du rayon jusqu'à une possible intersection avec la forme.
+Nous utilisons cette formule pour trouver les valeurs de deux t différents: en effet, si le rayon touche la partie tuyau du cylindre, il est fort probable qu'il la touche une deuxième fois, après en avoir traversé l'intérieur.
+Une fois ces valeurs trouvées, on vérifie si au moins l'une d'elles sont contenues entre un tmin et un tmax: si c'est le cas, il y a intersection avec la forme, sinon, non.
+
+Pour trouver les valeurs de t, nous transformons la formule ainsi:
+- t1 = (-b/2 - r'(b/2)2 - a *c' / a
+- t2 = (-b/2 + r'(b/2)2 - a *c' / a
+
+
+Pour ce qui est de a, b et c, nous avons trouvé différentes façon de les calculer, et jusqu'ici, aucune ne rend le résultat attendu.
+Selon cet article (https://hugi.scene.org/online/hugi24/coding%20graphics%20chris%20dragan%20raytracing%20shapes.htm), 
+	a = D|D - (D|V)^2
+	b = (D|X - (D|V)*(X|V)) * 2
+	c = X|X - (X|V)^2 - r^2
+
+D étant la direction du rayon envoyé depuis la caméra, X la soustraction des coordonnées du cylindre à l'origine du même rayon, V l'inclinaison du cylindre normalisée, et r le rayon du cylindre.
+Le symbole "|" représente un dot product: par exemple, D|V signifie dot product de la direction du rayon avec l'inclinaison du cylindre.
+Un dot product est le résultat d'un vecteur fois un vecteur. Il est calculé en multipliant chaque élément du premier vecteur avec celui du deuxième et en additionnant ces produits:
+	dotproduct_of_v1_and_v2 = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z.
+
+Notre code effectue donc les opérations suivantes:
+
+t_vector vector_minus_vector(t_vector a, t_vector b)
+{
+	t_vector	res;
+
+	res.x = a.x - b.x;
+	res.y = a.y - b.y;
+	res.z = a.z - b.z;
+	return (res);
+}
+
+float dot_product(t_vector a, t_vector b)
+{
+	return (a.x * b.x + a.y * b.y + a.z * b.z);
+}
+
+t_vector	X = vector_minus_vector(origine du rayon, coordonnées du cylindre)
+float		xv = dot_product(X, inclinaison du cylindre)
+float		dv = dot_product(direction du rayon, inclinaison du cylindre)
+
+float		a = dot_product(direction du rayon, direction du rayon);
+float		b = (dot_product(direction du rayon, X) - dv * xv) * 2;
+float		c = dot_product(X,X) - xv * xv - (diamètre du cylindre/2) * (diamètre du cylindre/2);
+
+
