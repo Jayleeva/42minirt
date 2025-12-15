@@ -166,10 +166,10 @@ int	hit_cylinder(const t_ray *r, const t_cy *cy, float tmin, t_hit *out)
 
 	// Caps : (C, -V) et (C + V*height, +V)
 	cap_lo.center = cy->coord;
-	cap_lo.normal = v_scale(cy->ornt, -1.0f);
+	cap_lo.normal = v_scale(v_norm(cy->ornt), -1.0f);
 	cap_lo.radius = cy->diameter * 0.5f;
-	cap_hi.center = p_add_v(cy->coord, v_scale(cy->ornt, cy->height));
-	cap_hi.normal = cy->ornt;
+	cap_hi.center = p_add_v(cy->coord, v_scale(v_norm(cy->ornt), cy->height));
+	cap_hi.normal = v_norm(cy->ornt);
 	cap_hi.radius = cap_lo.radius;
 
 	// Chaque cap respecte la fenêtre [tmin, out->t] courante.
@@ -193,4 +193,5 @@ Filtre hauteur : m = (D·V)t + (X·V) doit être dans [0, height] (distance le l
 Normale flanc : n = nrm( (P−C) − Vm ), orientée à l’opposé du rayon si besoin.
 Caps : deux plans (C, −V) et (C+V*height, +V). On intersecte le plan, puis on teste le disque (|| P−center || ≤ r).
 Convention t : à l’entrée, out->t = tmax courant. On n’écrit out que si on trouve mieux (t dans [tmin, out->t]).
+
 */
