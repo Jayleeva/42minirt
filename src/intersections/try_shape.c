@@ -12,12 +12,9 @@ static int	try_spheres(t_data *d, const t_ray *r, float tmin, t_hit *best)
 	found = 0;
 	i = 0;
 	while (i < d->n_lel[0])
-	{
-		//if (index != i) // protection pour qu'il ne se cherche pas lui-meme NOPE enleve l'ombre de la sphere
-		//{		
+	{	
 		if (hit_sphere(r, &d->sp[i], tmin, best->t, &tmp))
 		{
-			// Si oui -> mise à jour du "meilleur" hit (le plus proche)
 			found = 1;
 			*best = tmp;
 			best->idx = i;
@@ -55,7 +52,6 @@ static int	try_planes(t_data *d, const t_ray *r, float tmin, t_hit *best)
 	int		found;
 	int		i;
 
-	//int kind = best->kind;
 	found = 0;
 	i = 0;
 	while (i < d->n_lel[1])
@@ -72,8 +68,8 @@ static int	try_planes(t_data *d, const t_ray *r, float tmin, t_hit *best)
 	return (found);
 }
 
-// Cherche l'intersection la plus proche entre le rayon et tous les objets du monde
-// (pour l’instant seulement les sphères). 
+// Cherche l'intersection la plus proche entre le rayon 
+// et tous les objets du monde.
 // Initialise "h" avec les infos du hit le plus proche trouvé.
 // Retourne 1 si un objet est touché, 0 sinon.
 int	world_hit(t_data *d, const t_ray *r, float tmin, float tmax, t_hit *h)
