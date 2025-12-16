@@ -15,9 +15,9 @@ float	compute_sp_discr(const t_ray *r, t_sp *s)
 }
 
 // Vérifie si un rayon (r) intersecte une sphère (s).
-// Si oui, stocke les infos d’intersection dans out (point, normale, distance, type)
+// Si oui, stocke les infos d’intersection dans out
 // Retourne 1 si hit, 0 sinon.
-int	hit_sphere(const t_ray *r, t_sp *s, t_hit *out)
+int	hit_sphere(const t_ray *r, t_sp *s, float tmax, t_hit *out)
 {
 	float		discr;
 	float		t;
@@ -26,10 +26,10 @@ int	hit_sphere(const t_ray *r, t_sp *s, t_hit *out)
 	if (discr < 0.0f)
 		return (0);
 	t = (-s->half_b - sqrtf(discr)) / s->a;
-	if (t < EPS || t > out->tmax)
+	if (t < EPS || t > tmax)
 	{
-		t = (-s->half_b + sqrtf(discr)) / s->a;;
-		if (t < EPS || t > out->tmax)
+		t = (-s->half_b + sqrtf(discr)) / s->a;
+		if (t < EPS || t > tmax)
 			return (0);
 	}
 	out->t = t;

@@ -5,16 +5,16 @@ static int	try_planes_shadow(t_data *d, const t_ray *r, t_hit *best)
 	t_hit	tmp;
 	int		found;
 	int		i;
-	int		index;
+	t_hit	h;
 
-	index = best->idx;
-	int kind = best->kind;
+	h.idx = best->idx;
+	h.kind = best->kind;
 	found = 0;
 	i = 0;
 	while (i < d->n_lel[1])
 	{
 		tmp = *best;
-		if (index != i || kind != PLANE)
+		if (h.idx != i || h.kind != PLANE)
 		{
 			if (hit_plane(r, &d->pl[i], best->t, &tmp))
 			{
@@ -27,22 +27,23 @@ static int	try_planes_shadow(t_data *d, const t_ray *r, t_hit *best)
 	}
 	return (found);
 }
+
 static int	try_spheres_shadow(t_data *d, const t_ray *r, t_hit *best)
 {
 	t_hit	tmp;
 	int		found;
 	int		i;
-	int		index;
-	int kind = best->kind;
+	t_hit	h;
 
-	index = best->idx;
+	h.idx = best->idx;
+	h.kind = best->kind;
 	found = 0;
 	i = 0;
 	while (i < d->n_lel[0])
 	{
-		if (index != i || kind != SPHERE)
+		if (h.idx != i || h.kind != SPHERE)
 		{
-			if (hit_sphere(r, &d->sp[i], &tmp))
+			if (hit_sphere(r, &d->sp[i], best->t, &tmp))
 			{
 				found = 1;
 				*best = tmp;
@@ -56,19 +57,19 @@ static int	try_spheres_shadow(t_data *d, const t_ray *r, t_hit *best)
 
 static int	try_cylinders_shadow(t_data *d, const t_ray *r, t_hit *best)
 {
-  	t_hit	tmp;
+	t_hit	tmp;
 	int		found;
 	int		i;
-	int		index;
-	int kind = best->kind;
+	t_hit	h;
 
-	index = best->idx;
+	h.idx = best->idx;
+	h.kind = best->kind;
 	found = 0;
 	i = 0;
-  	while (i < d->n_lel[2])
+	while (i < d->n_lel[2])
 	{
 		tmp = *best;
-		if (index != i || kind != CYLINDER)
+		if (h.idx != i || h.kind != CYLINDER)
 		{
 			if (hit_cylinder(r, &d->cy[i], &tmp))
 			{
