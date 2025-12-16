@@ -29,10 +29,8 @@ static int	hit_cylinder_side(const t_ray *r, t_cy *cy, t_hit *out)
 	discr = compute_cy_discr(r, cy);
 	if (discr < 0.0f || cy->a == 0.0f)
 		return (hit);
-	t1 = find_t(discr, cy->half_b, cy->a, 0);
-	t2 = find_t(discr, cy->half_b, cy->a, 1);
-	if (t1 == -1 || t2 == -1)
-		return (hit);
+	t1 = (-cy->half_b - sqrtf(discr)) / cy->a;
+	t2 = (-cy->half_b + sqrtf(discr)) / cy->a;
 	if (is_cy_t_in_limits(t1, cy, r, out))
 		hit = 1;
 	if (is_cy_t_in_limits(t2, cy, r, out))

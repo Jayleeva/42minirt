@@ -18,7 +18,6 @@ SRC = 	main.c \
 		parsing/parsing_utils.c \
 		vectors/v_operations.c \
 		vectors/v_normalize.c \
-		intersections/common.c \
 		intersections/cylinder.c \
 		intersections/cylinder_utils.c \
 		intersections/try_shape.c \

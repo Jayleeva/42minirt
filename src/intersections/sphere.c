@@ -25,10 +25,10 @@ int	hit_sphere(const t_ray *r, t_sp *s, t_hit *out)
 	discr = compute_sp_discr(r, s);
 	if (discr < 0.0f)
 		return (0);
-	t = find_t(discr, s->half_b, s->a, 0);
+	t = (-s->half_b - sqrtf(discr)) / s->a;
 	if (t < EPS || t > out->tmax)
 	{
-		t = find_t(discr, s->half_b, s->a, 1);
+		t = (-s->half_b + sqrtf(discr)) / s->a;;
 		if (t < EPS || t > out->tmax)
 			return (0);
 	}
