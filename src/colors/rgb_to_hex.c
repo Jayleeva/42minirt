@@ -26,7 +26,8 @@ void	initialize_color(t_data *data, t_pixel *canvas)
 	}
 }
 
-// Transforme les int de 0 a 255 en float de 0.0 a 1.0 si type == 1, et l'inverse si type == 0.
+// Transforme les int de 0 a 255 en float de 0.0 a 1.0 si type == 1,
+// et l'inverse si type == 0.
 void	rgb_rescale(t_rgb *colors, int type)
 {
 	if (type)
@@ -58,7 +59,8 @@ int	get_n(int *tmp)
 	return (n);
 }
 
-// Utils de la fonction rgb_to_hex: transforme les decimal (recus sous forme de string) en hexadecimal
+// Utils de la fonction rgb_to_hex: transforme les decimal 
+// (recus sous forme de string) en hexadecimal
 void	rgb_to_hex_utils(int *tmp, int n, char *s)
 {
 	int	j;

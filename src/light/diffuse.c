@@ -16,4 +16,3 @@ float	compute_diffuse(t_data *d, t_hit *h, t_vector n)
 		diff = 0.0f;
 	return (diff * d->l.ratio);
 }
-

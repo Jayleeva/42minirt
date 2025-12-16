@@ -19,7 +19,8 @@ SRC = 	main.c \
 		vectors/v_operations.c \
 		vectors/v_normalize.c \
 		intersections/cylinder.c \
-		intersections/intersections.c \
+		intersections/try_shape.c \
+		intersections/try_shape_shadow.c \
 		intersections/plane.c \
 		intersections/sphere.c \
 		colors/rgb_to_hex.c \

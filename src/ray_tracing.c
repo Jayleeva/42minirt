@@ -36,7 +36,8 @@ void	ft_put_pixel(t_img_data *data, int x, int y, int color)
 	}
 }
 
-// Parcourt chaque pixel et lance l'envoi de rayon puis l'attribuation de couleur.
+// Parcourt chaque pixel et lance l'envoi de rayon
+// puis l'attribuation de couleur.
 void	loop_on_pixels(t_data *d)
 {
 	int	x;
@@ -59,8 +60,10 @@ void	loop_on_pixels(t_data *d)
 	}
 }
 
-// Alloue la place pour le canvas, cree une image et en recupere l'adresse pour l'attribution de couleur des pixels,
-// lance la preparation de la camera, l'initialisation de la couleur de la lumiere ambiante, l'iteration sur chaque pixel;
+// Alloue la place pour le canvas, cree une image 
+//  et en recupere l'adresse pour l'attribution de couleur des pixels,
+// lance la preparation de la camera, l'initialisation de la couleur 
+//  de la lumiere ambiante, l'iteration sur chaque pixel;
 // affiche l'image sur la fenetre. 
 int	ray_tracing(t_data *d)
 {

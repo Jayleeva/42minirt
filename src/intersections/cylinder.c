@@ -38,9 +38,9 @@ static int	hit_cylinder_side(const t_ray *r, const t_cy *cy,
 	xv = v_dot(X, v_norm(cy->ornt));
 
 	// Quadratique sur le flanc : a t^2 + 2*half_b t + c = 0
-	a = v_dot(r->d, r->d) - (dv * dv);	//   a   = D|D - (D|V)^2
-	half_b = v_dot(r->d, X) - (dv * xv);	//   b/2 = D|X - (D|V)*(X|V)
-	c = v_dot(X, X) - (xv * xv) - (rads * rads);	//   c   = X|X - (X|V)^2 - r*r
+	a = v_dot(r->d, r->d) - (dv * dv);				// a   = D|D - (D|V)^2
+	half_b = v_dot(r->d, X) - (dv * xv);			// b/2 = D|X - (D|V)*(X|V)
+	c = v_dot(X, X) - (xv * xv) - (rads * rads);	// c   = X|X - (X|V)^2 - r*r
 
 	disc = half_b * half_b - a * c;
 	if (disc < 0.0f || a == 0.0f) // pas d'intersection réelle, ou rayon // à l'axe (A ≈ 0)
@@ -76,7 +76,8 @@ static int	hit_cylinder_side(const t_ray *r, const t_cy *cy,
 	return (hit);
 }
 
-// Intersecte un plan cap (center, normal), puis vérifie si le point est dans le disque (rayon cap->radius).
+// Intersecte un plan cap (center, normal), 
+// puis vérifie si le point est dans le disque (rayon cap->radius).
 // Convention t : t in [tmin, out->t]. Normal supposée unitaire (V ou -V).
 static int	hit_cylinder_cap(const t_ray *r, const t_cap *cap,
 							float tmin, t_hit *out)

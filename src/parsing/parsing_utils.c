@@ -1,6 +1,7 @@
 #include "../inc/minirt.h"
 
-// Alloue la memoire pour les elements en minuscule, en fonction de leurs nombres respectifs.
+// Alloue la memoire pour les elements en minuscule,
+// en fonction de leurs nombres respectifs.
 int	alloc_lel(t_data *data)
 {
 	if (data->n_lel[0] > 0)
@@ -24,7 +25,8 @@ int	alloc_lel(t_data *data)
 	return (data->n_lel[0] + data->n_lel[1] + data->n_lel[2]);
 }
 
-// Verifie si tous les elements en majuscules sont bien presents qu'une seule fois.
+// Verifie si tous les elements en majuscules
+// sont bien presents qu'une seule fois.
 int	is_n_uel_valid(t_data *data)
 {
 	int	i;
@@ -61,7 +63,9 @@ int	increment_elem(t_data *data, char *line)
 	return (1);
 }
 
-// Compte le nombre d'elements, lance la verification qu'il y ait le bon nombre d'element en majuscules, lance l'allocation de la memoire pour les autres.
+// Compte le nombre d'elements, lance la verification
+// qu'il y ait le bon nombre d'element en majuscules,
+// lance l'allocation de la memoire pour les autres.
 int	count_elem(t_data *data, int fd)
 {
 	char	*line;
