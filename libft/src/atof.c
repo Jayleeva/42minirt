@@ -32,11 +32,10 @@ static int	count_zeros(char *s)
 	int	count;
 
 	count = 0;
-	i = 0;
-	if (s[i] == '0')
+	if (s[0] == '0')
 	{
+		i = 1;
 		count ++;
-		i ++;
 		while (s[i] == '0')
 		{
 			count ++;

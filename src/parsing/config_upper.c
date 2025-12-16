@@ -10,6 +10,7 @@ int	check_a(t_data *data, char *type)
 		return (0);
 	if (!tab[2] || tab[3])
 		return (free_tab(tab), 0);
+	tab[2] = ft_strtrim(tab[2], "\n");
 	if (!check_ratio(&(data->a.ratio), tab[1]))
 		return (free_tab(tab), 0);
 	if (!check_colors(&(data->a.colors), tab[2]))
@@ -29,6 +30,7 @@ int	check_c(t_data *data, char *type)
 		return (0);
 	if (!tab[3] || tab[4])
 		return (free_tab(tab), 0);
+	tab[3] = ft_strtrim(tab[3], "\n");
 	if (!check_coord(&(data->c.coord), tab[1]))
 		return (free_tab(tab), 0);
 	if (!check_ornt(&(data->c.ornt), tab[2]))
@@ -48,6 +50,7 @@ int	check_l(t_data *data, char *type)
 	tab = ft_split(type, ' ');
 	if (!tab)
 		return (0);
+	tab[2] = ft_strtrim(tab[2], "\n");
 	if (!tab[2] || tab[3])
 		return (free_tab(tab), 0);
 	if (!check_coord(&(data->l.coord), tab[1]))

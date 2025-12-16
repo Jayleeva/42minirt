@@ -26,10 +26,7 @@ static int	is_in_shadow(t_data *d, t_hit *hit)
 	from_light = v_sub(hit->p, d->l.coord);
 	dist_light = v_len(from_light);
 	if (dist_light <= EPS)
-	{
-		printf("too small dist light\n");
 		return (0);
-	}
 	shadow.o = d->l.coord;
 	shadow.d = v_norm(from_light);
 	if (world_hit_shadow(d, &shadow, dist_light, hit))
