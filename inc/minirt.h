@@ -59,6 +59,10 @@ typedef struct s_sp
 	t_vector	coord;
 	float		diameter;
 	t_rgb		colors;
+	t_vector	X;
+	float		a;
+	float		half_b;
+	float		c;
 }				t_sp;
 
 typedef struct s_pl
@@ -242,9 +246,10 @@ float		v_len(t_vector a);
 float		v_len2(t_vector a);
 
 //intersections
-float	find_t(const t_ray *r, t_cy *cy, int sign);
-int		is_t_in_limits(float t, t_cy *cy, const t_ray *r, t_hit *out);
-int		hit_sphere(const t_ray *r, const t_sp *s, float tmax, t_hit *out);
+float	find_t(float discr, float half_b, float a, int sign);
+float	find_cy_t(const t_ray *r, t_cy *cy, int sign);
+int		is_cy_t_in_limits(float t, t_cy *cy, const t_ray *r, t_hit *out);
+int		hit_sphere(const t_ray *r, t_sp *s, t_hit *out);
 int		hit_cylinder(const t_ray *r, t_cy *cy, t_hit *out);
 int		hit_plane(const t_ray *r, const t_pl *pl, float tmax, t_hit *out);
 int		world_hit(t_data *d, const t_ray *r, float tmax, t_hit *h);

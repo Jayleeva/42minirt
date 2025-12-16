@@ -42,7 +42,7 @@ static int	try_spheres_shadow(t_data *d, const t_ray *r, t_hit *best)
 	{
 		if (index != i || kind != SPHERE)
 		{
-			if (hit_sphere(r, &d->sp[i], best->t, &tmp))
+			if (hit_sphere(r, &d->sp[i], &tmp))
 			{
 				found = 1;
 				*best = tmp;
