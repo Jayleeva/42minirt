@@ -75,6 +75,13 @@ typedef struct s_cy
 	float		diameter;
 	float		height;
 	t_rgb		colors;
+	t_vector	X;
+	float		a;
+	float		half_b;
+	float		c;
+	float		dv;
+	float		xv;
+	float		m;
 }				t_cy;
 
 typedef struct s_pixel
@@ -143,6 +150,7 @@ typedef enum s_shape_type
 
 typedef struct s_hit
 {
+	float		tmax;
 	float		t;
 	t_vector	p;
 	t_vector	n;
@@ -234,12 +242,13 @@ float		v_len(t_vector a);
 float		v_len2(t_vector a);
 
 //intersections
-int	hit_sphere(const t_ray *r, const t_sp *s, float tmin, float tmax, t_hit *out);
-int	hit_cylinder(const t_ray *r, const t_cy *cy,
-						float tmin, t_hit *out);
-int	hit_plane(const t_ray *r, const t_pl *pl, float tmin, float tmax, t_hit *out);
-int	world_hit(t_data *d, const t_ray *r, float tmin, float tmax, t_hit *h);
-int world_hit_shadow(t_data *d, const t_ray *r, float tmin, float tmax, t_hit *h);
+float	find_t(const t_ray *r, t_cy *cy, int sign);
+int		is_t_in_limits(float t, t_cy *cy, const t_ray *r, t_hit *out);
+int		hit_sphere(const t_ray *r, const t_sp *s, float tmax, t_hit *out);
+int		hit_cylinder(const t_ray *r, t_cy *cy, t_hit *out);
+int		hit_plane(const t_ray *r, const t_pl *pl, float tmax, t_hit *out);
+int		world_hit(t_data *d, const t_ray *r, float tmax, t_hit *h);
+int 	world_hit_shadow(t_data *d, const t_ray *r, float tmax, t_hit *h);
 
 
 #endif

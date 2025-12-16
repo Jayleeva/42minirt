@@ -2,7 +2,7 @@
 // Vérifie si un rayon (r) intersecte une sphère (s).
 // Si oui, stocke les infos d’intersection dans out (point, normale, distance, type)
 // Retourne 1 si hit, 0 sinon.
-int	hit_sphere(const t_ray *r, const t_sp *s, float tmin, float tmax, t_hit *out)
+int	hit_sphere(const t_ray *r, const t_sp *s, float tmax, t_hit *out)
 {
 	t_vector	oc; // vecteur entre origine du rayon et centre de la sphère
 	float		a, half_b, c, disc, sqrtd, t;
@@ -29,10 +29,10 @@ int	hit_sphere(const t_ray *r, const t_sp *s, float tmin, float tmax, t_hit *out
 	// première racine (la plus proche)
 	t = (-half_b - sqrtd) / a;
 
-	if (t < tmin || t > tmax) // hors des bornes -> tester la seconde
+	if (t < EPS || t > tmax) // hors des bornes -> tester la seconde
 	{
 		t = (-half_b + sqrtd) / a;
-		if (t < tmin || t > tmax)
+		if (t < EPS || t > tmax)
 			return (0); // aucune racine valide -> pas de hit
 	}
 	// On a trouvé une intersection valide

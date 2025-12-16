@@ -9,8 +9,9 @@ void	cast_ray(t_data *data, int i, int x, int y)
 	t_rgb	obj;
 	t_rgb	final;
 
+	h.tmax = 1e30f;
 	r = make_primary_ray(data, x, y);
-	if (world_hit(data, &r, EPS, 1e30f, &h))
+	if (world_hit(data, &r, 1e30f, &h))
 	{
 		if (h.kind == SPHERE)
 			obj = data->sp[h.idx].colors;

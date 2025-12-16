@@ -1,86 +1,36 @@
 #include "../inc/minirt.h"
 
-void assign_hitpoint(float t, const t_cy *cy, float m, t_vector p, const t_ray *r, t_hit *out)
+// out->t sert de tmax à l'entrée,
+// on ne met à jour que si on trouve un t plus petit (plus proche)
+static int	hit_cylinder_side(const t_ray *r, t_cy *cy, t_hit *out)
 {
-	t_vector	n;
-	t_vector	tmp1;
-	t_vector	tmp2;
-
-	tmp1 = v_sub(p, cy->coord);
-	tmp2 = v_scale(v_norm(cy->ornt), m);
-	n = v_norm(v_sub(tmp1, tmp2));
-	if (v_dot(n, r->d) > 0.0f)
-		n = v_scale(n, -1.0f);
-	out->t = t;
-	out->p = p;
-	out->n = n;
-	out->kind = CYLINDER;
-}
-
-// out->t sert de tmax à l'entrée, on ne met à jour que si on trouve un t plus petit (plus proche)
-static int	hit_cylinder_side(const t_ray *r, const t_cy *cy,
-							 float tmin, t_hit *out)
-{
-	t_vector	X;
-	float		rads, dv, xv;
-	float		a, half_b, c, disc, sqrtd;
-	float		t1, t2, m;
-	t_vector		p;
+	float		t1;
+	float		t2;
 	int			hit = 0;
-	float		tmax;
 
 	// X = O - C : vecteur de la base du cylindre vers l'origine du rayon
-	X = v_sub(r->o, cy->coord);
-	rads = cy->diameter * 0.5f;
+	cy->X = v_sub(r->o, cy->coord);
 	
 	// Projections sur l'axe : dv = D·V, xv = X·V  (V DOIT être normalisé)
-	dv = v_dot(r->d, v_norm(cy->ornt));
-	xv = v_dot(X, v_norm(cy->ornt));
+	cy->dv = v_dot(r->d, v_norm(cy->ornt));
+	cy->xv = v_dot(cy->X, v_norm(cy->ornt));
 
-	// Quadratique sur le flanc : a t^2 + 2*half_b t + c = 0
-	a = v_dot(r->d, r->d) - (dv * dv);				// a   = D|D - (D|V)^2
-	half_b = v_dot(r->d, X) - (dv * xv);			// b/2 = D|X - (D|V)*(X|V)
-	c = v_dot(X, X) - (xv * xv) - (rads * rads);	// c   = X|X - (X|V)^2 - r*r
-
-	disc = half_b * half_b - a * c;
-	if (disc < 0.0f || a == 0.0f) // pas d'intersection réelle, ou rayon // à l'axe (A ≈ 0)
+	t1 = find_t(r, cy, 0);
+	t2 = find_t(r, cy, 1);
+	if (t1 == -1 || t2 == -1)
 		return (0);
-
-	sqrtd = sqrtf(disc);
-	t1 = (-half_b - sqrtd) / a;   // racine proche
-	t2 = (-half_b + sqrtd) / a;   // racine lointaine
-
 	// On teste dans l'ordre croissant (t1 puis t2)
-	tmax = out->t;
-	if (t1 >= tmin && t1 <= tmax)
-	{
-		m = dv * t1 + xv;
-		if (m >= 0.0f && m <= cy->height)
-		{
-			p = v_add(r->o, v_scale(r->d, t1));
-			assign_hitpoint(t1, cy, m, p, r, out);
-			hit = 1;
-		}
-	}
-	tmax = out->t;
-	if (t2 >= tmin && t2 <= tmax)
-	{
-		m = dv * t2 + xv;
-		if (m >= 0.0f && m <= cy->height)
-		{
-			p = v_add(r->o, v_scale(r->d, t2));
-			assign_hitpoint(t2, cy, m, p, r, out);
-			hit = 1;
-		}
-	}
+	if (is_t_in_limits(t1, cy, r, out))
+		hit = 1;
+	if (is_t_in_limits(t2, cy, r, out))
+		hit = 1;
 	return (hit);
 }
 
 // Intersecte un plan cap (center, normal), 
 // puis vérifie si le point est dans le disque (rayon cap->radius).
 // Convention t : t in [tmin, out->t]. Normal supposée unitaire (V ou -V).
-static int	hit_cylinder_cap(const t_ray *r, const t_cap *cap,
-							float tmin, t_hit *out)
+static int	hit_cylinder_cap(const t_ray *r, const t_cap *cap, t_hit *out)
 {
 	float denom;
 	float t;
@@ -93,7 +43,7 @@ static int	hit_cylinder_cap(const t_ray *r, const t_cap *cap,
 
 	// t = ((center - O)·n) / (D·n)
 	t = v_dot(v_sub(cap->center, r->o), cap->normal) / denom;
-	if (t < tmin || t > out->t)
+	if (t < EPS || t > out->t)
 		return (0);
 
 	p = v_add(r->o, v_scale(r->d, t));
@@ -114,7 +64,7 @@ static int	hit_cylinder_cap(const t_ray *r, const t_cap *cap,
 
 // Teste le flanc puis les deux caps, en gardant le t le plus petit (via out->t).
 // Préparer cap_lo et cap_hi ici évite un gros prototype et reste lisible.
-int	hit_cylinder(const t_ray *r, const t_cy *cy, float tmin, t_hit *out)
+int	hit_cylinder(const t_ray *r, t_cy *cy, t_hit *out)
 {
 	int   hit_any;
 	t_cap cap_lo;
@@ -123,7 +73,7 @@ int	hit_cylinder(const t_ray *r, const t_cy *cy, float tmin, t_hit *out)
 	hit_any = 0;
 
 	// Flanc : principal contributeur. Si on trouve un hit, out->t est réduit (meilleur tmax pour les caps).
-	if (hit_cylinder_side(r, cy, tmin, out))
+	if (hit_cylinder_side(r, cy, out))
 		hit_any = 1;
 
 	// Caps : (C, -V) et (C + V*height, +V)
@@ -135,9 +85,9 @@ int	hit_cylinder(const t_ray *r, const t_cy *cy, float tmin, t_hit *out)
 	cap_hi.radius = cap_lo.radius;
 
 	// Chaque cap respecte la fenêtre [tmin, out->t] courante.
-	if (hit_cylinder_cap(r, &cap_lo, tmin, out))
+	if (hit_cylinder_cap(r, &cap_lo, out))
 		hit_any = 1;
-	if (hit_cylinder_cap(r, &cap_hi, tmin, out))
+	if (hit_cylinder_cap(r, &cap_hi, out))
 		hit_any = 1;
 	return (hit_any);
 }

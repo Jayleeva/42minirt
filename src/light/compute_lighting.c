@@ -32,7 +32,7 @@ static int	is_in_shadow(t_data *d, t_hit *hit)
 	}
 	shadow.o = d->l.coord;
 	shadow.d = v_norm(from_light);
-	if (world_hit_shadow(d, &shadow, EPS, dist_light, hit))
+	if (world_hit_shadow(d, &shadow, dist_light, hit))
 		return (1);
 	return (0);
 }

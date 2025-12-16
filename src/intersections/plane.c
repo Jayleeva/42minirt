@@ -1,6 +1,6 @@
 #include "../inc/minirt.h"
 
-int	hit_plane(const t_ray *r, const t_pl *pl, float tmin, float tmax, t_hit *out)
+int	hit_plane(const t_ray *r, const t_pl *pl, float tmax, t_hit *out)
 {
 	float 		denom;
 	float 		t;
@@ -18,7 +18,7 @@ int	hit_plane(const t_ray *r, const t_pl *pl, float tmin, float tmax, t_hit *out
 
 	// t = ((center - O)·n) / (D·n)
 	t = v_dot(v_sub(pl->coord, r->o), n) / denom;
-	if (t < tmin || t > tmax) //essayer en gardant un seul des deux
+	if (t < EPS || t > tmax) //essayer en gardant un seul des deux
 	{
 		//printf("try commenting the return\n");
 		return (0);

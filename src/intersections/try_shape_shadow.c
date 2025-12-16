@@ -1,6 +1,6 @@
 #include "../inc/minirt.h"
 
-static int	try_planes_shadow(t_data *d, const t_ray *r, float tmin, t_hit *best)
+static int	try_planes_shadow(t_data *d, const t_ray *r, t_hit *best)
 {
 	t_hit	tmp;
 	int		found;
@@ -15,8 +15,8 @@ static int	try_planes_shadow(t_data *d, const t_ray *r, float tmin, t_hit *best)
 	{
 		tmp = *best;
 		if (index != i || kind != PLANE)
-		{		
-			if (hit_plane(r, &d->pl[i], tmin, best->t, &tmp))
+		{
+			if (hit_plane(r, &d->pl[i], best->t, &tmp))
 			{
 				found = 1;
 				*best = tmp;
@@ -27,7 +27,7 @@ static int	try_planes_shadow(t_data *d, const t_ray *r, float tmin, t_hit *best)
 	}
 	return (found);
 }
-static int	try_spheres_shadow(t_data *d, const t_ray *r, float tmin, t_hit *best)
+static int	try_spheres_shadow(t_data *d, const t_ray *r, t_hit *best)
 {
 	t_hit	tmp;
 	int		found;
@@ -42,7 +42,7 @@ static int	try_spheres_shadow(t_data *d, const t_ray *r, float tmin, t_hit *best
 	{
 		if (index != i || kind != SPHERE)
 		{
-			if (hit_sphere(r, &d->sp[i], tmin, best->t, &tmp))
+			if (hit_sphere(r, &d->sp[i], best->t, &tmp))
 			{
 				found = 1;
 				*best = tmp;
@@ -54,7 +54,7 @@ static int	try_spheres_shadow(t_data *d, const t_ray *r, float tmin, t_hit *best
 	return (found);
 }
 
-static int	try_cylinders_shadow(t_data *d, const t_ray *r, float tmin, t_hit *best)
+static int	try_cylinders_shadow(t_data *d, const t_ray *r, t_hit *best)
 {
   	t_hit	tmp;
 	int		found;
@@ -70,7 +70,7 @@ static int	try_cylinders_shadow(t_data *d, const t_ray *r, float tmin, t_hit *be
 		tmp = *best;
 		if (index != i || kind != CYLINDER)
 		{
-			if (hit_cylinder(r, &d->cy[i], tmin, &tmp))
+			if (hit_cylinder(r, &d->cy[i], &tmp))
 			{
 				*best = tmp;
 				best->idx = i;
@@ -82,17 +82,17 @@ static int	try_cylinders_shadow(t_data *d, const t_ray *r, float tmin, t_hit *be
 	return (found);
 }
 
-int	world_hit_shadow(t_data *d, const t_ray *r, float tmin, float tmax, t_hit *h)
+int	world_hit_shadow(t_data *d, const t_ray *r, float tmax, t_hit *h)
 {
 	int	any;
 
 	h->t = tmax;
 	any = 0;
-	if (try_spheres_shadow(d, r, tmin, h))
+	if (try_spheres_shadow(d, r, h))
 		any = 1;
-	if (try_cylinders_shadow(d, r, tmin, h))
+	if (try_cylinders_shadow(d, r, h))
 		any = 1;
-	if (try_planes_shadow(d, r, tmin, h))
+	if (try_planes_shadow(d, r, h))
 		any = 1;
 	return (any);
 }
