@@ -199,18 +199,26 @@ int		check_ornt(t_vector *ornt, char *s);
 int		check_ratio(float *ratio_, char *s);
 int		check_diameter_or_height(float *len_, char *s);
 
+//check config utils
+int		count_elem(t_data *data, int fd);
+int		increment_elem(t_data *data, char *line);
+int		alloc_lel(t_data *data);
+int		is_already_used(char *used, char c);
+int		is_usable(char *line, char *used, int i);
+int		is_n_uel_valid(t_data *data);
+
 //rgb to hex
 int		rgb_to_hex(t_rgb *colors);
 void	rgb_to_hex_utils(int *tmp, int n, char *s);
 int		get_n(int *tmp);
 
 //colors
-void	mix_colors(t_pixel *pixel, t_rgb color2);
 void	rgb_rescale(t_rgb *color, int type);
 void	initialize_color(t_data *data, t_pixel *canvas);
-void	test_mix_color(t_pixel *canvas, int i);
 
 //ray tracing
+float	compute_specular(t_data *d, t_hit *h, t_vector n);
+float	compute_diffuse(t_data *d, t_hit *h, t_vector n);
 t_rgb	compute_lighting(t_data *d, t_hit *h, t_rgb obj);
 void 	ft_put_pixel(t_img_data *data, int x, int y, int color);
 void	loop_on_pixels(t_data *d);
@@ -244,11 +252,5 @@ int	hit_plane(const t_ray *r, const t_pl *pl, float tmin, float tmax, t_hit *out
 int	world_hit(t_data *d, const t_ray *r, float tmin, float tmax, t_hit *h);
 int world_hit_shadow(t_data *d, const t_ray *r, float tmin, float tmax, t_hit *h);
 
-//utils
-int		count_elem(t_data *data, int fd);
-int		increment_elem(t_data *data, char *line);
-int		alloc_lel(t_data *data);
-int		is_already_used(char *used, char c);
-int		is_usable(char *line, char *used, int i);
-int		is_n_uel_valid(t_data *data);
+
 #endif

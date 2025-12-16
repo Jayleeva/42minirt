@@ -21,7 +21,7 @@ int	alloc_lel(t_data *data)
 		if (!data->cy)
 			return (0);
 	}
-	return (1);
+	return (data->n_lel[0] + data->n_lel[1] + data->n_lel[2]);
 }
 
 // Verifie si tous les elements en majuscules sont bien presents qu'une seule fois.
@@ -79,9 +79,9 @@ int	count_elem(t_data *data, int fd)
 			return (free(line), 0);
 		free(line);
 	}
-	if (!is_n_uel_valid(data))
-		return (0);
 	if (!alloc_lel(data))
+		return (0);
+	if (!is_n_uel_valid(data))
 		return (0);
 	return (count);
 }

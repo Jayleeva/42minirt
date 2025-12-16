@@ -55,7 +55,7 @@ static int	try_planes(t_data *d, const t_ray *r, float tmin, t_hit *best)
 	int		found;
 	int		i;
 
-	int kind = best->kind;
+	//int kind = best->kind;
 	found = 0;
 	i = 0;
 	while (i < d->n_lel[1])

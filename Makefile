@@ -7,7 +7,7 @@ MLX_LIB = $(MLX_DIR)/libmlx.a
 
 SRC_DIR = ./src
 OBJ_DIR = ./obj
-DIR = ./obj ./obj/parsing ./obj/colors ./obj/vectors ./obj/intersections ./obj/reflection
+DIR = ./obj ./obj/parsing ./obj/colors ./obj/vectors ./obj/intersections ./obj/light
 
 SRC = 	main.c \
 		handle_window.c \
@@ -26,7 +26,9 @@ SRC = 	main.c \
 		colors/rgb_to_hex.c \
 		ray_tracing.c \
 		camera.c \
-		reflection/diffuse.c
+		light/compute_lighting.c \
+		light/diffuse.c \
+		light/specular.c 
 		
 		
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC))
@@ -35,8 +37,8 @@ OBJ = $(SRC:.c=.o)
 OBJS = $(addprefix $(OBJ_DIR)/, $(OBJ))
 
 CC = cc
-CFLAGS =  -I ./inc -I ./libft/inc -g 
-#-Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -I ./inc -I ./libft/inc -g 
+
 MATH_FLAGS = -lm
 MLX_FLAGS = -lXext -lX11
 INCLUDES = -I/usr/include -Imlx

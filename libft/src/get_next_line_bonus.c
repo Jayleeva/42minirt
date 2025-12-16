@@ -25,7 +25,7 @@ int	has_new_line(char *s)
 	}
 	return (0);
 }
-
+#include <stdio.h>
 char	*extract_line(char *buffer)
 {
 	char	*line;
@@ -82,11 +82,18 @@ char	*read_line(int fd, char *buffer)
 char	*get_next_line(int fd)
 {
 	static char	buffer[MAX_FD][BUFFER_SIZE + 1];
+	char	*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if ((has_new_line(buffer[fd])))
-		return (extract_line(buffer[fd]));
+	{
+		line = extract_line(buffer[fd]);
+		return (line);
+	}
 	else
-		return (read_line(fd, buffer[fd]));
+	{
+		line = read_line(fd, buffer[fd]);
+		return (line);
+	}
 }
