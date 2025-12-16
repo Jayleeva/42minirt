@@ -8,7 +8,7 @@ int	hit_sphere(const t_ray *r, const t_sp *s, float tmin, float tmax, t_hit *out
 	float		a, half_b, c, disc, sqrtd, t;
 
 	// oc = (centre - origine du rayon)
-	oc = v_from_points(s->coord, r->o);
+	oc = v_sub(r->o, s->coord);
 
 	// a = D·D (longueur au carré de la direction du rayon)
 	a = v_dot(r->d, r->d);
@@ -37,8 +37,8 @@ int	hit_sphere(const t_ray *r, const t_sp *s, float tmin, float tmax, t_hit *out
 	}
 	// On a trouvé une intersection valide
 	out->t = t; // distance le long du rayon
-	out->p = p_add_v(r->o, v_scale(r->d, t)); // point d’impact : origine + t*direction
-	out->n = v_norm(v_from_points(s->coord, out->p)); // normale = (P - centre)/|...|
+	out->p = v_add(r->o, v_scale(r->d, t)); // point d’impact : origine + t*direction
+	out->n = v_norm(v_sub(out->p, s->coord)); // normale = (P - centre)/|...|
 	
 	// Si la normale est tournée vers l’intérieur, on l’inverse
 	if (v_dot(out->n, r->d) > 0.0f)

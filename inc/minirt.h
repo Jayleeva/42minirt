@@ -26,20 +26,13 @@ typedef struct s_rgb
 	float	s_r;
 	float	s_g;
 	float	s_b;
-}		t_rgb;
+}			t_rgb;
 
-typedef struct s_point
+typedef struct s_vector
 {
 	float	x;
 	float	y;
 	float	z;
-}			t_point;
-
-typedef struct s_vector
-{
-	float	o_x;
-	float	o_y;
-	float	o_z;
 }			t_vector;
 
 typedef struct s_A
@@ -50,34 +43,34 @@ typedef struct s_A
 
 typedef struct s_C
 {
-	t_point		coord;
+	t_vector	coord;
 	t_vector	ornt;
 	int			fov;
 }				t_C;
 
 typedef struct s_L
 {
-	t_point		coord;
+	t_vector	coord;
 	float		ratio;
 }				t_L;
 
 typedef struct s_sp
 {
-	t_point		coord;
+	t_vector	coord;
 	float		diameter;
 	t_rgb		colors;
 }				t_sp;
 
 typedef struct s_pl
 {
-	t_point		coord;
+	t_vector	coord;
 	t_vector	ornt;
 	t_rgb		colors;
 }				t_pl;
 
 typedef struct s_cy
 {
-	t_point		coord;
+	t_vector	coord;
 	t_vector	ornt;
 	float		diameter;
 	float		height;
@@ -111,9 +104,9 @@ typedef struct s_camview {
 
 typedef struct s_specular
 {
-    float ks;
-    float shiny;
-}   t_specular;
+	float	ks;
+	float	shiny;
+}			t_specular;
 
 
 typedef struct s_data
@@ -151,22 +144,22 @@ typedef enum s_shape_type
 typedef struct s_hit
 {
 	float		t;
-	t_point 	p;
-	t_vector 	n;
+	t_vector	p;
+	t_vector	n;
 	int			kind;
 	int			idx;
 }				t_hit;
 
 typedef struct s_ray {
-	t_point		o;
-	t_vector	d; // normalisée
+	t_vector	o;
+	t_vector	d;
 }				t_ray;
 
 typedef struct s_cap {
-	t_point   center;
-	t_vector  normal;   // doit être unitaire
-	float     radius;
-} t_cap;
+	t_vector	center;
+	t_vector	normal;
+	float		radius;
+} 				t_cap;
 
 
 
@@ -194,7 +187,7 @@ int		check_pl(t_data *data, char *pl);
 int		check_cy(t_data *data, char *cy);
 
 int		check_colors(t_rgb *colors, char *s);
-int		check_coord(t_point *coord, char *s);
+int		check_coord(t_vector *coord, char *s);
 int		check_ornt(t_vector *ornt, char *s);
 int		check_ratio(float *ratio_, char *s);
 int		check_diameter_or_height(float *len_, char *s);
@@ -230,19 +223,15 @@ void	cam_prepare_view(t_data *d);
 t_ray	make_primary_ray(t_data *d, int x, int y);
 
 // vectors
-t_vector  v_make(float x, float y, float z);
-t_point   p_make(float x, float y, float z);
-t_vector  v_from_points(t_point a, t_point b);
-t_point   p_add_v(t_point p, t_vector v);
+t_vector	v_add(t_vector a, t_vector b);
+t_vector	v_sub(t_vector a, t_vector b);
+t_vector	v_scale(t_vector a, float k);
+t_vector	v_cross(t_vector a, t_vector b);
+float		v_dot(t_vector a, t_vector b);
 
-t_vector  v_add(t_vector a, t_vector b);
-t_vector  v_sub(t_vector a, t_vector b);
-t_vector  v_scale(t_vector a, float k);
-float     v_dot(t_vector a, t_vector b);
-t_vector  v_cross(t_vector a, t_vector b);
-float     v_len(t_vector a);
-float 	  v_len2(t_vector a);
-t_vector  v_norm(t_vector a);
+t_vector	v_norm(t_vector a);
+float		v_len(t_vector a);
+float		v_len2(t_vector a);
 
 //intersections
 int	hit_sphere(const t_ray *r, const t_sp *s, float tmin, float tmax, t_hit *out);

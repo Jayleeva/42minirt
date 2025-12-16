@@ -29,8 +29,8 @@ float	compute_specular(t_data *d, t_hit *h, t_vector n)
 	t_vector	r;
 	float		spec;
 
-	l = v_norm(v_from_points(h->p, d->l.coord));
-	v = v_norm(v_from_points(h->p, d->c.coord));
+	l = v_norm(v_sub(d->l.coord, h->p));
+	v = v_norm(v_sub(d->c.coord, h->p));
 	r = v_norm(v_reflect(l, n));
 	spec = v_dot(r, v);
 	if (spec <= 0.0f)

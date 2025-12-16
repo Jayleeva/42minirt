@@ -1,14 +1,12 @@
 #include "../inc/minirt.h"
 
-t_vector	v_minus_float(t_vector v, float f);
-
-void assign_hitpoint(float t, const t_cy *cy, float m, t_point p, const t_ray *r, t_hit *out)
+void assign_hitpoint(float t, const t_cy *cy, float m, t_vector p, const t_ray *r, t_hit *out)
 {
 	t_vector	n;
 	t_vector	tmp1;
 	t_vector	tmp2;
 
-	tmp1 = v_from_points(cy->coord, p);
+	tmp1 = v_sub(p, cy->coord);
 	tmp2 = v_scale(v_norm(cy->ornt), m);
 	n = v_norm(v_sub(tmp1, tmp2));
 	if (v_dot(n, r->d) > 0.0f)
@@ -27,12 +25,12 @@ static int	hit_cylinder_side(const t_ray *r, const t_cy *cy,
 	float		rads, dv, xv;
 	float		a, half_b, c, disc, sqrtd;
 	float		t1, t2, m;
-	t_point		p;
+	t_vector		p;
 	int			hit = 0;
 	float		tmax;
 
 	// X = O - C : vecteur de la base du cylindre vers l'origine du rayon
-	X = v_from_points(cy->coord, r->o);
+	X = v_sub(r->o, cy->coord);
 	rads = cy->diameter * 0.5f;
 	
 	// Projections sur l'axe : dv = D·V, xv = X·V  (V DOIT être normalisé)
@@ -59,7 +57,7 @@ static int	hit_cylinder_side(const t_ray *r, const t_cy *cy,
 		m = dv * t1 + xv;
 		if (m >= 0.0f && m <= cy->height)
 		{
-			p = p_add_v(r->o, v_scale(r->d, t1));
+			p = v_add(r->o, v_scale(r->d, t1));
 			assign_hitpoint(t1, cy, m, p, r, out);
 			hit = 1;
 		}
@@ -70,7 +68,7 @@ static int	hit_cylinder_side(const t_ray *r, const t_cy *cy,
 		m = dv * t2 + xv;
 		if (m >= 0.0f && m <= cy->height)
 		{
-			p = p_add_v(r->o, v_scale(r->d, t2));
+			p = v_add(r->o, v_scale(r->d, t2));
 			assign_hitpoint(t2, cy, m, p, r, out);
 			hit = 1;
 		}
@@ -85,7 +83,7 @@ static int	hit_cylinder_cap(const t_ray *r, const t_cap *cap,
 {
 	float denom;
 	float t;
-	t_point p;
+	t_vector p;
 
 	// Si D·n ≈ 0 : rayon // au plan -> pas d'intersection stable
 	denom = v_dot(r->d, cap->normal);
@@ -93,14 +91,14 @@ static int	hit_cylinder_cap(const t_ray *r, const t_cap *cap,
 		return (0);
 
 	// t = ((center - O)·n) / (D·n)
-	t = v_dot(v_from_points(r->o, cap->center), cap->normal) / denom;
+	t = v_dot(v_sub(cap->center, r->o), cap->normal) / denom;
 	if (t < tmin || t > out->t)
 		return (0);
 
-	p = p_add_v(r->o, v_scale(r->d, t));
+	p = v_add(r->o, v_scale(r->d, t));
 
 	// Test disque : distance au carré au centre ≤ r^2
-	if (v_len2(v_from_points(cap->center, p)) > cap->radius * cap->radius)
+	if (v_len2(v_sub(p, cap->center)) > cap->radius * cap->radius)
 		return (0);
 
 	out->t    = t;
@@ -131,7 +129,7 @@ int	hit_cylinder(const t_ray *r, const t_cy *cy, float tmin, t_hit *out)
 	cap_lo.center = cy->coord;
 	cap_lo.normal = v_scale(v_norm(cy->ornt), -1.0f);
 	cap_lo.radius = cy->diameter * 0.5f;
-	cap_hi.center = p_add_v(cy->coord, v_scale(v_norm(cy->ornt), cy->height));
+	cap_hi.center = v_add(cy->coord, v_scale(v_norm(cy->ornt), cy->height));
 	cap_hi.normal = v_norm(cy->ornt);
 	cap_hi.radius = cap_lo.radius;
 

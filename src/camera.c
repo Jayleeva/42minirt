@@ -1,5 +1,16 @@
 #include "../inc/minirt.h"
 
+// Crée un vecteur à partir de 3 floats
+static t_vector	v_make(float x, float y, float z)
+{
+	t_vector	v;
+
+	v.x = x;
+	v.y = y;
+	v.z = z;
+	return (v);
+}
+
 static void	cam_build_basis(t_data *d)
 {
 	t_vector	up;

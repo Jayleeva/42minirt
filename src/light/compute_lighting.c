@@ -24,7 +24,7 @@ static int	is_in_shadow(t_data *d, t_hit *hit)
 	t_vector	from_light;
 	float		dist_light;
 
-	from_light = v_from_points(d->l.coord, hit->p);
+	from_light = v_sub(hit->p, d->l.coord);
 	dist_light = v_len(from_light);
 	if (dist_light <= EPS)
 	{

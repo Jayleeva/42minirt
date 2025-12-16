@@ -4,7 +4,7 @@ int	hit_plane(const t_ray *r, const t_pl *pl, float tmin, float tmax, t_hit *out
 {
 	float 		denom;
 	float 		t;
-	t_point 	p;
+	t_vector 	p;
 	t_vector	n;
 
 	// Si D·n ≈ 0 : rayon // au plan -> pas d'intersection stabl
@@ -17,14 +17,14 @@ int	hit_plane(const t_ray *r, const t_pl *pl, float tmin, float tmax, t_hit *out
 	}
 
 	// t = ((center - O)·n) / (D·n)
-	t = v_dot(v_from_points(r->o, pl->coord), n) / denom;
+	t = v_dot(v_sub(pl->coord, r->o), n) / denom;
 	if (t < tmin || t > tmax) //essayer en gardant un seul des deux
 	{
 		//printf("try commenting the return\n");
 		return (0);
 	}
 
-	p = p_add_v(r->o, v_scale(r->d, t));
+	p = v_add(r->o, v_scale(r->d, t));
 
 	out->t    = t;
 	out->p    = p;
