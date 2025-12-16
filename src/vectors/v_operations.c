@@ -5,9 +5,9 @@ t_vector	v_add(t_vector a, t_vector b)
 {
 	t_vector	res;
 
-	res.o_x = a.o_x + b.o_x;
-	res.o_y = a.o_y + b.o_y;
-	res.o_z = a.o_z + b.o_z;
+	res.x = a.x + b.x;
+	res.y = a.y + b.y;
+	res.z = a.z + b.z;
 	return (res);
 }
 
@@ -16,9 +16,9 @@ t_vector	v_sub(t_vector a, t_vector b)
 {
 	t_vector	res;
 
-	res.o_x = a.o_x - b.o_x;
-	res.o_y = a.o_y - b.o_y;
-	res.o_z = a.o_z - b.o_z;
+	res.x = a.x - b.x;
+	res.y = a.y - b.y;
+	res.z = a.z - b.z;
 	return (res);
 }
 
@@ -27,34 +27,24 @@ t_vector	v_scale(t_vector a, float s)
 {
 	t_vector	res;
 
-	res.o_x = a.o_x * s;
-	res.o_y = a.o_y * s;
-	res.o_z = a.o_z * s;
+	res.x = a.x * s;
+	res.y = a.y * s;
+	res.z = a.z * s;
 	return (res);
 }
 
 // Produit scalaire (dot product) : mesure projection entre 2 vecteurs
 float	v_dot(t_vector a, t_vector b)
 {
-	return (a.o_x * b.o_x + a.o_y * b.o_y + a.o_z * b.o_z);
+	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }
 
 t_vector	v_cross(t_vector a, t_vector b)
 {
 	t_vector	r;
 
-	r.o_x = a.o_y * b.o_z - a.o_z * b.o_y;
-	r.o_y = a.o_z * b.o_x - a.o_x * b.o_z;
-	r.o_z = a.o_x * b.o_y - a.o_y * b.o_x;
+	r.x = a.y * b.z - a.z * b.y;
+	r.y = a.z * b.x - a.x * b.z;
+	r.z = a.x * b.y - a.y * b.x;
 	return (r);
 }
-
-/*t_vector	v_minus_float(t_vector v, float f)
-{
-	t_vector	res;
-
-	res.o_x = v.o_x + f;
-	res.o_y = v.o_y + f;
-	res.o_z = v.o_z + f;
-	return (res);
-}*/

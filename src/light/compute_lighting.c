@@ -1,4 +1,3 @@
-
 #include "../inc/minirt.h"
 
 static t_rgb	check_edges(t_rgb *obj)
@@ -24,7 +23,7 @@ static int	is_in_shadow(t_data *d, t_hit *hit)
 	t_vector	from_light;
 	float		dist_light;
 
-	from_light = v_from_points(d->l.coord, hit->p);
+	from_light = v_sub(hit->p, d->l.coord);
 	dist_light = v_len(from_light);
 	if (dist_light <= EPS)
 	{
@@ -33,8 +32,7 @@ static int	is_in_shadow(t_data *d, t_hit *hit)
 	}
 	shadow.o = d->l.coord;
 	shadow.d = v_norm(from_light);
-
-	if (world_hit_shadow(d, &shadow, EPS, dist_light, hit))
+	if (world_hit_shadow(d, &shadow, dist_light, hit))
 		return (1);
 	return (0);
 }
@@ -63,7 +61,7 @@ t_rgb	compute_lighting(t_data *d, t_hit *h, t_rgb obj)
 	n = v_norm(h->n);
 	diffuse = compute_diffuse(d, h, n);
 	spec = compute_specular(d, h, n);
-	if(is_in_shadow(d, h)) // tester ici une fois au lieu de dans les deux autres compute
+	if (is_in_shadow(d, h))
 	{
 		diffuse = 0.f;
 		spec = 0.f;

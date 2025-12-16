@@ -50,7 +50,8 @@ int	is_map_valid(t_data *data, int fd)
 	return (1);
 }
 
-// Deuxieme lecture: verifie si le contenu du fichier est valable et si oui, le stock dans la structure.
+// Deuxieme lecture: verifie si le contenu du fichier est valable
+// et si oui, le stock dans la structure.
 int	second_open(t_data *data, char *s)
 {
 	int	fd;
@@ -70,7 +71,8 @@ int	second_open(t_data *data, char *s)
 	return (1);
 }
 
-// Premiere lecture: compte le nombre d'elements et fait les allocations necessaires.
+// Premiere lecture: compte le nombre d'elements
+// et fait les allocations necessaires.
 int	first_open(t_data *data, char *s)
 {
 	int	fd;

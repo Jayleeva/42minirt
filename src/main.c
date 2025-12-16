@@ -22,9 +22,9 @@ static void	init_uppercases(t_data *data)
 	data->c.coord.x = 0.0;
 	data->c.coord.y = 0.0;
 	data->c.coord.z = 0.0;
-	data->c.ornt.o_x = 0.0;
-	data->c.ornt.o_y = 0.0;
-	data->c.ornt.o_z = 0.0;
+	data->c.ornt.x = 0.0;
+	data->c.ornt.y = 0.0;
+	data->c.ornt.z = 0.0;
 	data->c.fov = -1;
 	data->l.coord.x = 0.0;
 	data->l.coord.y = 0.0;

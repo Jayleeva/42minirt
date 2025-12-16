@@ -20,7 +20,8 @@ void	free_all(t_data *data)
 		free(data->canvas);
 }
 
-// Detruit les images, la fenetre, et lance la liberation de toute la memoire allouee.
+// Detruit les images, la fenetre,
+// et lance la liberation de toute la memoire allouee.
 int	on_destroy(t_data *data)
 {
 	if (!data)
@@ -47,7 +48,8 @@ int	on_keypress(int keycode, t_data *data)
 	return (0);
 }
 
-//Initialise la fenetre, l'ouvre, lance le ray tracing, fait tourner le programme jusqu'a sa fermeture, detruit tout.
+// Initialise la fenetre, l'ouvre, lance le ray tracing,
+// fait tourner le programme jusqu'a sa fermeture, detruit tout.
 void	window(t_data *data)
 {
 	data->mlx_ptr = mlx_init();

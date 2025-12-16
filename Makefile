@@ -16,11 +16,12 @@ SRC = 	main.c \
 		parsing/config_lower.c \
 		parsing/config_common.c \
 		parsing/parsing_utils.c \
-		vectors/vectors.c \
-		vectors/vectors_calculs.c \
-		vectors/normalize.c \
+		vectors/v_operations.c \
+		vectors/v_normalize.c \
 		intersections/cylinder.c \
-		intersections/intersections.c \
+		intersections/cylinder_utils.c \
+		intersections/try_shape.c \
+		intersections/try_shape_shadow.c \
 		intersections/plane.c \
 		intersections/sphere.c \
 		colors/rgb_to_hex.c \

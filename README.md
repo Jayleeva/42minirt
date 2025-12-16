@@ -234,7 +234,7 @@ Votre programme doit recevoir comme information:
 - quelle est la sphère rencontrée exactement et quelle est sa couleur
 
 Il vous reste donc quelques calculs à faire.
-Préparez une variable qui stockera les coordonnées du point d'impact, appelons-la ``hit_point``. Pour en calculer la valeur, vous aurez besoin de deux fonctions qui vous serviront également ailleurs, une première qui additionne deux vecteurs, et une deuxième qui multiplie un vecteur par un "scalaire" (une sorte d'échelle quoi, ou ici, un simple float finalement).
+Préparez une variable qui stockera les coordonnées du point d'impact, appelons-la ``hit_vector``. Pour en calculer la valeur, vous aurez besoin de deux fonctions qui vous serviront également ailleurs, une première qui additionne deux vecteurs, et une deuxième qui multiplie un vecteur par un "scalaire" (une sorte d'échelle quoi, ou ici, un simple float finalement).
 
 En effet, nous avons trouvé le "t", par lequel multiplier la direction du rayon, avant d'en additionner le résultat à l'origine du rayon. 
 
@@ -260,7 +260,7 @@ t_vector	vector_plus_vector(t_vector a, t_vector b)
 	return (res);
 }
 
-t_vector	hit_point = vector_plus_vector(ray->origin, scale(ray->direction, t));
+t_vector	hit_vector = vector_plus_vector(ray->origin, scale(ray->direction, t));
 ```
 Nous avons le point d'impact! Reste, c'est très important pour la suite, à calculer la normale de ce point.
 
@@ -286,7 +286,7 @@ t_vector	normalize(t_vector v)
 	return (res);
 }
 
-t_vector	n = normalize(vector_minus_vector(sphere->coord, hit_point));
+t_vector	n = normalize(vector_minus_vector(sphere->coord, hit_vector));
 ```
 C'est bon, on sait s'il y a intersection, où exactement, la longueur du déplacement jusqu'au point d'impact, la normale de ce dernier, quelle forme a été touchée et donc, quelle est sa couleur.
 
@@ -321,7 +321,7 @@ if (t < tmin || t > tmax)
 	return ("pas d'intersection");
 ```
 
-Plus qu'à faire nos derniers calculs, ceux qui nous informent sur le point d'impact. Nous avons déjà la normale ``n`` et le ``t``, ainsi que la forme touchée et sa couleur, reste à trouver le ``hit_point``. Pour cela, on utilise le même calcul que pour celui de la sphère.
+Plus qu'à faire nos derniers calculs, ceux qui nous informent sur le point d'impact. Nous avons déjà la normale ``n`` et le ``t``, ainsi que la forme touchée et sa couleur, reste à trouver le ``hit_vector``. Pour cela, on utilise le même calcul que pour celui de la sphère.
 
 
 ### Cylindre
@@ -384,7 +384,7 @@ La valeur de celle-ci s'obtient en additionnant ``tmpB`` au produit de ``tmpA`` 
 m = tmpA * t + tmpB;
 ```
 
-BON. On a nos t. Cette fois, au lieu de vérifier si on est en-dehors des bornes, on va vérifier si on est dedans, ET si notre m est valable: plus grand ou égal à zéro, ET plus petit ou égal à la hauteur du cylindre. S'il est valable, on calcule le ``hit_point`` et la normale et on fait en sorte de transmettre les informations nécessaires au calcul de la couleur du pixel.
+BON. On a nos t. Cette fois, au lieu de vérifier si on est en-dehors des bornes, on va vérifier si on est dedans, ET si notre m est valable: plus grand ou égal à zéro, ET plus petit ou égal à la hauteur du cylindre. S'il est valable, on calcule le ``hit_vector`` et la normale et on fait en sorte de transmettre les informations nécessaires au calcul de la couleur du pixel.
 
 NOTE: erreur vient de là? devrait être testé comme la sphère? 
 ```
@@ -396,9 +396,9 @@ if (t1 >= tmin && t1 <= tmax)
 	m = tmpA * t1 + tmpB;
 	if (m >= 0.0f && m <= cylinder->height)
 	{
-		hit_point = vector_plus_vector(ray->origin, scale(ray->direction, t1));
-		n = compute_normale(cylinder, hit_point, m);
-		assign_hitpoint(t1, n, hit_point);
+		hit_vector = vector_plus_vector(ray->origin, scale(ray->direction, t1));
+		n = compute_normale(cylinder, hit_vector, m);
+		assign_hitpoint(t1, n, hit_vector);
 		intersection = 1;
 	}
 }
@@ -407,9 +407,9 @@ if (t2 >= tmin && t2 <= tmax) // ou t1 ?
 	m = tmpA * t2 + tmpB;
 	if (m >= 0.0f && m <= cylinder->height)
 	{
-		hit_point = vector_plus_vector(ray->origin, scale(ray->direction, t2));
-		n = compute_normale(cylinder, hit_point, m);
-		assign_hitpoint(t2, n, hit_point);
+		hit_vector = vector_plus_vector(ray->origin, scale(ray->direction, t2));
+		n = compute_normale(cylinder, hit_vector, m);
+		assign_hitpoint(t2, n, hit_vector);
 		intersection = 1;
 	}
 }
@@ -417,7 +417,7 @@ return (intersection);
 ```
 
 Le calcul de la normale d'un point d'impact sur le tuyau se fait 
-			n = vector_minus_vector(cylinder->coord, hit_point);
+			n = vector_minus_vector(cylinder->coord, hit_vector);
 			n = vector_minus_vector(n, scale(cylinder->incline, m));
 			n = normalize(n);
 
@@ -444,13 +444,13 @@ Comme pour le plan, nous avons besoin d'un "denom", et de la même vérification
 
 De même, nous calculons le "t" avec la même méthode que pour le plan, et faisons la même vérification "est-ce que le ``t`` est en-dehors des bornes" (si oui, pas d'intersection). Pour rappel, si nous avons précémment touché le tuyau, le ``tmax`` a été changé en conséquence.
 
-Toujours sur la même lancée, nous calculons le ``hit_point`` de la même manière que pour la sphère et le plan.
+Toujours sur la même lancée, nous calculons le ``hit_vector`` de la même manière que pour la sphère et le plan.
 
 Il nous reste encore un test, car pour l'instant, nous avons les mêmes calculs que pour le plan, or, notre capsule ne s'étend pas à l'infini dans toutes les directions depuis son point d'origine! On vérifie alors si le carré de la distance entre le centre de la capsule et le point d'impact est plus grand que le rayon du cylindre au carré.
 
 Voici un exemple de comment le coder:
 ```
-if (dot_product(vector_minus_vector(cap->center, hit_point)) > (cylinder->diameter * 0.5f) * (cylinder->diameter * 0.5f))
+if (dot_product(vector_minus_vector(cap->center, hit_vector)) > (cylinder->diameter * 0.5f) * (cylinder->diameter * 0.5f))
 	return ("pas d'intersection");
 ```
 

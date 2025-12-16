@@ -26,7 +26,7 @@ int	check_colors(t_rgb *colors, char *s)
 }
 
 // Verifie si les coordonnees sont valables.
-int	check_coord(t_point *coord, char *s)
+int	check_coord(t_vector *coord, char *s)
 {
 	char	**coord_tab;
 
@@ -46,25 +46,25 @@ int	check_coord(t_point *coord, char *s)
 int	check_ornt(t_vector *ornt, char *s)
 {
 	char	**ornt_tab;
-	float	o_x;
-	float	o_y;
-	float	o_z;
+	float	x;
+	float	y;
+	float	z;
 
 	ornt_tab = ft_split(s, ',');
 	if (!ornt_tab)
 		return (0);
 	if (!ornt_tab[2] || ornt_tab[3])
 		return (free_tab(ornt_tab), 0);
-	o_x = _atof(ornt_tab[0]);
-	o_y = _atof(ornt_tab[1]);
-	o_z = _atof(ornt_tab[2]);
-	if ((o_x < -1.0 || o_x > 1.0)
-		|| (o_y < -1.0 || o_y > 1.0)
-		|| (o_z < -1.0 || o_z > 1.0))
+	x = _atof(ornt_tab[0]);
+	y = _atof(ornt_tab[1]);
+	z = _atof(ornt_tab[2]);
+	if ((x < -1.0 || x > 1.0)
+		|| (y < -1.0 || y > 1.0)
+		|| (z < -1.0 || z > 1.0))
 		return (free_tab(ornt_tab), 0);
-	ornt->o_x = o_x;
-	ornt->o_y = o_y;
-	ornt->o_z = o_z;
+	ornt->x = x;
+	ornt->y = y;
+	ornt->z = z;
 	free_tab(ornt_tab);
 	return (1);
 }
