@@ -54,6 +54,7 @@ SRC = strchri.c \
 	atof.c \
 	ft_strcmp.c \
 	ft_atoi_base.c \
+	ft_isnum.c \
 
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC))
 

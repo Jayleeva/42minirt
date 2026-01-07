@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 static int	get_power(int i)
 {
@@ -72,15 +71,21 @@ float	_atof(char *str)
 	char	**tab;
 	float	result;
 	int		n;
+	/*int		sign;
 
+	sign = 1;
+	if (str[0] == '-')
+		sign = -1;*/
 	tab = ft_split(str, '.');
 	if (!tab)
 		return (0);
 	n = 0;
 	while (tab[n])
-		n++;
-	if (n > 2)
+		n ++;
+	if (n != 2)
 		return (free_tab(tab), 0);
+	/*if (!ft_isnum(tab[0]) || !ft_isnum(tab[1]))
+		return (0);*/
 	result = (float)ft_atoi(tab[0]);
 	if (n == 2)
 		result = decimal_part(tab[1], result);
