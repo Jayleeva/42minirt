@@ -91,6 +91,6 @@ float	_atof(char *str);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*define_set(char *set, int base);
 int		ft_atoi_base(const char *str, int base);
-int     ft_isnum(char *s);
+int		ft_isnum(char *s);
 
 #endif

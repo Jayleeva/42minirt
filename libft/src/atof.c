@@ -44,7 +44,7 @@ static int	count_zeros(char *s)
 	return (count);
 }
 
-static float	decimal_part(char *s, float result)
+static float	decimal_part(char *s, float result, int sign)
 {
 	int		zeros;
 	char	*tmp;
@@ -57,7 +57,7 @@ static float	decimal_part(char *s, float result)
 	len = ft_strlen(tmp);
 	if (len > 0)
 	{
-		if (result < 0)
+		if (sign == -1)
 			result -= (float)ft_atoi(tmp) / get_power(zeros + len);
 		else
 			result += (float)ft_atoi(tmp) / get_power(zeros + len);
@@ -71,24 +71,22 @@ float	_atof(char *str)
 	char	**tab;
 	float	result;
 	int		n;
-	/*int		sign;
+	int		sign;
 
 	sign = 1;
 	if (str[0] == '-')
-		sign = -1;*/
+		sign = -1;
 	tab = ft_split(str, '.');
 	if (!tab)
 		return (0);
 	n = 0;
 	while (tab[n])
-		n ++;
-	if (n != 2)
+		n++;
+	if (n > 2)
 		return (free_tab(tab), 0);
-	/*if (!ft_isnum(tab[0]) || !ft_isnum(tab[1]))
-		return (0);*/
 	result = (float)ft_atoi(tab[0]);
 	if (n == 2)
-		result = decimal_part(tab[1], result);
+		result = decimal_part(tab[1], result, sign);
 	free_tab(tab);
 	return (result);
 }

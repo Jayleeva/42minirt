@@ -8,7 +8,6 @@ float	compute_cy_discr(const t_ray *r, t_cy *cy)
 	rads = cy->diameter * 0.5f;
 	cy->X = v_sub(r->o, cy->coord);
 	cy->dv = v_dot(r->d, v_norm(cy->ornt));
-	//printf("normalized ornt = %f, %f, %f\n", v_norm(cy->ornt).x, v_norm(cy->ornt).y,v_norm(cy->ornt).z);
 	cy->xv = v_dot(cy->X, v_norm(cy->ornt));
 	cy->a = v_dot(r->d, r->d) - (cy->dv * cy->dv);
 	cy->half_b = v_dot(r->d, cy->X) - (cy->dv * cy->xv);
