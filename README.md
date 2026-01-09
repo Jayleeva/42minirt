@@ -10,7 +10,7 @@ Pas besoin de faire des transformations en live (bonus).
 
 # Etapes
 - parser : OK (C)
-- gerer la fenetre : OK (C)
+- gerer la fenêtre : OK (C)
 - trouver comment envoyer des rayons sur chaque pixel : OK (L)
 - calculer les intersections pour chaque forme : OK (L)
 - calculer la distance avec la camera pour determiner l'ordre de proximite : OK (L)
@@ -30,9 +30,9 @@ Pas besoin de faire des transformations en live (bonus).
 
 # Concepts
 
-- la fenetre n'est pas le viewport, le viewport est l'ecran de la camera, la fenetre affiche le viewport en fonction du fov (plus ou moins compresse / etire). La width = la largeur de la fenetre en pixels. La v_width est la largeur du viewport en unites. Ainsi, les deux largeurs ne sont pas forcement en 1:1, un pixel ne vaut pas forcement une unite. Pour savoir combien d'unites sont necessaires pour remplir un pixel, je dois calculer la v_width et la diviser par la width.
+- la fenêtre n'est pas le viewport, le viewport est l'ecran de la camera, la fenêtre affiche le viewport en fonction du fov (plus ou moins compresse / etire). La width = la largeur de la fenêtre en pixels. La v_width est la largeur du viewport en unites. Ainsi, les deux largeurs ne sont pas forcement en 1:1, un pixel ne vaut pas forcement une unite. Pour savoir combien d'unites sont necessaires pour remplir un pixel, je dois calculer la v_width et la diviser par la width.
 - Pour calculer la v_wdith, j'ai besoin du fov transforme en radian (au lieu de degres) et divise par deux, sur lequel j'effectue une tangeante avant de multiplier le resultat par deux (trigonometrie). Pour obtenir la v_height, je divise la w_width par l'aspect ratio.
-- Si je veux un aspect ratio de 16:9, je determine une width et une height (taille de la fenetre donc) qui respectent ce ratio: width / height doit pouvoir etre reduit a 16/9. Je peux aussi choisir une width et une height au hasard et calculer l'aspect ratio avec width / height. Bien de le faire et de gerer les cas bizarres (if aspect ratio < 1) si jamais evaluateurs modifient width et/ou height?
+- Si je veux un aspect ratio de 16:9, je determine une width et une height (taille de la fenêtre donc) qui respectent ce ratio: width / height doit pouvoir etre reduit a 16/9. Je peux aussi choisir une width et une height au hasard et calculer l'aspect ratio avec width / height. Bien de le faire et de gerer les cas bizarres (if aspect ratio < 1) si jamais evaluateurs modifient width et/ou height?
 - C'est bien de garder la moitie de la v_width et la moitie de la h_width car le point 0.0 du viewport est au centre, meme si le point 0.0 du canva est en haut a gauche.
 - Pour simplifier les calculs, on peut decider que la distance du point de la cam au viewport est de 1 unite.
 - Tres important de "normaliser" les chiffres au moment des calculs des points/vecteurs x,y,z .
@@ -472,6 +472,25 @@ if (dot_product(vector_minus_vector(cap->center, hit_vector)) > (cylinder->diame
 	return ("pas d'intersection");
 ```
 
-A nouveau, assurez-vous d'envoyer toutes les informations nécessaires à votre fonction qui calculera la couleur finale du point, en fonction de quelle forme a été touchée ou non.
+A nouveau, assurez-vous d'envoyer toutes les informations nécessaires à votre fonction qui calculera la couleur finale du pixel, en fonction de quelle forme a été touchée ou non et de son emplacement par rapport à la lumière.
 
-## Calcul de la lumiere
+## Calcul de la couleur
+Hé mais c'est qu'on a pas mal avancé là! Cependant, nous n'en avons pas terminé. Il nous reste un concept important à voir, ainsi que quelques calculs supplémentaires.
+
+En effet, pour continuer, nous avons besoin de trois informations:
+- s'il y a plusieurs points d'impacts sur un même rayon, quel est celui le plus proche de la camera?
+- y a-t-il une forme forme entre le point d'impact le plus proche et la lumiere? Si oui, le pixel sera noir.
+- sinon, à quelle distance de la lumiere se trouve le point d'impact le plus proche? En fonction de la distance, la couleur du pixel sera plus ou moins claire ou foncée.
+
+### Le t le plus proche
+Tout d'abord, assurez-vous que votre programme compare le "t" de chaque nouvelle intersection d'un même rayon, et n'en garde que le plus proche! En effet, un même rayon peut traverser une sphere, et donc la toucher à deux endroits: vous n'allez représenter sur votre fenêtre que le point d'entrée, et non celui de sortie! De même, un même rayon peut traverser un plan puis un cylindre placé derriere lui par exemple, et à nouveau, vous n'êtes interessé-e que par le premier point de contact.
+
+### Calcul de la lumiere
+En gros, pour calculer la lumiere, nous allons réutiliser les mêmes fonctions que tout à l'heure, mais avec le point d'impact comme origine du rayon (au lieu de la position de la camera), et la lumiere comme direction (au lieu du pixel).
+
+Eh oui, pour chaque point d'impact conservé (le plus proche), il va falloir à nouveau relancer autant de fonctions "est-ce que cette sphere/ce cylindre/ce plan se trouve sur le chemin de ce rayon" qu'il y a de formes annoncées par la map, à l'exception, pour éviter des erreurs d'affichage liées aux imprécisions des floats, de la forme de laquelle part notre nouveau rayon.
+
+Comme dit plus haut, si le rayon rencontre une autre forme, le pixel sera noir. Dans votre canevas, a l'emplacement du pixel concerne, enregistrez le code couleur "".
+
+Sinon, lancez le calcul de modulation de la couleur.
+

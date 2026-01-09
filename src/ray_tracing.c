@@ -67,7 +67,7 @@ void	loop_on_pixels(t_data *d)
 //  et en recupere l'adresse pour l'attribution de couleur des pixels,
 // lance la preparation de la camera, l'initialisation de la couleur 
 //  de la lumiere ambiante, l'iteration sur chaque pixel;
-// affiche l'image sur la fenetre. 
+// affiche l'image sur la fenêtre. 
 int	ray_tracing(t_data *d)
 {
 	int		*bpp;

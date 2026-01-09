@@ -20,7 +20,7 @@ void	free_all(t_data *data)
 		free(data->canvas);
 }
 
-// Detruit les images, la fenetre,
+// Detruit les images, la fenêtre,
 // et lance la liberation de toute la memoire allouee.
 int	on_destroy(t_data *data)
 {
@@ -48,7 +48,7 @@ int	on_keypress(int keycode, t_data *data)
 	return (0);
 }
 
-// Initialise la fenetre, l'ouvre, lance le ray tracing,
+// Initialise la fenêtre, l'ouvre, lance le ray tracing,
 // fait tourner le programme jusqu'a sa fermeture, detruit tout.
 void	window(t_data *data)
 {
