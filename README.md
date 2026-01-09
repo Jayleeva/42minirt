@@ -490,7 +490,70 @@ En gros, pour calculer la lumiere, nous allons réutiliser les mêmes fonctions 
 
 Eh oui, pour chaque point d'impact conservé (le plus proche), il va falloir à nouveau relancer autant de fonctions "est-ce que cette sphere/ce cylindre/ce plan se trouve sur le chemin de ce rayon" qu'il y a de formes annoncées par la map, à l'exception, pour éviter des erreurs d'affichage liées aux imprécisions des floats, de la forme de laquelle part notre nouveau rayon.
 
-Comme dit plus haut, si le rayon rencontre une autre forme, le pixel sera noir. Dans votre canevas, a l'emplacement du pixel concerne, enregistrez le code couleur "".
+Comme dit plus haut, si le rayon rencontre une autre forme, le pixel sera noir. Dans votre canevas, a l'emplacement du pixel concerne, enregistrez le code couleur pour "noir" (0,0,0 en format RGB).
 
-Sinon, lancez le calcul de modulation de la couleur.
+Sinon, lancez le calcul de la diffuse puis de la specular. Elles se presentent sous forme de float qui permettront de moduler les couleurs.
+
+#### Diffuse
+Pour ce calcul, vous aurez besoin d'une variable stockant la distance entre le point d'impact et la lumiere (appelons-la ``L``). On l'obtient en soustrayant le ``hit_vector`` a la position de la lumiere. Normalisez le resultat.
+
+La diffuse s'obtient par un dot product de la normale du point d'impact avec ``L``.
+
+Verifiez si le resultat est plus petit que 0: si c'est le cas, reassignez-le a 0 pour ne pas etre en negatif.
+
+Enfin, appliquez-y le ratio de la lumiere, donne par la map.
+
+Voici a quoi votre code pourrait ressembler:
+```
+L = normalize(vector_minus_vector(light.coord, hit_vector));
+diffuse = dot_product(n, L);
+if (diffuse < 0.0f)
+	diffuse = 0.0f;
+diffuse *= light.ratio;
+```
+
+#### Specular
+Pour calculer la specular, vous devrez avant tout prevoir une structure "s_specular" instanciee dans votre structure generale. Les attributs de cette structure sont deux float, appelons-les ``ks`` et ``shiny``. Initialisez-les a 1.0f pour ``ks`` et 64.0f pour ``shiny``.
+
+Vous aurez a nouveau besoin d'une variable ``L``, obtenue de la meme maniere que pour la diffuse.
+
+En plus de celle-ci, il vous faudra egalement calculer une nouvelle variable (appelons-la ``r``), qui stockera la valeur dite "reflechie". Elle est obtenue en plusieurs etapes donc accrochez-vous: tout d'abord, faites un dot product de ``L`` et ``n`` et multipliez-le par 2; faites une scale de ``n`` avec votre resultat; puis soustrayez ``L`` a votre resultat. Normalisez le resultat.
+
+Recuperez la distance entre la camera et le point d'impact (appelons-la ``v``) et normalisez-la.
+
+La specular est obtenue par un dot product de ``r`` et ``v``. Verifiez si elle est inferieure a 0, et si oui, reassignez-la a 0 et n'allez pas plus loin. Sinon, on continue. Il ne nous reste plus qu'a y appliquer la fonction ``powf()`` de la librairie <maths.h> avec en argument votre specular actuelle suivi de l'attribut ``shiny``, puis a en multiplier le resultat par ``ks`` * le ratio de la lumiere donne par la map. C'est bon, vous avez votre specular!
+
+Voici a quoi votre code pourrait ressembler:
+```
+L = normalize(vector_minus_vector(light.coord, hit_vector));
+r = normalize(vector_minus_vector(scale(n, 2.0f * dot_product(L, n)), L));
+v = normalize(vector_minus_vector(camera.coord, hit_vector));
+specular = dot_product(r, v);
+if (specular < 0.0f)
+	return (0.0f);
+specular = powf(specular, shiny);
+specular *= ks * light.ratio;
+```
+
+#### Couleur finale
+On y est presque! A present, appliquez le meme calcul aux differentes couleurs RGB de votre pixel: multipliez sa valeur actuelle par l'addition de celle de la lumiere ambiante (modulee par son ratio) et de la diffuse, et ajoutez-y la specular.
+
+Voici un exemple de comment le coder:
+```
+pixel_color.r = pixel_color.r * (ambiant.r * amb.ratio + diffuse) + specular;
+pixel_color.g = pixel_color.g * (ambiant.g * amb.ratio + diffuse) + specular;
+pixel_color.b = pixel_color.b * (ambiant.b * amb.ratio + diffuse) + specular;
+```
+
+Et voila, toutes vos intersections ont leur couleur definitive! Il nous reste a couvrir les pixels qui n'ont pas d'intersections. Dans ce cas-la, le pixel doit prendre la couleur de la lumiere ambiante donnee par la map, modulee par son ratio.
+
+Voici ce a quoi cela pourrait ressembler:
+```
+pixel_color.r = ambiant.r * amb.ratio;
+pixel_color.g = ambiant.g * amb.ratio;
+pixel_color.b = ambiant.b * amb.ratio;
+```
+
+**ATTENTION: lors que vous modulez la couleur avec des floats, il vous faut reechellonner votre code RGB, qui va de 0 a 255, en un code qui va de 0.0f a 1.0f. Creez une ou des fonctions qui permettent de passer d'une echelle a l'autre facilement.**
+
 

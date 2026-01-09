@@ -219,6 +219,7 @@ int		get_n(int *tmp);
 
 //colors
 void	rgb_rescale(t_rgb *color, int type);
+t_rgb	ratio_color(t_rgb color, float ratio);
 void	initialize_color(t_data *data, t_pixel *canvas, int i);
 
 //ray tracing

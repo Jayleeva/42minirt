@@ -9,8 +9,7 @@ float	compute_diffuse(t_data *d, t_hit *h, t_vector n)
 	t_vector	l;
 	float		diff;
 
-	l = v_sub(d->l.coord, h->p);
-	l = v_norm(l);
+	l = v_norm(v_sub(d->l.coord, h->p));
 	diff = v_dot(n, l);
 	if (diff <= 0.0f)
 		diff = 0.0f;
