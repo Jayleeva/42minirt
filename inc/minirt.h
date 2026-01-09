@@ -219,7 +219,7 @@ int		get_n(int *tmp);
 
 //colors
 void	rgb_rescale(t_rgb *color, int type);
-void	initialize_color(t_data *data, t_pixel *canvas);
+void	initialize_color(t_data *data, t_pixel *canvas, int i);
 
 //ray tracing
 float	compute_specular(t_data *d, t_hit *h, t_vector n);

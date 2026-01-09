@@ -23,6 +23,5 @@ int	print_tab(char **tab)
 		ft_printf("%s\n", tab[i]);
 		i ++;
 	}
-	
 	return (i);
 }

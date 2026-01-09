@@ -13,6 +13,10 @@ int	check_colors(t_rgb *colors, char *s)
 		return (0);
 	if (!clr_tab[2] || clr_tab[3])
 		return (free_tab(clr_tab), 0);
+	if (!ft_isnum(clr_tab[0], 0)
+		|| !ft_isnum(clr_tab[1], 0)
+		|| !ft_isnum(clr_tab[2], 0))
+		return (free_tab(clr_tab), 0);
 	r = ft_atoi(clr_tab[0]);
 	g = ft_atoi(clr_tab[1]);
 	b = ft_atoi(clr_tab[2]);
@@ -35,6 +39,10 @@ int	check_coord(t_vector *coord, char *s)
 		return (0);
 	if (!coord_tab[2] || coord_tab[3])
 		return (free_tab(coord_tab), 0);
+	if (!ft_isnum(coord_tab[0], 1)
+		|| !ft_isnum(coord_tab[1], 1)
+		|| !ft_isnum(coord_tab[2], 1))
+		return (free_tab(coord_tab), 0);
 	coord->x = _atof(coord_tab[0]);
 	coord->y = _atof(coord_tab[1]);
 	coord->z = _atof(coord_tab[2]);
@@ -55,6 +63,9 @@ int	check_ornt(t_vector *ornt, char *s)
 		return (0);
 	if (!ornt_tab[2] || ornt_tab[3])
 		return (free_tab(ornt_tab), 0);
+	if (!ft_isnum(ornt_tab[0], 1)
+		|| !ft_isnum(ornt_tab[1], 1) || !ft_isnum(ornt_tab[2], 1))
+		return (free_tab(ornt_tab), 0);
 	x = _atof(ornt_tab[0]);
 	y = _atof(ornt_tab[1]);
 	z = _atof(ornt_tab[2]);
@@ -74,6 +85,8 @@ int	check_ratio(float *ratio_, char *s)
 {
 	float	ratio;
 
+	if (!ft_isnum(s, 1))
+		return (0);
 	ratio = _atof(s);
 	if (ratio < 0.0 || ratio > 1.0)
 		return (0);
@@ -86,6 +99,8 @@ int	check_diameter_or_height(float *len_, char *s)
 {
 	float	len;
 
+	if (!ft_isnum(s, 1))
+		return (0);
 	len = _atof(s);
 	if (len < 0)
 		return (0);
