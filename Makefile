@@ -25,6 +25,7 @@ SRC = 	main.c \
 		intersections/plane.c \
 		intersections/sphere.c \
 		colors/rgb_to_hex.c \
+		colors/ambiant.c \
 		ray_tracing.c \
 		camera.c \
 		light/compute_lighting.c \

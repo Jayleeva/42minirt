@@ -1,6 +1,6 @@
 #include "../inc/minirt.h"
 
-static t_vector	transform_n(const t_cy *cy, t_vector p, const t_ray *r)
+static t_vector	compute_n(const t_cy *cy, t_vector p, const t_ray *r)
 {
 	t_vector	n;
 	t_vector	tmp1;
@@ -14,7 +14,7 @@ static t_vector	transform_n(const t_cy *cy, t_vector p, const t_ray *r)
 	return (n);
 }
 
-static void	assign_hitpoint(float t, t_vector p, t_vector n, t_hit *out)
+static void	update_hitpoint(float t, t_vector p, t_vector n, t_hit *out)
 {
 	out->t = t;
 	out->p = p;
@@ -34,7 +34,7 @@ int	is_cy_t_in_limits(float t, t_cy *cy, const t_ray *r, t_hit *out)
 		if (cy->m >= 0.0f && cy->m <= cy->height)
 		{
 			p = v_add(r->o, v_scale(r->d, t));
-			assign_hitpoint(t, p, transform_n(cy, p, r), out);
+			update_hitpoint(t, p, compute_n(cy, p, r), out);
 			return (1);
 		}
 	}

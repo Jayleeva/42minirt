@@ -10,7 +10,7 @@ Pas besoin de faire des transformations en live (bonus).
 
 # Etapes
 - parser : OK (C)
-- gerer la fenetre : OK (C)
+- gerer la fenêtre : OK (C)
 - trouver comment envoyer des rayons sur chaque pixel : OK (L)
 - calculer les intersections pour chaque forme : OK (L)
 - calculer la distance avec la camera pour determiner l'ordre de proximite : OK (L)
@@ -30,9 +30,9 @@ Pas besoin de faire des transformations en live (bonus).
 
 # Concepts
 
-- la fenetre n'est pas le viewport, le viewport est l'ecran de la camera, la fenetre affiche le viewport en fonction du fov (plus ou moins compresse / etire). La width = la largeur de la fenetre en pixels. La v_width est la largeur du viewport en unites. Ainsi, les deux largeurs ne sont pas forcement en 1:1, un pixel ne vaut pas forcement une unite. Pour savoir combien d'unites sont necessaires pour remplir un pixel, je dois calculer la v_width et la diviser par la width.
+- la fenêtre n'est pas le viewport, le viewport est l'ecran de la camera, la fenêtre affiche le viewport en fonction du fov (plus ou moins compresse / etire). La width = la largeur de la fenêtre en pixels. La v_width est la largeur du viewport en unites. Ainsi, les deux largeurs ne sont pas forcement en 1:1, un pixel ne vaut pas forcement une unite. Pour savoir combien d'unites sont necessaires pour remplir un pixel, je dois calculer la v_width et la diviser par la width.
 - Pour calculer la v_wdith, j'ai besoin du fov transforme en radian (au lieu de degres) et divise par deux, sur lequel j'effectue une tangeante avant de multiplier le resultat par deux (trigonometrie). Pour obtenir la v_height, je divise la w_width par l'aspect ratio.
-- Si je veux un aspect ratio de 16:9, je determine une width et une height (taille de la fenetre donc) qui respectent ce ratio: width / height doit pouvoir etre reduit a 16/9. Je peux aussi choisir une width et une height au hasard et calculer l'aspect ratio avec width / height. Bien de le faire et de gerer les cas bizarres (if aspect ratio < 1) si jamais evaluateurs modifient width et/ou height?
+- Si je veux un aspect ratio de 16:9, je determine une width et une height (taille de la fenêtre donc) qui respectent ce ratio: width / height doit pouvoir etre reduit a 16/9. Je peux aussi choisir une width et une height au hasard et calculer l'aspect ratio avec width / height. Bien de le faire et de gerer les cas bizarres (if aspect ratio < 1) si jamais evaluateurs modifient width et/ou height?
 - C'est bien de garder la moitie de la v_width et la moitie de la h_width car le point 0.0 du viewport est au centre, meme si le point 0.0 du canva est en haut a gauche.
 - Pour simplifier les calculs, on peut decider que la distance du point de la cam au viewport est de 1 unite.
 - Tres important de "normaliser" les chiffres au moment des calculs des points/vecteurs x,y,z .
@@ -60,7 +60,7 @@ Pour exécuter ce calcul de la couleur, on s'imagine "envoyer des rayons" en dir
 
 Mais nous verrons cela plus tard, restons meta. Nous envoyons donc des rayons en direction de chaque pixel. Notre programme doit maintenant vérifier si, sur son chemin vers l'infini, le rayon traité rencontre une ou plusieurs formes. Si c'est le cas, il faut savoir lesquelles, laquelle est la plus proche, et surtout quelle est sa couleur, afin de pouvoir calculer la couleur du pixel concerné.
 
-Nous ne sommes pourtant pas au bout de nos peines: une fois la couleur de la forme la plus proche identifiée, il nous faut encore la moduler en fonction de la lumière ambiante et de la lumière directe, qui se compose en "diffuse" et "specular". Et bien sûr, prendre en compte si le point de contact avec la forme est en réalité dans l'ombre (par ex: la lumière vient du côté droit, laissant donc le côté gauche de la forme dans l'ombre, ou une autre forme est placée entre celle qu'on a touchée et la lumière, projetant alors son ombre sur le point d'impact). Pour faire cette vérification, on renvoie des rayons, cette fois depuis le point d'impact en direction de la lumière: si on rencontre une nouvelle forme sur le chemin, le pixel sera dans l'ombre, sinon, il sera illuminé plus ou moins fort en fonction de la distance avec la de lumière. Tada! (en gros)
+Nous ne sommes pourtant pas au bout de nos peines: une fois la couleur de la forme la plus proche identifiée, il nous faut encore la moduler en fonction de la lumière ambiante et de la lumière directe, qui se compose en "diffuse" et "specular". Et bien sûr, prendre en compte si le point de contact avec la forme est en réalité dans l'ombre (par ex: la lumière vient du côté droit, laissant donc le côté gauche de la forme dans l'ombre, ou une autre forme est placée entre celle qu'on a touchée et la lumière, projetant alors son ombre sur le point d'impact). Pour faire cette vérification, on renvoie des rayons, cette fois depuis le point d'impact en direction de la lumière: si on rencontre une nouvelle forme sur le chemin, le pixel sera dans l'ombre, sinon, il sera illuminé plus ou moins fort en fonction de la distance avec la source de lumière. Tada! (en gros)
 
 ### A chaque forme sa formule
 Pour savoir quelle forme est touchée ou non par nos rayons, nous aurons besoin de formules mathématiques propres à chaque forme: en effet, une sphère n'a pas la même aire qu'un cylindre, et encore moins qu'un plan (qui n'a qu'une surface et non une aire). Ah, d'ailleurs, petit point sur le plan: la meilleure façon non mathématique de décrire cette forme à mon sens est "une surface plate qui s'etend à l'infini dans toutes les directions depuis son origine, genre un sol sans fin, ou un plafond sans fin, ou un mur sans fin, en fonction de son inclinaison." Personnellement, j'aurais gagné du temps si j'avais eu accès à cette petite précision. 
@@ -69,7 +69,7 @@ Ce qui peut être perturbant, c'est qu'on ne cherche pas la position des formes,
 
 **BON. On a vu les bases en gros, il est l'heure de passer aux choses concretes.**
 
-## Creer et afficher une image
+## Créer et afficher une image
 La minilibx est parfois un peu obscure. Voici de quoi vous aurez besoin pour afficher une image de la taille de la fenêtre, créée pixel par pixel.
 
 D'une part, il vous faut allouer de la mémoire pour une image, dont vous devrez définir l'endian, la size et le bpp (bit per pixel). Ensuite, il vous faudra utiliser la fonction ``mlx_new_image()`` pour attribuer un pointeur à votre image. Puis, vous utiliserez la fonction ``mlx_get_data_addr()`` pour obtenir l'adresse de l'image, ce qui vous permettra d'assigner les pixels avec le paragraphe ci-dessous, avant de finalement utiliser la fonction ``mlx_put_image_to_window()`` qui affichera (ENFIN) votre image.
@@ -82,14 +82,19 @@ void	put_pixel(t_image *img, int canvas_x, int canvas_y, int color) // on reçoi
 {
 	char	*pixel;	// on déclare un nouveau pointeur sur pixel
 
-	if (canvas_x >= 0 && canvas_x < window_width && canvas_y >= 0 && canvas_y < w_height)	 // on vérifie que les coordonnees reçues soient bien comprises dans les dimensions de la fenêtre
+	if (canvas_x >= 0 && canvas_x < window_width && canvas_y >= 0 && canvas_y < w_height)	 // on vérifie que les coordonnées reçues soient bien comprises dans les dimensions de la fenêtre
 	{
-		pixel = img->addr + (canvas_y * img->size + canvas_x * (img->bpp / 8)); // on assigne au pointeur du pixel la valeur de l'adresse du pointeur modulée par les coordonnees, la size et le bpp de l'image
-		*(unsigned int *)pixel = color; // on assigne la couleur a la valeur du pixel cast en unsigned int.
+		pixel = img->addr + (canvas_y * img->size + canvas_x * (img->bpp / 8)); // on assigne au pointeur du pixel l'adresse de l'image à laquelle on ajoute les coordonnées modulées par la size pour le y et par le bpp pour le x
+		*(unsigned int *)pixel = color; // on assigne la couleur à la valeur du pixel cast en unsigned int.
 	}
 } 
 ```
-Bien sûr, il ne faudra pas oublier de détuire l'image à la fermeture du programme, mais ça, c'est de la gestion de mémoire, vous ne devriez pas avoir besoin de moi.
+Bien sûr, il ne faudra pas oublier de détruire les élements ci-dessous à la fermeture du programme:
+- l'image avec ``mlx_destroy_image()``
+- la fenêtre avec ``mlx_destroy_window()``
+- le pointeur sur la minilibx avec ``mlx_destroy_display()``
+Et comme toujours, pensez à libérer la mémoire allouée.
+
 
 ## Le FOV: les calculs
 Comme j'en ai une pauvre compréhension, je me contenterai de vous transmettre les opérations à suivre, sans pouvoir en expliquer le pourquoi (désolée).
@@ -105,7 +110,7 @@ transformed_fov = 2.0f * tanf(transformed_fov * 0.5f);
 ```
 Super, la transformation de notre FOV est faite! Plus qu'à l'utiliser concrètement.
 
-Pour que le viewport soit affecté par notre FOV, on en calcule les dimensions à partir de celui-ci, ainsi que des dimensions de la fenetre. Plus précisement, on calcule le centre du viewport, en passant par la moitié de sa largeur et la moitié de sa hauteur; on obtient ces moitiés en utilisant le FOV et l'aspect ratio (la largeur de la fenêtre divisée par la hauteur de la fenêtre).
+Pour que le viewport soit affecté par notre FOV, on en calcule les dimensions à partir de celui-ci, ainsi que des dimensions de la fenêtre. Plus précisement, on calcule le centre du viewport, en passant par la moitié de sa largeur et la moitié de sa hauteur; on obtient ces moitiés en utilisant le FOV et l'aspect ratio (la largeur de la fenêtre divisée par la hauteur de la fenêtre).
 
 Voici un exemple de comment coder ce calcul:
 ```
@@ -119,11 +124,11 @@ Précision: le sujet ne fixe pas de dimensions à la fenêtre, nous sommes donc 
 ## Vecteur
 Je redoutais ce moment. Expliquer les vecteurs. Bon.
 
-Commençons par cette info rigolote (non): le terme "vecteur" évoque des choses différentes (mais pas vraiment) en fonction de la discipline qui l'utilise. Par exemple, en informatique, c'est une simple combinaison de nombre (ex: 5,2,10). Alors qu'en mathématiques, c'est une distance entre un point et un autre, et qu'en physique, c'est carrément un déplacement. Je le précise parce que ne pas le savoir peut vous embrouiller lors de vos recherches.
+Commençons par cette info rigolote (non): le terme "vecteur" évoque des choses différentes (mais pas vraiment) en fonction de la discipline qui l'utilise. Par exemple, en informatique, c'est une simple combinaison de nombres (ex: 5,2,10). Alors qu'en mathématiques, c'est une distance entre un point et un autre, et qu'en physique, c'est carrément un déplacement. Je le précise parce que ne pas le savoir peut vous embrouiller lors de vos recherches.
 
 Globalement, pour minirt, nous allons utiliser des vecteurs pour signaler des coordonnées (x,y,z) dans notre espace en 3D. Cela va nous servir à la fois pour représenter des positions et des directions, autrement dit: d'où part le rayon, et dans quel sens il part.
 
-Un des calculs que vous allez souvent utiliser consiste donc à vous déplacer d'un point d'origine pendant "t" (longueur du déplacement) dans une direction donnée par la position d'un objectif (le pixel traité, la lumière ou le point d'impact). Pour effectuer ce calcul, on prend le point d'origine, et on lui ajoute les coordonnées de l'objectif multipliées par la longueur du déplacement. "Mais" me diriez-vous, "mes points sont composés de 3 chiffres! Comment je peux leur additionner ou multiplier quoi que ce soit?" Pas de panique, c'est très simple: vous opérez le premier chiffre de vos premières coordonnées avec le premier chiffre de vos secondes coordonnées, le deuxième chiffre avec le deuxième, et ainsi de suite. Autrement dit, le x avec le x, le y avec le y, et le z avec le z. C'est la même pour toutes les opérations (+-*/).
+Un des calculs que vous allez souvent utiliser consiste donc à vous "déplacer" d'un point d'origine pendant "t" (longueur du déplacement) dans une direction donnée par la position d'un objectif (le pixel traité, la lumière ou le point d'impact). Pour effectuer ce calcul, on prend le point d'origine, et on lui ajoute les coordonnées de l'objectif multipliées par la longueur du déplacement. "Mais" me diriez-vous, "mes points sont composés de 3 chiffres! Comment je peux leur additionner ou multiplier quoi que ce soit?" Pas de panique, c'est très simple: vous opérez le premier chiffre de vos premières coordonnées avec le premier chiffre de vos secondes coordonnées, le deuxième chiffre avec le deuxième, et ainsi de suite. Autrement dit, le x avec le x, le y avec le y, et le z avec le z. C'est la même pour toutes les opérations (+-*/).
 
 Concrètement, en pseudo code (les parenthèses sont superflues mais donnent, à mon sens, plus de lisibilité):
 ````
@@ -159,7 +164,7 @@ Comme la map vous dit déjà s'il y a des formes, lesquelles et combien de chaqu
 ### Sphère
 J'aimerais dire que le calcul permettant de savoir si le chemin du rayon croise une sphère est simple. Ce n'est pas vraiment le cas, mais c'est bien de commencer par lui.
 
-Tout d'abord, nous avons besoin de mettre la direction du rayon au carré, ce qui résulte en un "dot product" (un vecteur fois un vecteur). Je vous conseille de créer une fonction "dot_product()", car c'est une opération très commune dans le ray tracing.
+Tout d'abord, nous avons besoin de mettre la direction du rayon au carré, ce qui résulte en un "dot product" (un vecteur fois un vecteur). Je vous conseille de créer une fonction ``dot_product()``, car c'est une opération très commune dans le ray tracing.
 
 Par exemple, on peut la coder ainsi:
 ```
@@ -168,7 +173,7 @@ float	dot_product(t_vector a, t_vector b)
 	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }
 ```
-Pour la sphère, les deux vecteurs (a et b) seront donc le même, à savoir la direction du rayon.
+Ici, on calcule la valeur d'une première variable (appelons-la ``a``) avec un dot product d'un meme vecteur, à savoir la direction du rayon.
 ```
 float a = dot_product(ray->direction, ray->direction);
 ```
@@ -185,19 +190,19 @@ t_vector vector_minus_vector(t_vector a, t_vector b)
     return (res);
 }
 
-t_vector oc = vector_minus_vector(sphere->coord, ray->origin);
+t_vector X = vector_minus_vector(sphere->coord, ray->origin);
 ```
-Préparez une nouvelle variable (appelons-la ``c``). Sa valeur sera un dot product de la distance ``oc`` que nous venons de calculer, moins le rayon de la sphère au carré.
+Préparez une nouvelle variable (appelons-la ``c``). Sa valeur sera un dot product de la distance ``X`` que nous venons de calculer, moins le rayon de la sphère au carré.
 
 Voici un exemple de comment le coder:
 ```
-float   c = dot_product(oc, oc) - (sphere->diameter * 0.5f) * (sphere->diameter * 0.5f);
+float   c = dot_product(X, X) - (sphere->diameter * 0.5f) * (sphere->diameter * 0.5f);
 ```
-Préparez encore une variable (appelons-la ``half_b``, car elle correspond à b/2 dans la fonction quadratique qui est au centre du calcul des sphères): sa valeur correspond au dot product de ``oc`` et de la direction du rayon.
+Préparez encore une variable (appelons-la ``half_b``, car elle correspond à b/2 dans la fonction quadratique qui est au centre du calcul des sphères): sa valeur correspond au dot product de ``X`` et de la direction du rayon.
 
 Voici un exemple de comment le coder:
 ```
-float   half_b = dot_product(oc, ray->direction);
+float   half_b = dot_product(X, ray->direction);
 ```
 Nous avons encore besoin d'une variable, qui nous servira de discrimant. Appelons-la ``discr``. Sa valeur est obtenue en mettant ``half_b`` au carré, puis en lui soustrayant ``a`` fois ``c``:
 ```
@@ -323,6 +328,8 @@ if (t < tmin || t > tmax)
 
 Plus qu'à faire nos derniers calculs, ceux qui nous informent sur le point d'impact. Nous avons déjà la normale ``n`` et le ``t``, ainsi que la forme touchée et sa couleur, reste à trouver le ``hit_vector``. Pour cela, on utilise le même calcul que pour celui de la sphère.
 
+Comme pour la sphère, on lance la fonction qui calculera la couleur finale du point, en fonction de s'il y a eu intersection ou non, si oui avec quelle forme. Et voilà! Vous voyez le plan? 
+
 
 ### Cylindre
 Bon. Si vous aviez de la peine à suivre jusqu'ici, il va falloir s'accrocher. Basiquement, on va réutiliser des parts des calculs de la sphère et du plan, dans un ensemble de nouveaux calculs qui font un peu mal à la tête.
@@ -334,27 +341,30 @@ Une chose importante à savoir est que les coordonnées du cylindre corresponden
 #### Tuyau
 Le calcul du tuyau utilise, comme la sphère, une fonction quadratique. En revanche, des calculs supplémentaires sont nécessaires afin d'envoyer les bons argument à cette fonction quadratique.
 
-Plus précisément, c'est notre ``a``, et notre ``half_b`` qui seront calculés en deux temps. Cela nécessitera 4 nouvelles variables, appelons-les ``tmpA``, ``tmpB``, ``A`` et ``B``. 
+Plus précisément, c'est notre ``a``, notre ``half_b`` et notre ``c`` qui seront calculés à l'aide de 2 nouvelles variables, appelons-les ``dv``, ``xv``.
 
-Tout d'abord, pour obtenir la valeur de ``tmpA``, calculons le dot product de la direction du rayon et de l'inclinaison du cylindre, et pour obtenir celle de ``A``, multiplions l'inclinaison du cylindre par ce ``tmpA``, et soustrayons le résultat à la direction du rayon. Pour obtenir les valeurs de ``tmpB`` et de ``B``, suivons la même opération, à la différence que la direction du rayon est remplacé par  ``oc``. 
+Tout d'abord, notre ``X`` se calcule de la même façon que pour la sphère, en soustrayant l'origine du rayon aux coordonnées du cylindre.
 
-Notre ``oc`` quant à lui se calcule de la même façon que pour la sphère, en substrayant l'origine du rayon aux coordonnées du cylindre.
+Ensuite, pour obtenir la valeur de ``xv``, calculons le dot product de ``X`` avec l'inclinaison du cylindre.
 
-Notre ``a`` prend la valeur du dot product de ``A``, alors que notre ``half_b`` prend celui du dot product de ``A`` et ``B``. Notre ``c`` de son côté consiste en le même calcul que pour la sphère, seulement, au lieu de faire le dot product de ``oc`` au carré, on fait celui de ``B``.
+Enfin, pour obtenir la valeur de ``dv``, calculons le dot product de la direction du rayon et de l'inclinaison du cylindre.
+
+Notre ``a`` prend alors la valeur du dot product d'un meme vecteur, à savoir la direction du rayon, moins notre ``dv`` au carre.
+
+Notre ``half_b`` quant a lui prend la valeur du dot product de la direction du rayon et de ``X``, moins le produit de ``dv`` par ``xv``. 
+
+Notre ``c`` de son côté prend la valeur du dot product d'une meme variable, à savoir X, moins xv au carre, moins le rayon du cylindre au carre.
 
 Voici à quoi cela peut ressembler:
 ```
-oc = vector_minus_vector(cylinder->coord, ray->origin);
+X = vector_minus_vector(cylinder->coord, ray->origin);
 
-tmpA = dot_product(ray->direction, cylinder->incline);
-tmpB = dot_product(oc, cylinder->incline);
+dv = dot_product(ray->direction, normalize(cylinder->incline));
+xv = dot_product(X, normalize(cylinder->incline));
 
-A = vector_minus_vector(ray->direction, scale(cylinder->incline, tmpA));
-B = vector_minus_vector(oc, scale(cylinder->incline, tmpB));
-
-a = dot_product(A, A);
-half_b = dot_product(A, B);
-c = dot_product(B, B) - (cylinder->diameter * 0.5f) * (cylinder->diameter * 0.5f);
+a = dot_product(ray->direction, ray->direction) - (dv * dv);
+half_b = dot_product(ray->direction, X) - (dv * xv);
+c = dot_product(X, X) - (xv * xv) - (cylinder->diameter * 0.5f) * (cylinder->diameter * 0.5f);
 ```
 
 Ensuite, tout comme pour la sphère, nous calculons un discriminant (``discr``) de la même manière, et nous en servons également pour vérifier s'il y n'a pas d'intersection, à la différence que la condition est double: soit le discriminant est inférieur à zéro, soit ``a`` est égal à 0 (ce qui voudrait dire que le rayon est parallèle à l'axe du cylindre et ne touchera donc jamais le tuyau).
@@ -379,52 +389,60 @@ t2 = (-half_b + squareroot) / a;
 
 Cependant, au lieu de tester t2 uniquement si t1 est en-dehors des bornes comme pour la sphère, on va cette fois vérifier si t1 puis t2 sont soit l'une soit les deux dans les bornes, et si c'est le cas, on fera pour chaque ``t`` une seconde vérification qui nécessite au préalable le calcul d'une nouvelle variable, ``m``.
 
-La valeur de celle-ci s'obtient en additionnant ``tmpB`` au produit de ``tmpA`` et ``t``:
+La valeur de celle-ci s'obtient en additionnant ``xv`` au produit de ``dv`` et ``t``:
 ```
-m = tmpA * t + tmpB;
+m = dv * t + xv;
 ```
 
-BON. On a nos t. Cette fois, au lieu de vérifier si on est en-dehors des bornes, on va vérifier si on est dedans, ET si notre m est valable: plus grand ou égal à zéro, ET plus petit ou égal à la hauteur du cylindre. S'il est valable, on calcule le ``hit_vector`` et la normale et on fait en sorte de transmettre les informations nécessaires au calcul de la couleur du pixel.
+BON. On a nos t. Cette fois, au lieu de vérifier si on est en-dehors des bornes, on va vérifier si on est dedans, et si notre m est valable: plus grand ou égal à zéro, ET plus petit ou égal à la hauteur du cylindre. S'il est valable, on calcule le ``hit_vector`` comme précédemment, puis sa normale. Cette dernière se calcule différemment de celle de la sphère, et nécessite des variables supplémentaires, appelons-les ``tmp1`` et ``tmp2``.
 
-NOTE: erreur vient de là? devrait être testé comme la sphère? 
+``tmp1`` s'obtient en soustrayant les coordonnées du cylindre au hit vector. ``tmp2`` correspond à la scale de l'inclinaison normalisée du cylindre par ``m``. La normale, enfin, est calculée par la normalisation de la soustraction de ``tmp2`` à ``tmp1``.
+
+Une fois la normale obtenue, il ne nous reste plus qu'à faire en sorte de transmettre les informations nécessaires au calcul de la couleur du pixel. 
+
+Si aucune intersection n'est trouvée, la fonction retourne l'équivalent de "le tuyau de ce cylindre n'est pas sur le chemin de ce rayon". ATTENTION: nous n'avons pas encore vérifié s'il y a intersection avec une ou les deux capsules!
+
+Voici un exemple de comment le coder:
 ```
+t_vector	tmp1;
+t_vector	tmp2;
 t_vector	n;
 int			intersection = 0;
 
 if (t1 >= tmin && t1 <= tmax)
 {
-	m = tmpA * t1 + tmpB;
+	m = dv * t1 + xv;
 	if (m >= 0.0f && m <= cylinder->height)
 	{
 		hit_vector = vector_plus_vector(ray->origin, scale(ray->direction, t1));
-		n = compute_normale(cylinder, hit_vector, m);
-		assign_hitpoint(t1, n, hit_vector);
+		tmp1 = vector_minus_vector(cylinder->coord, hit_vector);
+		tmp2 = scale(normalize(cylinder->incline), m);
+		n = normalize(vector_minus_vector(tmp1, tmp2));
+		update_hit_information(t1, hit_vector, n, tmax);
 		intersection = 1;
 	}
 }
-if (t2 >= tmin && t2 <= tmax) // ou t1 ?
+if (t2 >= tmin && t2 <= tmax)
 {
-	m = tmpA * t2 + tmpB;
+	m = dv * t2 + xv;
 	if (m >= 0.0f && m <= cylinder->height)
 	{
 		hit_vector = vector_plus_vector(ray->origin, scale(ray->direction, t2));
-		n = compute_normale(cylinder, hit_vector, m);
-		assign_hitpoint(t2, n, hit_vector);
+		tmp1 = vector_minus_vector(cylinder->coord, hit_vector);
+		tmp2 = scale(normalize(cylinder->incline), m);
+		n = normalize(vector_minus_vector(tmp1, tmp2));
+		update_hit_information(t2, hit_vector, n, tmax);
 		intersection = 1;
 	}
 }
 return (intersection);
 ```
 
-Le calcul de la normale d'un point d'impact sur le tuyau se fait 
-			n = vector_minus_vector(cylinder->coord, hit_vector);
-			n = vector_minus_vector(n, scale(cylinder->incline, m));
-			n = normalize(n);
 
 #### Capsules
 La formule pour vérifier si la capsule est sur le chemin du rayon est la même pour les deux capsules du cylindre, en revanche!! La normale utilisée pour le calcul change en fonction de quelle capsule il s'agit.
 
-Basiquement, la normale, comme pour la plan, est liée à l'inclinaison. Pour la capsule A, la normale est simplement égale à l'inclinaison normalisée, alors que pour la capsule B, à l'opposé du tuyau, la normale est égale à l'inclinaison * -1 normalisée, pour la rendre négative:
+Basiquement, la normale est liée à l'inclinaison. Pour la capsule A, la normale est simplement égale à l'inclinaison normalisée, alors que pour la capsule B, à l'opposé du tuyau, la normale est égale à l'inclinaison * -1 normalisée, pour la rendre négative:
 ```
 capA.n = normalize(cylinder->incline);
 capB.n = normalize(scale(cylinder->incline, -1.0f));
@@ -454,68 +472,88 @@ if (dot_product(vector_minus_vector(cap->center, hit_vector)) > (cylinder->diame
 	return ("pas d'intersection");
 ```
 
-# Explication de notre dernier soucis
-Un peu de contexte: 
+A nouveau, assurez-vous d'envoyer toutes les informations nécessaires à votre fonction qui calculera la couleur finale du pixel, en fonction de quelle forme a été touchée ou non et de son emplacement par rapport à la lumière.
 
-- Le ray tracing consiste à crééer une image 3D en "envoyant des rayons" (utilisant des vecteurs) depuis la position de la caméra dans la direction de chaque pixel de son viewport. Si ce rayon rencontre des formes sur son chemin, le pixel en question prendra la couleur de cette forme.
-- Notre programme reçoit en argument une "carte" qui lui dit quelles formes doivent être représentées, où, avec quelle inclinaison, de quelles dimensions et de quelles couleurs elles sont. Elle transmet également d'où vient la lumière pour créer l'illusion de la 3D. Enfin, elle nous donne la position et l'inclinaison de la caméra, en plus de son FOV.
-- Cette "carte" est un simple fichier texte où sont écrits des paramètres (par ex: "L -40,20,30 1" signifie que la Lumière est en position -40,20,30 et a un ratio de 1, donc qu'elle est à pleine puissance).
-- Concrètement, le programme itère sur chaque pixel et vérifie pour chaque forme si celle-ci se trouve sur le chemin du rayon parti de la position de la caméra en direction du pixel concerné. Ainsi, si on a 3 sphères, on vérifiera si la sphère 1, puis 2, puis 3 est sur le chemin du rayon parti en direction du pixel [0,0], puis du pixel [0,1], puis du pixel [0,2], etc.
-- Pour ce faire, on a besoin de formules mathématique propres à chaque forme, puisqu'elles n'occupent pas l'espace de la même manière (chacune leur aire / surface). Pour cet exercice, il nous est demandé de gérer les sphères, les cylindres, et les plans.
+## Calcul de la couleur
+Hé mais c'est qu'on a pas mal avancé là! Cependant, nous n'en avons pas terminé. Il nous reste un concept important à voir, ainsi que quelques calculs supplémentaires.
 
-Où on en est:
+En effet, pour continuer, nous avons besoin de trois informations:
+- s'il y a plusieurs points d'impacts sur un même rayon, quel est celui le plus proche de la camera?
+- y a-t-il une forme forme entre le point d'impact le plus proche et la lumiere? Si oui, le pixel sera noir.
+- sinon, à quelle distance de la lumiere se trouve le point d'impact le plus proche? En fonction de la distance, la couleur du pixel sera plus ou moins claire ou foncée.
 
-- Les calculs pour vérifier les sphères et les plans sont terminés et semblent fonctionner comme attendu.
-- En revanche, ceux pour vérifier les cylindre comportent une ou plusieurs erreurs.
-- Plus précisément, c'est la partie en tuyau du cylindre qui n'est pas calculée correctement: les "capsules" qui ferment les deux bouts du tuyau ne sont pas concernées.
-- Plus précisément encore, les erreurs se manifestent uniquement lorsque le cylindre a une inclinaison "complexe": pas juste couché ou debout (avec un x,y,z de 0,0,1 par exemple), mais une combinaison de manipulations (-1,0.5,1 par exemple).
+### Le t le plus proche
+Tout d'abord, assurez-vous que votre programme compare le "t" de chaque nouvelle intersection d'un même rayon, et n'en garde que le plus proche! En effet, un même rayon peut traverser une sphere, et donc la toucher à deux endroits: vous n'allez représenter sur votre fenêtre que le point d'entrée, et non celui de sortie! De même, un même rayon peut traverser un plan puis un cylindre placé derriere lui par exemple, et à nouveau, vous n'êtes interessé-e que par le premier point de contact.
 
-La formule de laquelle on part est la suivante: 
-- il est dit que a * t2 + b * t + c = 0
+### Calcul de la lumiere
+En gros, pour calculer la lumiere, nous allons réutiliser les mêmes fonctions que tout à l'heure, mais avec le point d'impact comme origine du rayon (au lieu de la position de la camera), et la lumiere comme direction (au lieu du pixel).
 
-Le t correspond à la longueur du déplacement depuis l'origine du rayon jusqu'à une possible intersection avec la forme.
-Nous utilisons cette formule pour trouver les valeurs de deux t différents: en effet, si le rayon touche la partie tuyau du cylindre, il est fort probable qu'il la touche une deuxième fois, après en avoir traversé l'intérieur.
-Une fois ces valeurs trouvées, on vérifie si au moins l'une d'elles sont contenues entre un tmin et un tmax: si c'est le cas, il y a intersection avec la forme, sinon, non.
+Eh oui, pour chaque point d'impact conservé (le plus proche), il va falloir à nouveau relancer autant de fonctions "est-ce que cette sphere/ce cylindre/ce plan se trouve sur le chemin de ce rayon" qu'il y a de formes annoncées par la map, à l'exception, pour éviter des erreurs d'affichage liées aux imprécisions des floats, de la forme de laquelle part notre nouveau rayon.
 
-Pour trouver les valeurs de t, nous transformons la formule ainsi:
-- t1 = (-b/2 - r'(b/2)2 - a *c' / a
-- t2 = (-b/2 + r'(b/2)2 - a *c' / a
+Comme dit plus haut, si le rayon rencontre une autre forme, le pixel sera noir. Dans votre canevas, a l'emplacement du pixel concerne, enregistrez le code couleur pour "noir" (0,0,0 en format RGB).
 
+Sinon, lancez le calcul de la diffuse puis de la specular. Elles se presentent sous forme de float qui permettront de moduler les couleurs.
 
-Pour ce qui est de a, b et c, nous avons trouvé différentes façon de les calculer, et jusqu'ici, aucune ne rend le résultat attendu.
-Selon cet article (https://hugi.scene.org/online/hugi24/coding%20graphics%20chris%20dragan%20raytracing%20shapes.htm), 
-	a = D|D - (D|V)^2
-	b = (D|X - (D|V)*(X|V)) * 2
-	c = X|X - (X|V)^2 - r^2
+#### Diffuse
+Pour ce calcul, vous aurez besoin d'une variable stockant la distance entre le point d'impact et la lumiere (appelons-la ``L``). On l'obtient en soustrayant le ``hit_vector`` a la position de la lumiere. Normalisez le resultat.
 
-D étant la direction du rayon envoyé depuis la caméra, X la soustraction des coordonnées du cylindre à l'origine du même rayon, V l'inclinaison du cylindre normalisée, et r le rayon du cylindre.
-Le symbole "|" représente un dot product: par exemple, D|V signifie dot product de la direction du rayon avec l'inclinaison du cylindre.
-Un dot product est le résultat d'un vecteur fois un vecteur. Il est calculé en multipliant chaque élément du premier vecteur avec celui du deuxième et en additionnant ces produits:
-	dotproduct_of_v1_and_v2 = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z.
+La diffuse s'obtient par un dot product de la normale du point d'impact avec ``L``.
 
-Notre code effectue donc les opérations suivantes:
+Verifiez si le resultat est plus petit que 0: si c'est le cas, reassignez-le a 0 pour ne pas etre en negatif.
 
-t_vector vector_minus_vector(t_vector a, t_vector b)
-{
-	t_vector	res;
+Enfin, appliquez-y le ratio de la lumiere, donne par la map.
 
-	res.x = a.x - b.x;
-	res.y = a.y - b.y;
-	res.z = a.z - b.z;
-	return (res);
-}
+Voici a quoi votre code pourrait ressembler:
+```
+L = normalize(vector_minus_vector(light.coord, hit_vector));
+diffuse = dot_product(n, L);
+if (diffuse < 0.0f)
+	diffuse = 0.0f;
+diffuse *= light.ratio;
+```
 
-float dot_product(t_vector a, t_vector b)
-{
-	return (a.x * b.x + a.y * b.y + a.z * b.z);
-}
+#### Specular
+Pour calculer la specular, vous devrez avant tout prevoir une structure "s_specular" instanciee dans votre structure generale. Les attributs de cette structure sont deux float, appelons-les ``ks`` et ``shiny``. Initialisez-les a 1.0f pour ``ks`` et 64.0f pour ``shiny``.
 
-t_vector	X = vector_minus_vector(origine du rayon, coordonnées du cylindre)
-float		xv = dot_product(X, inclinaison du cylindre)
-float		dv = dot_product(direction du rayon, inclinaison du cylindre)
+Vous aurez a nouveau besoin d'une variable ``L``, obtenue de la meme maniere que pour la diffuse.
 
-float		a = dot_product(direction du rayon, direction du rayon);
-float		b = (dot_product(direction du rayon, X) - dv * xv) * 2;
-float		c = dot_product(X,X) - xv * xv - (diamètre du cylindre/2) * (diamètre du cylindre/2);
+En plus de celle-ci, il vous faudra egalement calculer une nouvelle variable (appelons-la ``r``), qui stockera la valeur dite "reflechie". Elle est obtenue en plusieurs etapes donc accrochez-vous: tout d'abord, faites un dot product de ``L`` et ``n`` et multipliez-le par 2; faites une scale de ``n`` avec votre resultat; puis soustrayez ``L`` a votre resultat. Normalisez le resultat.
+
+Recuperez la distance entre la camera et le point d'impact (appelons-la ``v``) et normalisez-la.
+
+La specular est obtenue par un dot product de ``r`` et ``v``. Verifiez si elle est inferieure a 0, et si oui, reassignez-la a 0 et n'allez pas plus loin. Sinon, on continue. Il ne nous reste plus qu'a y appliquer la fonction ``powf()`` de la librairie <maths.h> avec en argument votre specular actuelle suivi de l'attribut ``shiny``, puis a en multiplier le resultat par ``ks`` * le ratio de la lumiere donne par la map. C'est bon, vous avez votre specular!
+
+Voici a quoi votre code pourrait ressembler:
+```
+L = normalize(vector_minus_vector(light.coord, hit_vector));
+r = normalize(vector_minus_vector(scale(n, 2.0f * dot_product(L, n)), L));
+v = normalize(vector_minus_vector(camera.coord, hit_vector));
+specular = dot_product(r, v);
+if (specular < 0.0f)
+	return (0.0f);
+specular = powf(specular, shiny);
+specular *= ks * light.ratio;
+```
+
+#### Couleur finale
+On y est presque! A present, appliquez le meme calcul aux differentes couleurs RGB de votre pixel: multipliez sa valeur actuelle par l'addition de celle de la lumiere ambiante (modulee par son ratio) et de la diffuse, et ajoutez-y la specular.
+
+Voici un exemple de comment le coder:
+```
+pixel_color.r = pixel_color.r * (ambiant.r * amb.ratio + diffuse) + specular;
+pixel_color.g = pixel_color.g * (ambiant.g * amb.ratio + diffuse) + specular;
+pixel_color.b = pixel_color.b * (ambiant.b * amb.ratio + diffuse) + specular;
+```
+
+Et voila, toutes vos intersections ont leur couleur definitive! Il nous reste a couvrir les pixels qui n'ont pas d'intersections. Dans ce cas-la, le pixel doit prendre la couleur de la lumiere ambiante donnee par la map, modulee par son ratio.
+
+Voici ce a quoi cela pourrait ressembler:
+```
+pixel_color.r = ambiant.r * amb.ratio;
+pixel_color.g = ambiant.g * amb.ratio;
+pixel_color.b = ambiant.b * amb.ratio;
+```
+
+**ATTENTION: lors que vous modulez la couleur avec des floats, il vous faut reechellonner votre code RGB, qui va de 0 a 255, en un code qui va de 0.0f a 1.0f. Creez une ou des fonctions qui permettent de passer d'une echelle a l'autre facilement.**
 
 

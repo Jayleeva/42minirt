@@ -42,27 +42,22 @@ Calcule la couleur finale au point d'impact :
 */
 t_rgb	compute_lighting(t_data *d, t_hit *h, t_rgb obj)
 {
-	t_rgb		obj_s;
-	t_rgb		amb_s;
-	t_vector	n;
 	float		diffuse;
 	float		spec;
+	t_rgb		obj_s;
+	t_rgb		amb_s;
 
-	obj_s = obj;
-	rgb_rescale(&obj_s, 1);
-	amb_s = d->a.colors;
-	rgb_rescale(&amb_s, 1);
-	amb_s.s_r *= d->a.ratio;
-	amb_s.s_g *= d->a.ratio;
-	amb_s.s_b *= d->a.ratio;
-	n = v_norm(h->n);
-	diffuse = compute_diffuse(d, h, n);
-	spec = compute_specular(d, h, n);
+	diffuse = compute_diffuse(d, h, h->n);
+	spec = compute_specular(d, h, h->n);
 	if (is_in_shadow(d, h))
 	{
 		diffuse = 0.f;
 		spec = 0.f;
 	}
+	obj_s = obj;
+	rgb_rescale(&obj_s, 1);
+	amb_s = ratio_color(d->a.colors, d->a.ratio);
+	rgb_rescale(&amb_s, 1);
 	obj_s.s_r = obj_s.s_r * (amb_s.s_r + diffuse) + spec;
 	obj_s.s_g = obj_s.s_g * (amb_s.s_g + diffuse) + spec;
 	obj_s.s_b = obj_s.s_b * (amb_s.s_b + diffuse) + spec;
