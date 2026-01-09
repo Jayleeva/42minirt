@@ -23,6 +23,8 @@ void	cast_ray(t_data *data, int i, int x, int y)
 		data->canvas[i].colors = final;
 		data->canvas[i].color = rgb_to_hex(&(data->canvas[i].colors));
 	}
+	else
+		initialize_color(data, data->canvas, i);
 }
 
 // Donne la couleur recue aux coordonnees de pixel recues.
@@ -84,7 +86,6 @@ int	ray_tracing(t_data *d)
 	d->img.img_ptr = mlx_new_image(d->mlx_ptr, W_WIDTH, W_HEIGHT);
 	d->img.addr = mlx_get_data_addr(d->img.img_ptr, bpp, size, endian);
 	cam_prepare_view(d);
-	initialize_color(d, d->canvas);
 	loop_on_pixels(d);
 	mlx_put_image_to_window(d->mlx_ptr, d->win_ptr, d->img.img_ptr, 0, 0);
 	return (1);

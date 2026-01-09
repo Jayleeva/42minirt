@@ -1,29 +1,13 @@
 #include "../inc/minirt.h"
 
 // Recouvre tout l'ecran avec la couleur de la lumiere ambiante.
-void	initialize_color(t_data *data, t_pixel *canvas)
+void	initialize_color(t_data *data, t_pixel *canvas, int i)
 {
-	int		x;
-	int		y;
-	int		i;
-
-	i = 0;
-	x = 0;
-	while (x < W_WIDTH)
-	{
-		y = 0;
-		while (y < W_HEIGHT)
-		{
-			canvas[i].colors.r = data->a.colors.r * data->a.ratio;
-			canvas[i].colors.g = data->a.colors.g * data->a.ratio;
-			canvas[i].colors.b = data->a.colors.b * data->a.ratio;
-			rgb_rescale(&(canvas[i].colors), 1);
-			canvas[i].color = rgb_to_hex(&(canvas[i].colors));
-			i ++;
-			y ++;
-		}
-		x ++;
-	}
+	canvas[i].colors.r = data->a.colors.r * data->a.ratio;
+	canvas[i].colors.g = data->a.colors.g * data->a.ratio;
+	canvas[i].colors.b = data->a.colors.b * data->a.ratio;
+	rgb_rescale(&(canvas[i].colors), 1);
+	canvas[i].color = rgb_to_hex(&(canvas[i].colors));
 }
 
 // Transforme les int de 0 a 255 en float de 0.0 a 1.0 si type == 1,

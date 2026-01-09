@@ -67,6 +67,8 @@ int	check_fov(int *fov_, char *s)
 {
 	int	fov;
 
+	if (!ft_isnum(s, 0))
+		return (0);
 	fov = ft_atoi(s);
 	if (fov < 0 || fov > 180)
 		return (0);

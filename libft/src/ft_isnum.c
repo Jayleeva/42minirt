@@ -12,15 +12,23 @@
 
 #include "libft.h"
 
-int	ft_isnum(char *s)
+int	ft_isnum(char *s, int comma)
 {
 	int	i;
 
 	i = 0;
 	while (s[i])
 	{
-		if (!ft_isdigit(s[i]))
-			return (0);
+		if (!comma)
+		{
+			if (!ft_isdigit(s[i]) && s[i] != '-' && s[i] != '+')
+				return (0);
+		}
+		else
+		{
+			if (!ft_isdigit(s[i]) && s[i] != '-' && s[i] != '+' && s[i] != '.')
+				return (0);
+		}
 		i ++;
 	}
 	return (1);
