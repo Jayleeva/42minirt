@@ -74,8 +74,10 @@ int	check_trim(t_data *data, char *s)
 	char	*trim;
 
 	trim = ft_strtrim(s, "\n");
-	if (!trim || !*trim)
+	if (!trim)
 		return (0);
+	if (!*trim)
+		return (free(trim), 0);
 	if (!check_colors(&(data->cy[data->i_cy].colors), trim))
 		return (free(trim), 0);
 	free(trim);
