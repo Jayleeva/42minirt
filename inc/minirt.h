@@ -59,7 +59,7 @@ typedef struct s_sp
 	t_vector	coord;
 	float		diameter;
 	t_rgb		colors;
-	t_vector	X;
+	t_vector	x;
 	float		a;
 	float		half_b;
 	float		c;
@@ -79,7 +79,7 @@ typedef struct s_cy
 	float		diameter;
 	float		height;
 	t_rgb		colors;
-	t_vector	X;
+	t_vector	x;
 	float		a;
 	float		half_b;
 	float		c;
@@ -105,7 +105,8 @@ typedef struct s_img_data
 	int		endian;
 }			t_img_data;
 
-typedef struct s_camview {
+typedef struct s_camview
+{
 	t_vector	u;
 	t_vector	v;
 	t_vector	w;
@@ -118,7 +119,6 @@ typedef struct s_specular
 	float	ks;
 	float	shiny;
 }			t_specular;
-
 
 typedef struct s_data
 {
@@ -162,78 +162,78 @@ typedef struct s_hit
 	int			idx;
 }				t_hit;
 
-typedef struct s_ray {
+typedef struct s_ray
+{
 	t_vector	o;
 	t_vector	d;
 }				t_ray;
 
-typedef struct s_cap {
+typedef struct s_cap
+{
 	t_vector	center;
 	t_vector	normal;
 	float		radius;
-} 				t_cap;
-
-
+}				t_cap;
 
 //essentials
-void	init(t_data *data);
-int		fill_map(t_data *data, int i);
-void	window(t_data *data);
-int		on_destroy(t_data *data);
+void		init(t_data *data);
+int			fill_map(t_data *data, int i);
+void		window(t_data *data);
+int			on_destroy(t_data *data);
 
 //parsing
-int		is_valid(t_data *data, char *s);
-int		first_open(t_data *data, char *s);
-int		is_map_valid(t_data *data, int fd);
+int			is_valid(t_data *data, char *s);
+int			first_open(t_data *data, char *s);
+int			is_map_valid(t_data *data, int fd);
 
 //check config
-int		check_config(t_data *data, char *el);
+int			check_config(t_data *data, char *el);
 
-int		check_a(t_data *data, char *type);
-int		check_c(t_data *data, char *type);
-int		check_l(t_data *data, char *type);
-int		check_fov(int *fov_, char *s);
+int			check_a(t_data *data, char *type);
+int			check_c(t_data *data, char *type);
+int			check_l(t_data *data, char *type);
+int			check_fov(int *fov_, char *s);
 
-int		check_sp(t_data *data, char *sp);
-int		check_pl(t_data *data, char *pl);
-int		check_cy(t_data *data, char *cy);
+int			check_sp(t_data *data, char *sp);
+int			check_pl(t_data *data, char *pl);
+int			check_cy(t_data *data, char *cy);
 
-int		check_colors(t_rgb *colors, char *s);
-int		check_coord(t_vector *coord, char *s);
-int		check_ornt(t_vector *ornt, char *s);
-int		check_ratio(float *ratio_, char *s);
-int		check_diameter_or_height(float *len_, char *s);
+int			check_colors(t_rgb *colors, char *s);
+int			check_coord(t_vector *coord, char *s);
+int			check_ornt(t_vector *ornt, char *s);
+int			check_ratio(float *ratio_, char *s);
+int			check_diameter_or_height(float *len_, char *s);
 
 //check config utils
-int		count_elem(t_data *data, int fd);
-int		increment_elem(t_data *data, char *line);
-int		alloc_lel(t_data *data);
-int		is_already_used(char *used, char c);
-int		is_usable(char *line, char *used, int i);
-int		is_n_uel_valid(t_data *data);
+int			count_elem(t_data *data, int fd);
+int			increment_elem(t_data *data, char *line);
+int			alloc_lel(t_data *data);
+int			is_already_used(char *used, char c);
+int			is_usable(char *line, char *used, int i);
+int			is_n_uel_valid(t_data *data);
 
 //rgb to hex
-int		rgb_to_hex(t_rgb *colors);
-void	rgb_to_hex_utils(int *tmp, int n, char *s);
-int		get_n(int *tmp);
+int			rgb_to_hex(t_rgb *colors);
+void		rgb_to_hex_utils(int *tmp, int n, char *s);
+int			get_n(int *tmp);
 
 //colors
-void	rgb_rescale(t_rgb *color, int type);
-t_rgb	ratio_color(t_rgb color, float ratio);
-void	initialize_color(t_data *data, t_pixel *canvas, int i);
+void		rgb_rescale(t_rgb *color, int type);
+t_rgb		ratio_color(t_rgb color, float ratio);
+void		initialize_color(t_data *data, t_pixel *canvas, int i);
 
 //ray tracing
-float	compute_specular(t_data *d, t_hit *h, t_vector n);
-float	compute_diffuse(t_data *d, t_hit *h, t_vector n);
-t_rgb	compute_lighting(t_data *d, t_hit *h, t_rgb obj);
-void	ft_put_pixel(t_img_data *data, int x, int y, int color);
-void	loop_on_pixels(t_data *d);
-int		ray_tracing(t_data *data);
-void	cast_ray(t_data *data, int i, int x, int y);
-int		compute_intersections(t_data *data, int x, int y);
-void	set_color(t_data *data, int x, int y);
-void	cam_prepare_view(t_data *d);
-t_ray	make_primary_ray(t_data *d, int x, int y);
+float		compute_specular(t_data *d, t_hit *h, t_vector n);
+float		compute_diffuse(t_data *d, t_hit *h, t_vector n);
+t_rgb		compute_lighting(t_data *d, t_hit *h, t_rgb obj);
+void		ft_put_pixel(t_img_data *data, int x, int y, int color);
+void		loop_on_pixels(t_data *d);
+int			ray_tracing(t_data *data);
+void		cast_ray(t_data *data, int i, int x, int y);
+int			compute_intersections(t_data *data, int x, int y);
+void		set_color(t_data *data, int x, int y);
+void		cam_prepare_view(t_data *d);
+t_ray		make_primary_ray(t_data *d, int x, int y);
 
 // vectors
 t_vector	v_add(t_vector a, t_vector b);
@@ -247,12 +247,12 @@ float		v_len(t_vector a);
 float		v_len2(t_vector a);
 
 //intersections
-float	find_t(float discr, float half_b, float a, int sign);
-float	find_cy_t(const t_ray *r, t_cy *cy, int sign);
-int		is_cy_t_in_limits(float t, t_cy *cy, const t_ray *r, t_hit *out);
-int		hit_sphere(const t_ray *r, t_sp *s, float tmax, t_hit *out);
-int		hit_cylinder(const t_ray *r, t_cy *cy, t_hit *out);
-int		hit_plane(const t_ray *r, const t_pl *pl, float tmax, t_hit *out);
-int		world_hit(t_data *d, const t_ray *r, float tmax, t_hit *h);
-int 	world_hit_shadow(t_data *d, const t_ray *r, float tmax, t_hit *h);
+float		find_t(float discr, float half_b, float a, int sign);
+float		find_cy_t(const t_ray *r, t_cy *cy, int sign);
+int			is_cy_t_in_limits(float t, t_cy *cy, const t_ray *r, t_hit *out);
+int			hit_sphere(const t_ray *r, t_sp *s, float tmax, t_hit *out);
+int			hit_cylinder(const t_ray *r, t_cy *cy, t_hit *out);
+int			hit_plane(const t_ray *r, const t_pl *pl, float tmax, t_hit *out);
+int			world_hit(t_data *d, const t_ray *r, float tmax, t_hit *h);
+int			world_hit_shadow(t_data *d, const t_ray *r, float tmax, t_hit *h);
 #endif

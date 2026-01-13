@@ -6,10 +6,10 @@ float	compute_sp_discr(const t_ray *r, t_sp *s)
 	float	discr;
 
 	rads = s->diameter * 0.5f;
-	s->X = v_sub(r->o, s->coord);
+	s->x = v_sub(r->o, s->coord);
 	s->a = v_dot(r->d, r->d);
-	s->half_b = v_dot(s->X, r->d);
-	s->c = v_dot(s->X, s->X) - rads * rads;
+	s->half_b = v_dot(s->x, r->d);
+	s->c = v_dot(s->x, s->x) - rads * rads;
 	discr = s->half_b * s->half_b - s->a * s->c;
 	return (discr);
 }

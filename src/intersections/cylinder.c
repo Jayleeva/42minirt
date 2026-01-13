@@ -6,12 +6,12 @@ float	compute_cy_discr(const t_ray *r, t_cy *cy)
 	float	discr;
 
 	rads = cy->diameter * 0.5f;
-	cy->X = v_sub(r->o, cy->coord);
+	cy->x = v_sub(r->o, cy->coord);
 	cy->dv = v_dot(r->d, v_norm(cy->ornt));
-	cy->xv = v_dot(cy->X, v_norm(cy->ornt));
+	cy->xv = v_dot(cy->x, v_norm(cy->ornt));
 	cy->a = v_dot(r->d, r->d) - (cy->dv * cy->dv);
-	cy->half_b = v_dot(r->d, cy->X) - (cy->dv * cy->xv);
-	cy->c = v_dot(cy->X, cy->X) - (cy->xv * cy->xv) - (rads * rads);
+	cy->half_b = v_dot(r->d, cy->x) - (cy->dv * cy->xv);
+	cy->c = v_dot(cy->x, cy->x) - (cy->xv * cy->xv) - (rads * rads);
 	discr = cy->half_b * cy->half_b - cy->a * cy->c;
 	return (discr);
 }
