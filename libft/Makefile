@@ -55,6 +55,7 @@ SRC = strchri.c \
 	ft_strcmp.c \
 	ft_atoi_base.c \
 	ft_isnum.c \
+	ft_print_error.c \
 
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC))
 

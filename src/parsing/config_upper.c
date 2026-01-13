@@ -4,18 +4,20 @@
 int	check_a(t_data *data, char *type)
 {
 	char	**tab;
+	char	*trim;
 
 	tab = ft_split(type, ' ');
 	if (!tab)
 		return (0);
 	if (!tab[2] || tab[3])
 		return (free_tab(tab), 0);
-	tab[2] = ft_strtrim(tab[2], "\n");
 	if (!check_ratio(&(data->a.ratio), tab[1]))
 		return (free_tab(tab), 0);
-	if (!check_colors(&(data->a.colors), tab[2]))
-		return (free_tab(tab), 0);
+	trim = ft_strtrim(tab[2], "\n");
+	if (!check_colors(&(data->a.colors), trim))
+		return (free_tab(tab), free(trim), 0);
 	free_tab(tab);
+	free(trim);
 	printf("check A : OK\n");
 	return (1);
 }
@@ -24,20 +26,22 @@ int	check_a(t_data *data, char *type)
 int	check_c(t_data *data, char *type)
 {
 	char	**tab;
+	char	*trim;
 
 	tab = ft_split(type, ' ');
 	if (!tab)
 		return (0);
 	if (!tab[3] || tab[4])
 		return (free_tab(tab), 0);
-	tab[3] = ft_strtrim(tab[3], "\n");
 	if (!check_coord(&(data->c.coord), tab[1]))
 		return (free_tab(tab), 0);
 	if (!check_ornt(&(data->c.ornt), tab[2]))
 		return (free_tab(tab), 0);
-	if (!check_fov(&(data->c.fov), tab[3]))
-		return (free_tab(tab), 0);
+	trim = ft_strtrim(tab[3], "\n");
+	if (!check_fov(&(data->c.fov), trim))
+		return (free_tab(tab), free(trim), 0);
 	free_tab(tab);
+	free(trim);
 	printf("check C : OK\n");
 	return (1);
 }
@@ -46,18 +50,20 @@ int	check_c(t_data *data, char *type)
 int	check_l(t_data *data, char *type)
 {
 	char	**tab;
+	char	*trim;
 
 	tab = ft_split(type, ' ');
 	if (!tab)
 		return (0);
-	tab[2] = ft_strtrim(tab[2], "\n");
 	if (!tab[2] || tab[3])
 		return (free_tab(tab), 0);
 	if (!check_coord(&(data->l.coord), tab[1]))
 		return (free_tab(tab), 0);
-	if (!check_ratio(&(data->l.ratio), tab[2]))
-		return (free_tab(tab), 0);
+	trim = ft_strtrim(tab[2], "\n");
+	if (!check_ratio(&(data->l.ratio), trim))
+		return (free_tab(tab), free(trim), 0);
 	free_tab(tab);
+	free(trim);
 	printf("check L : OK\n");
 	return (1);
 }

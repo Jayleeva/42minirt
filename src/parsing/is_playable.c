@@ -59,12 +59,12 @@ int	second_open(t_data *data, char *s)
 	fd = open(s, O_RDONLY);
 	if (fd < 0)
 	{
-		perror("Error\nFile could not open.\n");
+		ft_print_error("Error: File could not open.\n");
 		return (0);
 	}
 	if (!is_map_valid(data, fd))
 	{
-		perror("Error\nMap invalid.\n");
+		ft_print_error("Error: Map invalid.\n");
 		return (close(fd), 0);
 	}
 	close(fd);
@@ -80,7 +80,7 @@ int	first_open(t_data *data, char *s)
 	fd = open(s, O_RDONLY);
 	if (fd < 0)
 	{
-		perror("Error\nFile invalid.\n");
+		ft_print_error("Error: File invalid.\n");
 		return (-1);
 	}
 	data->nelem = count_elem(data, fd);
@@ -105,14 +105,14 @@ int	is_valid(t_data *data, char *s)
 
 	if (!is_format_valid(s, ".rt"))
 	{
-		perror("Error\nFile format invalid.\n");
+		ft_print_error("Error: File format invalid.\n");
 		return (0);
 	}
 	printf("format : OK\n");
 	nelem = first_open(data, s);
 	if (!nelem)
 	{
-		perror("Error\nNumber of elements invalid.\n");
+		ft_print_error("Error: Number of elements invalid.\n");
 		return (0);
 	}
 	else if (nelem == -1)
