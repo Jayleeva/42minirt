@@ -1,5 +1,14 @@
 #include "../inc/minirt.h"
 
+int	not_valid(float x, float y, float z)
+{
+	if ((x < -1.0 || x > 1.0)
+		|| (y < -1.0 || y > 1.0)
+		|| (z < -1.0 || z > 1.0)
+		|| (x == 0 && y == 0 && z == 0))
+		return (1);;
+	return (0);
+}
 // Verifie si le code rgb est valable.
 int	check_colors(t_rgb *colors, char *s)
 {
@@ -12,6 +21,8 @@ int	check_colors(t_rgb *colors, char *s)
 	if (!clr_tab)
 		return (0);
 	if (!clr_tab[2] || clr_tab[3])
+		return (free_tab(clr_tab), 0);
+	if (is_empty(clr_tab, 2))
 		return (free_tab(clr_tab), 0);
 	if (!ft_isnum(clr_tab[0], 0)
 		|| !ft_isnum(clr_tab[1], 0)
@@ -39,6 +50,8 @@ int	check_coord(t_vector *coord, char *s)
 		return (0);
 	if (!coord_tab[2] || coord_tab[3])
 		return (free_tab(coord_tab), 0);
+	if (is_empty(coord_tab, 2))
+		return (free_tab(coord_tab), 0);
 	if (!ft_isnum(coord_tab[0], 1)
 		|| !ft_isnum(coord_tab[1], 1)
 		|| !ft_isnum(coord_tab[2], 1))
@@ -63,15 +76,15 @@ int	check_ornt(t_vector *ornt, char *s)
 		return (0);
 	if (!ornt_tab[2] || ornt_tab[3])
 		return (free_tab(ornt_tab), 0);
+	if (is_empty(ornt_tab, 2))
+		return (free_tab(ornt_tab), 0);
 	if (!ft_isnum(ornt_tab[0], 1)
 		|| !ft_isnum(ornt_tab[1], 1) || !ft_isnum(ornt_tab[2], 1))
 		return (free_tab(ornt_tab), 0);
 	x = _atof(ornt_tab[0]);
 	y = _atof(ornt_tab[1]);
 	z = _atof(ornt_tab[2]);
-	if ((x < -1.0 || x > 1.0)
-		|| (y < -1.0 || y > 1.0)
-		|| (z < -1.0 || z > 1.0))
+	if (not_valid(x, y, z))
 		return (free_tab(ornt_tab), 0);
 	ornt->x = x;
 	ornt->y = y;

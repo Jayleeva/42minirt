@@ -255,6 +255,4 @@ int		hit_cylinder(const t_ray *r, t_cy *cy, t_hit *out);
 int		hit_plane(const t_ray *r, const t_pl *pl, float tmax, t_hit *out);
 int		world_hit(t_data *d, const t_ray *r, float tmax, t_hit *h);
 int 	world_hit_shadow(t_data *d, const t_ray *r, float tmax, t_hit *h);
-
-
 #endif

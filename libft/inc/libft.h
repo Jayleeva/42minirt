@@ -93,5 +93,6 @@ char	*define_set(char *set, int base);
 int		ft_atoi_base(const char *str, int base);
 int		ft_isnum(char *s, int comma);
 void	ft_print_error(char *s);
+int		is_empty(char **tab, int n);
 
 #endif

@@ -12,6 +12,17 @@
 
 #include "libft.h"
 
+int	is_empty(char **tab, int n)
+{
+	while (n > 0)
+	{
+		if (!*tab[n])
+			return (1);
+		n--;
+	}
+	return (0);
+}
+
 static int	get_power(int i)
 {
 	int	res;
@@ -82,7 +93,7 @@ float	_atof(char *str)
 	n = 0;
 	while (tab[n])
 		n++;
-	if (n > 2)
+	if (n == 0 || n > 2)
 		return (free_tab(tab), 0);
 	result = (float)ft_atoi(tab[0]);
 	if (n == 2)

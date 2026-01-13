@@ -9,11 +9,13 @@ int	check_a(t_data *data, char *type)
 	tab = ft_split(type, ' ');
 	if (!tab)
 		return (0);
-	if (!tab[2] || tab[3])
+	if (!tab[2] || tab[3] || is_empty(tab, 2))
 		return (free_tab(tab), 0);
 	if (!check_ratio(&(data->a.ratio), tab[1]))
 		return (free_tab(tab), 0);
 	trim = ft_strtrim(tab[2], "\n");
+	if (!trim || !*trim)
+		return (free_tab(tab), free(trim), 0);
 	if (!check_colors(&(data->a.colors), trim))
 		return (free_tab(tab), free(trim), 0);
 	free_tab(tab);
@@ -31,13 +33,15 @@ int	check_c(t_data *data, char *type)
 	tab = ft_split(type, ' ');
 	if (!tab)
 		return (0);
-	if (!tab[3] || tab[4])
+	if (!tab[3] || tab[4] || is_empty(tab, 2))
 		return (free_tab(tab), 0);
 	if (!check_coord(&(data->c.coord), tab[1]))
 		return (free_tab(tab), 0);
 	if (!check_ornt(&(data->c.ornt), tab[2]))
 		return (free_tab(tab), 0);
 	trim = ft_strtrim(tab[3], "\n");
+	if (!trim || !*trim)
+		return (free_tab(tab), free(trim), 0);
 	if (!check_fov(&(data->c.fov), trim))
 		return (free_tab(tab), free(trim), 0);
 	free_tab(tab);
@@ -55,11 +59,13 @@ int	check_l(t_data *data, char *type)
 	tab = ft_split(type, ' ');
 	if (!tab)
 		return (0);
-	if (!tab[2] || tab[3])
+	if (!tab[2] || tab[3] || is_empty(tab, 2))
 		return (free_tab(tab), 0);
 	if (!check_coord(&(data->l.coord), tab[1]))
 		return (free_tab(tab), 0);
 	trim = ft_strtrim(tab[2], "\n");
+	if (!trim || !*trim)
+		return (free_tab(tab), free(trim), 0);
 	if (!check_ratio(&(data->l.ratio), trim))
 		return (free_tab(tab), free(trim), 0);
 	free_tab(tab);
