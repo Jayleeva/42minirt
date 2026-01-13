@@ -1,22 +1,9 @@
 #include "../inc/minirt.h"
 
-int	not_valid(float x, float y, float z)
-{
-	if ((x < -1.0 || x > 1.0)
-		|| (y < -1.0 || y > 1.0)
-		|| (z < -1.0 || z > 1.0)
-		|| (x == 0 && y == 0 && z == 0))
-		return (1);
-	return (0);
-}
-
 // Verifie si le code rgb est valable.
 int	check_colors(t_rgb *colors, char *s)
 {
 	char	**clr_tab;
-	int		r;
-	int		g;
-	int		b;
 
 	clr_tab = ft_split(s, ',');
 	if (!clr_tab)
@@ -29,14 +16,8 @@ int	check_colors(t_rgb *colors, char *s)
 		|| !ft_isnum(clr_tab[1], 0)
 		|| !ft_isnum(clr_tab[2], 0))
 		return (free_tab(clr_tab), 0);
-	r = ft_atoi(clr_tab[0]);
-	g = ft_atoi(clr_tab[1]);
-	b = ft_atoi(clr_tab[2]);
-	if ((r < 0 || r > 255) || (g < 0 || g > 255) || (b < 0 || b > 255))
+	if (!check_colors_utils(colors, clr_tab))
 		return (free_tab(clr_tab), 0);
-	colors->r = r;
-	colors->g = g;
-	colors->b = b;
 	free_tab(clr_tab);
 	return (1);
 }

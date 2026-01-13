@@ -15,6 +15,7 @@ SRC = 	main.c \
 		parsing/config_upper.c \
 		parsing/config_lower.c \
 		parsing/config_common.c \
+		parsing/config_utils.c \
 		parsing/parsing_utils.c \
 		vectors/v_operations.c \
 		vectors/v_normalize.c \
