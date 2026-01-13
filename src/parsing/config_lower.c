@@ -16,6 +16,8 @@ int	check_sp(t_data *data, char *sp)
 	if (!check_diameter_or_height(&(data->sp[data->i_sp].diameter), tab[2]))
 		return (free_tab(tab), 0);
 	trim = ft_strtrim(tab[3], "\n");
+	if (!trim || !*trim)
+		return (free_tab(tab), free(trim), 0);
 	if (!check_colors(&(data->sp[data->i_sp].colors), trim))
 		return (free_tab(tab), free(trim), 0);
 	data->i_sp ++;
@@ -41,6 +43,8 @@ int	check_pl(t_data *data, char *pl)
 	if (!check_ornt(&(data->pl[data->i_pl].ornt), tab[2]))
 		return (free_tab(tab), 0);
 	trim = ft_strtrim(tab[3], "\n");
+	if (!trim || !*trim)
+		return (free_tab(tab), free(trim), 0);
 	if (!check_colors(&(data->pl[data->i_pl].colors), trim))
 		return (free_tab(tab), free(trim), 0);
 	data->i_pl ++;
@@ -49,6 +53,27 @@ int	check_pl(t_data *data, char *pl)
 	printf("check pl : OK\n");
 	return (1);
 }
+
+/*static int	check_config_cy(t_data *data, char **tab)
+{
+	char	*trim;
+
+	if (!check_coord(&(data->cy[data->i_cy].coord), tab[1]))
+		return (free_tab(tab), 0);
+	if (!check_ornt(&(data->cy[data->i_cy].ornt), tab[2]))
+		return (free_tab(tab), 0);
+	if (!check_diameter_or_height(&(data->cy[data->i_cy].diameter), tab[3]))
+		return (free_tab(tab), 0);
+	if (!check_diameter_or_height(&(data->cy[data->i_cy].height), tab[4]))
+		return (free_tab(tab), 0);
+	trim = ft_strtrim(tab[5], "\n");
+	if ((!trim || !*trim))
+		return (free_tab(tab), free(trim), 0);
+	if (!check_colors(&(data->cy[data->i_cy].colors), trim))
+		return (free_tab(tab), free(trim), 0);
+	free(trim);
+	return (1);
+}*/
 
 // Verifie si les configs du cylindre sont valables.
 int	check_cy(t_data *data, char *cy)
@@ -61,6 +86,8 @@ int	check_cy(t_data *data, char *cy)
 		return (0);
 	if (!tab[5] || tab[6] || is_empty(tab, 5))
 		return (free_tab(tab), 0);
+	/*if (check_config_cy(data, tab))
+		return (free_tab(tab), 0);*/
 	if (!check_coord(&(data->cy[data->i_cy].coord), tab[1]))
 		return (free_tab(tab), 0);
 	if (!check_ornt(&(data->cy[data->i_cy].ornt), tab[2]))
@@ -70,11 +97,13 @@ int	check_cy(t_data *data, char *cy)
 	if (!check_diameter_or_height(&(data->cy[data->i_cy].height), tab[4]))
 		return (free_tab(tab), 0);
 	trim = ft_strtrim(tab[5], "\n");
+	if ((!trim || !*trim))
+		return (free_tab(tab), free(trim), 0);
 	if (!check_colors(&(data->cy[data->i_cy].colors), trim))
 		return (free_tab(tab), free(trim), 0);
+	free(trim);
 	data->i_cy ++;
 	free_tab(tab);
-	free(trim);
 	printf("check cy : OK\n");
 	return (1);
 }
