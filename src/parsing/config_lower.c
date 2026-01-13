@@ -9,7 +9,7 @@ int	check_sp(t_data *data, char *sp)
 	tab = ft_split(sp, ' ');
 	if (!tab)
 		return (0);
-	if (!tab[3] || tab[4])
+	if (!tab[3] || tab[4] || is_empty(tab, 3))
 		return (free_tab(tab), 0);
 	if (!check_coord(&(data->sp[data->i_sp].coord), tab[1]))
 		return (free_tab(tab), 0);
@@ -34,7 +34,7 @@ int	check_pl(t_data *data, char *pl)
 	tab = ft_split(pl, ' ');
 	if (!tab)
 		return (0);
-	if (!tab[3] || tab[4])
+	if (!tab[3] || tab[4] || is_empty(tab, 3))
 		return (free_tab(tab), 0);
 	if (!check_coord(&(data->pl[data->i_pl].coord), tab[1]))
 		return (free_tab(tab), 0);
@@ -59,7 +59,7 @@ int	check_cy(t_data *data, char *cy)
 	tab = ft_split(cy, ' ');
 	if (!tab)
 		return (0);
-	if (!tab[5] || tab[6])
+	if (!tab[5] || tab[6] || is_empty(tab, 5))
 		return (free_tab(tab), 0);
 	if (!check_coord(&(data->cy[data->i_cy].coord), tab[1]))
 		return (free_tab(tab), 0);
