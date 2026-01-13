@@ -1,5 +1,14 @@
 #include "../inc/minirt.h"
 
+int	not_valid(float x, float y, float z)
+{
+	if ((x < -1.0 || x > 1.0)
+		|| (y < -1.0 || y > 1.0)
+		|| (z < -1.0 || z > 1.0)
+		|| (x == 0 && y == 0 && z == 0))
+		return (1);;
+	return (0);
+}
 // Verifie si le code rgb est valable.
 int	check_colors(t_rgb *colors, char *s)
 {
@@ -69,9 +78,7 @@ int	check_ornt(t_vector *ornt, char *s)
 	x = _atof(ornt_tab[0]);
 	y = _atof(ornt_tab[1]);
 	z = _atof(ornt_tab[2]);
-	if ((x < -1.0 || x > 1.0)
-		|| (y < -1.0 || y > 1.0)
-		|| (z < -1.0 || z > 1.0))
+	if (not_valid(x, y, z))
 		return (free_tab(ornt_tab), 0);
 	ornt->x = x;
 	ornt->y = y;
