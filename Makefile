@@ -1,4 +1,4 @@
-NAME = minirt
+NAME = miniRT
 LIBFT = libft
 LIBFT_DIR := ./libft
 LIBFT_LIB := $(LIBFT_DIR)/$(LIBFT)
