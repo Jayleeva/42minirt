@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   v_normalize.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: llabatut <eihwaz.42@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 09:33:08 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/08/28 17:44:27 by cyglardo         ###   ########.fr       */
+/*   Created: 2026/01/13 17:15:28 by llabatut          #+#    #+#             */
+/*   Updated: 2026/01/13 17:15:28 by llabatut         ###   ########.ch       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../inc/minirt.h"
 
 // Carré de la longueur d'un vecteur (évite sqrt quand inutile)
