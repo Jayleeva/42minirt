@@ -188,7 +188,7 @@ int			is_map_valid(t_data *data, int fd);
 
 //check config
 int			not_valid(float x, float y, float z);
-int 		check_colors_utils(t_rgb *colors, char **clr_tab);
+int			check_colors_utils(t_rgb *colors, char **clr_tab);
 int			check_config(t_data *data, char *el);
 
 int			check_a(t_data *data, char *type);
