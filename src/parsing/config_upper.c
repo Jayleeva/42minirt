@@ -4,18 +4,20 @@
 int	check_a(t_data *data, char *type)
 {
 	char	**tab;
+	//char	*trim;
 
 	tab = ft_split(type, ' ');
 	if (!tab)
 		return (0);
 	if (!tab[2] || tab[3])
 		return (free_tab(tab), 0);
-	tab[2] = ft_strtrim(tab[2], "\n");
+	//trim = ft_strtrim(tab[2], "\n");
 	if (!check_ratio(&(data->a.ratio), tab[1]))
 		return (free_tab(tab), 0);
 	if (!check_colors(&(data->a.colors), tab[2]))
 		return (free_tab(tab), 0);
 	free_tab(tab);
+	//free(trim);
 	printf("check A : OK\n");
 	return (1);
 }
