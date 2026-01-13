@@ -14,7 +14,9 @@ int	check_a(t_data *data, char *type)
 	if (!check_ratio(&(data->a.ratio), tab[1]))
 		return (free_tab(tab), 0);
 	trim = ft_strtrim(tab[2], "\n");
-	if (!trim || !*trim)
+	if (!trim)
+		return (free_tab(tab), 0);
+	if (!*trim)
 		return (free_tab(tab), free(trim), 0);
 	if (!check_colors(&(data->a.colors), trim))
 		return (free_tab(tab), free(trim), 0);
@@ -40,7 +42,9 @@ int	check_c(t_data *data, char *type)
 	if (!check_ornt(&(data->c.ornt), tab[2]))
 		return (free_tab(tab), 0);
 	trim = ft_strtrim(tab[3], "\n");
-	if (!trim || !*trim)
+	if (!trim)
+		return (free_tab(tab), 0);
+	if (!*trim)
 		return (free_tab(tab), free(trim), 0);
 	if (!check_fov(&(data->c.fov), trim))
 		return (free_tab(tab), free(trim), 0);
@@ -64,7 +68,9 @@ int	check_l(t_data *data, char *type)
 	if (!check_coord(&(data->l.coord), tab[1]))
 		return (free_tab(tab), 0);
 	trim = ft_strtrim(tab[2], "\n");
-	if (!trim || !*trim)
+	if (!trim)
+		return (free_tab(tab), 0);
+	if (!*trim)
 		return (free_tab(tab), free(trim), 0);
 	if (!check_ratio(&(data->l.ratio), trim))
 		return (free_tab(tab), free(trim), 0);
