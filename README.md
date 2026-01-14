@@ -53,7 +53,7 @@ Pour savoir quelle forme est touchée ou non par nos rayons, nous aurons besoin 
 
 Ce qui peut être perturbant, c'est qu'on ne cherche pas la position des formes, qui nous sont données par la map, mais plutôt les points d'impact (ou d'intersection): là où les rayons rencontrent des formes. Il nous faut donc trouver "t", la longueur du déplacement depuis l'origine du rayon jusqu'au point d'impact s'il y en a, pour ensuite vérifier si ce "t" est valable ou non. Et ce calcul de "t" change en fonction de la forme en question.
 
-**BON. On a vu les bases en gros, il est l'heure de passer aux choses concretes.**
+**BON. On a vu les bases en gros, il est l'heure de passer aux choses concrètes.**
 
 ## Créer et afficher une image
 La minilibx est parfois un peu obscure. Voici de quoi vous aurez besoin pour afficher une image de la taille de la fenêtre, créée pixel par pixel.
@@ -541,6 +541,7 @@ pixel_color.b = ambiant.b * amb.ratio;
 ```
 
 **ATTENTION: lors que vous modulez la couleur avec des floats, il vous faut rééchellonner votre code RGB, qui va de 0 à 255, en un code qui va de 0.0f à 1.0f. Créez une ou des fonctions qui permettent de passer d'une échelle à l'autre facilement.**
+
 
 
 
