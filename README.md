@@ -1,37 +1,35 @@
 # Consignes
-Creer un programme de ray tracing.
-- chaque element peut etre separe de 1 ou plusieurs retour a la ligne
-- chaque information de l'element peut etre separe de 1 ou plusieurs espaces
-- la premier info doit etre le type, les suivantes dans l'ordre exige par le type
-- pas d'obligation de nombre: plane (pl), sphere (sp), cylinder (cy) order is not important
-- strictly one: ambiant lighting (A), camera (C), light (L). order is not important
+Créer un programme de ray tracing.
+- chaque élément peut être séparé de 1 ou plusieurs retours à la ligne
+- chaque information de l'élément peut être séparé de 1 ou plusieurs espaces
+- la première info doit être le type, les suivantes dans l'ordre exigé par le type
+- pas d'obligation de nombre ni d'ordre pour les formes: plane (pl), sphere (sp), cylinder (cy)
+- strictement qu'une par map, mais pas d'ordre à suivre pour les paramètres: ambiant lighting (A), camera (C), light (L)
 
 Pas besoin de faire des transformations en live (bonus).
 
 # Etapes
 - parser : OK (C)
-- gerer la fenêtre : OK (C)
+- gérer la fenêtre : OK (C)
 - trouver comment envoyer des rayons sur chaque pixel : OK (L)
 - calculer les intersections pour chaque forme : OK (L)
-- calculer la distance avec la camera pour determiner l'ordre de proximite : OK (L)
-- gerer la lumiere : OK (L)
-- ajouter les ombres : OK (L)
-- attribuer une couleur a chaque pixel : OK (C et L)
-- mettre a la norme
+- calculer la distance avec la caméra pour déterminer l'ordre de proximité : OK (L)
+- gérer la lumière et les ombres : OK (L)
+- attribuer une couleur à chaque pixel : OK (C et L)
+- mettre à la norme
 
 # D'ICI PROCHAINE REU
-- C & L: se preparer a rendre le projet!
+- C & L: se préparer à rendre le projet!
 
 # A FAIRE
-- ajouter message d'erreur si map vide?
-- preparer des maps interessantes pour les evals
+- préparer des maps intéressantes pour les évals
 
 # Le ray tracing expliqué pour celleux qui n'aiment pas les maths
-On va pas se mentir, si les maths c'est pas votre truc, le ray tracing ça sera pas votre truc (j'en ai fait la difficile expérience). Cela dit, je vais tout de même essayer de présenter la chose d'une manière plus accessible, de non matheuse a non matheux.
+On va pas se mentir, si les maths c'est pas votre truc, le ray tracing ça sera pas votre truc (j'en ai fait la difficile expérience). Cela dit, je vais tout de même essayer de présenter la chose d'une manière plus accessible, de non matheuse à non matheux.
 
 ## Les bases, en gros
 ### La fenêtre sur un monde imaginaire
-La base de la technologie du ray tracing consiste à imaginer des chose: on imagine un monde en 3D dans lequel seront présentes ou non des formes (pour minirt: des sphères, des cylindres, et des plans), et où une caméra filmera ce qu'il s'y passe. La caméra est donc elle aussi présente *dans* le monde en 3D et peut y être placée n'importe où. La fenêtre de minirt nous transmet ce que filme cette caméra. Autrement dit, le contenu de la fenêtre correspond à celui du viewport de la caméra (ce qu'on voit à travers elle). 
+La base de la technologie du ray tracing consiste à imaginer des chose: on imagine un monde en 3D dans lequel seront présentes ou non des formes (pour minirt: des sphères, des cylindres, et des plans), et où une caméra filmera ce qu'il s'y passe. La caméra est donc elle aussi présente *dans* le monde en 3D et peut y être placée n'importe où. La fenêtre de minirt nous transmet ce que filme cette caméra. Autrement dit, le contenu de la fenêtre correspond à celui du viewport de la caméra (ce qu'on voit à travers elle).
 
 ATTENTION: la fenêtre N'EST PAS le viewport, la distinction est importante. Voyez cela comme deux écrans séparés: l'un est dans le monde imaginaire en 3D, rattaché à la caméra (= le viewport); l'autre est sur votre très réel écran à vous (= la fenêtre). Chacun a ses propres dimensions et unités. Les unités qui composent votre fenêtre sont des pixels. Celles qui composent le viewport, des unités différentes (appelez-les comme vous le voulez). Cela permet de mettre plusieurs unités dans un pixel, et donc d'étirer plus ou moins l'image rendue sur votre fenêtre. Ce ratio "x unités dans 1 pixel" dépend de votre FOV.
 
@@ -543,6 +541,7 @@ pixel_color.b = ambiant.b * amb.ratio;
 ```
 
 **ATTENTION: lors que vous modulez la couleur avec des floats, il vous faut reechellonner votre code RGB, qui va de 0 a 255, en un code qui va de 0.0f a 1.0f. Creez une ou des fonctions qui permettent de passer d'une echelle a l'autre facilement.**
+
 
 
 
