@@ -49,7 +49,7 @@ Mais nous verrons cela plus tard, restons meta. Nous envoyons donc des rayons en
 Nous ne sommes pourtant pas au bout de nos peines: une fois la couleur de la forme la plus proche identifiée, il nous faut encore la moduler en fonction de la lumière ambiante et de la lumière directe, qui se compose en "diffuse" et "specular" (la specular est un bonus du projet, vous pouvez donc vous en passer si vous le souhaitez, mais si vous en êtes arrivés jusqu'à la diffuse, ce ne sera pas beaucoup d'efforts supplémentaires). Et bien sûr, prendre en compte si le point de contact avec la forme est en réalité dans l'ombre (par ex: la lumière vient du côté droit, laissant donc le côté gauche de la forme dans l'ombre, ou une autre forme est placée entre celle qu'on a touchée et la lumière, projetant alors son ombre sur le point d'impact). Pour faire cette vérification, on renvoie des rayons, cette fois depuis le point d'impact en direction de la lumière: si on rencontre une nouvelle forme sur le chemin, le pixel sera dans l'ombre, sinon, il sera illuminé plus ou moins fort en fonction de la distance avec la source de lumière. Tada! (en gros)
 
 ### A chaque forme sa formule
-Pour savoir quelle forme est touchée ou non par nos rayons, nous aurons besoin de formules mathématiques propres à chaque forme: en effet, une sphère n'a pas la même aire qu'un cylindre, et encore moins qu'un plan (qui n'a qu'une surface et non une aire). Ah, d'ailleurs, petit point sur le plan: la meilleure façon non mathématique de décrire cette forme à mon sens est "une surface plate qui s'etend à l'infini dans toutes les directions depuis son origine, genre un sol sans fin, ou un plafond sans fin, ou un mur sans fin, en fonction de son inclinaison." Personnellement, j'aurais gagné du temps si j'avais eu accès à cette petite précision. 
+Pour savoir quelle forme est touchée ou non par nos rayons, nous aurons besoin de formules mathématiques propres à chaque forme: en effet, une sphère n'a pas la même surface qu'un cylindre ni qu'un plan. Ah, d'ailleurs, petit point sur le plan: la meilleure façon non mathématique de décrire cette forme à mon sens est "une surface plate qui s'etend à l'infini dans toutes les directions depuis son origine, genre un sol sans fin, ou un plafond sans fin, ou un mur sans fin, en fonction de son inclinaison." Personnellement, j'aurais gagné du temps si j'avais eu accès à cette petite précision.
 
 Ce qui peut être perturbant, c'est qu'on ne cherche pas la position des formes, qui nous sont données par la map, mais plutôt les points d'impact (ou d'intersection): là où les rayons rencontrent des formes. Il nous faut donc trouver "t", la longueur du déplacement depuis l'origine du rayon jusqu'au point d'impact s'il y en a, pour ensuite vérifier si ce "t" est valable ou non. Et ce calcul de "t" change en fonction de la forme en question.
 
@@ -127,7 +127,7 @@ origin.z + (objective.z * t);
 ## Les couleurs: du format RGB au format HEX (et vice-versa)
 Vous y avez peut-être déjà pensé, mais finalement, le format RGB des couleurs, c'est un peu des vecteurs non? Eh bien, informatiquement parlant, oui, car c'est bien une combinaison de chiffres (par ex.: 255,0,80). C'est pertinent car on peut utiliser la même logique pour les opérations: si vous voulez multiplier deux couleurs, vous multipliez le r avec le r, le g avec le g, ... Ca vous rappelle quelque chose?
 
-Mais pourquoi auriez-vous besoin de multiplier des couleurs? Pour les moduler pardi! Vous pensez qu'une sphère rouge reste à 255,0,0 quand elle baigne dans une lumière ambiante violette à 255,0,255 * un ratio de 0.2 et a une de ses faces exposée à une lumière directe? Ha! Pour mélanger des couleurs, ce que vous devrez faire, vous aurez besoin d'une fonction qui les multiplie.
+Mais pourquoi auriez-vous besoin de multiplier des couleurs? Pour les moduler pardi! Vous pensez qu'une sphère rouge reste à 255,0,0 quand elle baigne dans une lumière ambiante violette à 255,0,255 * un ratio de 0.2 et a une de ses faces exposée à une lumière directe? Ha! Pour mélanger des couleurs - ce que vous devrez faire, vous aurez besoin d'une fonction qui les multiplie.
 
 Seulement, bien que la map vous fournisse les couleurs au format RGB, la minilibx ne travaille qu'avec le format HEX. Il va donc vous falloir des fonctions qui permettent de passer d'un format à l'autre.
 
@@ -159,11 +159,11 @@ float	dot_product(t_vector a, t_vector b)
 	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }
 ```
-Ici, on calcule la valeur d'une première variable (appelons-la ``a``) avec un dot product d'un meme vecteur, à savoir la direction du rayon.
+Ici, on calcule la valeur d'une première variable (appelons-la ``a``) avec un dot product d'un même vecteur, à savoir la direction du rayon.
 ```
 float a = dot_product(ray->direction, ray->direction);
 ```
-Ensuite, on calcule la distance entre l'origine du rayon et le centre de la sphère (donné par les coordonnées de la sphère), en soustrayant la première à la deuxième. A nouveau, je vous conseille de créer une fonction qui calcule un vecteur moins un vecteur.
+Ensuite, on calcule la distance entre l'origine du rayon et le centre de la sphère (donné par les coordonnées de la sphère), en soustrayant la première à la deuxième. A nouveau, je vous conseille de créer une fonction qui calcule un vecteur moins un vecteur car elle sera réutilisée de nombreuses fois.
 
 ```
 t_vector vector_minus_vector(t_vector a, t_vector b)
@@ -255,9 +255,9 @@ t_vector	hit_vector = vector_plus_vector(ray->origin, scale(ray->direction, t));
 ```
 Nous avons le point d'impact! Reste, c'est très important pour la suite, à calculer la normale de ce point.
 
-Préparez une variable (appelons-la ``n``). Sa valeur sera le résultat de la normalisation de la longueur entre les coordonnées de la sphère et le point d'impact. A nouveau, je vous conseille de créer une fonction ``normalize()``, elle-même faisant appel à d'autres fonctions qui vont beaucoup vous servir.
+Préparez une variable (appelons-la ``n``). Sa valeur sera le résultat de la normalisation de la longueur entre les coordonnées de la sphère et le point d'impact. A nouveau, je vous conseille de créer une fonction ``normalize()``.
 
-Voici un exemple de comment les coder:
+Voici un exemple de comment le coder:
 ```
 float	get_norm(t_vector v)
 {
@@ -318,7 +318,7 @@ Comme pour la sphère, on lance la fonction qui calculera la couleur finale du p
 
 
 ### Cylindre
-Bon. Si vous aviez de la peine à suivre jusqu'ici, il va falloir s'accrocher. Basiquement, on va réutiliser des parts des calculs de la sphère et du plan, dans un ensemble de nouveaux calculs qui font un peu mal à la tête.
+Bon. Si vous aviez de la peine à suivre jusqu'ici, il va falloir s'accrocher. Basiquement, on va réutiliser des parts des calculs de la sphère et du plan, dans un ensemble de nouveaux calculs.
 
 Déjà, vu qu'un cylindre a, en quelques sortes, deux formes en une, on va devoir appliquer une formule pour la partie "tuyau" et une autre pour la partie "capsule", qui, au nombre de deux, ferment chaque côté du tuyau. Deux formules pour le prix d'une! On a vraiment gardé le meilleur pour la fin.
 
@@ -337,9 +337,9 @@ Enfin, pour obtenir la valeur de ``dv``, calculons le dot product de la directio
 
 Notre ``a`` prend alors la valeur du dot product d'un meme vecteur, à savoir la direction du rayon, moins notre ``dv`` au carre.
 
-Notre ``half_b`` quant a lui prend la valeur du dot product de la direction du rayon et de ``X``, moins le produit de ``dv`` par ``xv``. 
+Notre ``half_b`` quant à lui prend la valeur du dot product de la direction du rayon et de ``X``, moins le produit de ``dv`` par ``xv``. 
 
-Notre ``c`` de son côté prend la valeur du dot product d'une meme variable, à savoir X, moins xv au carre, moins le rayon du cylindre au carre.
+Notre ``c`` de son côté prend la valeur du dot product d'une même variable, à savoir X, moins xv au carré, moins le rayon du cylindre au carré.
 
 Voici à quoi cela peut ressembler:
 ```
@@ -464,32 +464,32 @@ A nouveau, assurez-vous d'envoyer toutes les informations nécessaires à votre 
 Hé mais c'est qu'on a pas mal avancé là! Cependant, nous n'en avons pas terminé. Il nous reste un concept important à voir, ainsi que quelques calculs supplémentaires.
 
 En effet, pour continuer, nous avons besoin de trois informations:
-- s'il y a plusieurs points d'impacts sur un même rayon, quel est celui le plus proche de la camera?
-- y a-t-il une forme forme entre le point d'impact le plus proche et la lumiere? Si oui, le pixel sera noir.
-- sinon, à quelle distance de la lumiere se trouve le point d'impact le plus proche? En fonction de la distance, la couleur du pixel sera plus ou moins claire ou foncée.
+- s'il y a plusieurs points d'impacts sur un même rayon, quel est celui le plus proche de la caméra?
+- y a-t-il une forme entre le point d'impact le plus proche et la lumière? Si oui, le pixel sera noir.
+- sinon, à quelle distance de la lumière se trouve le point d'impact le plus proche? En fonction de la distance, la couleur du pixel sera plus ou moins claire ou foncée.
 
 ### Le t le plus proche
-Tout d'abord, assurez-vous que votre programme compare le "t" de chaque nouvelle intersection d'un même rayon, et n'en garde que le plus proche! En effet, un même rayon peut traverser une sphere, et donc la toucher à deux endroits: vous n'allez représenter sur votre fenêtre que le point d'entrée, et non celui de sortie! De même, un même rayon peut traverser un plan puis un cylindre placé derriere lui par exemple, et à nouveau, vous n'êtes interessé-e que par le premier point de contact.
+Tout d'abord, assurez-vous que votre programme compare le "t" de chaque nouvelle intersection d'un même rayon, et n'en garde que le plus proche! En effet, un même rayon peut traverser une sphère, et donc la toucher à deux endroits: vous n'allez représenter sur votre fenêtre que le point d'entrée, et non celui de sortie! De même, un même rayon peut traverser un plan puis un cylindre placé derrière lui par exemple, et à nouveau, vous n'êtes interessé-e que par le premier point de contact.
 
 ### Calcul de la lumiere
-En gros, pour calculer la lumiere, nous allons réutiliser les mêmes fonctions que tout à l'heure, mais avec le point d'impact comme origine du rayon (au lieu de la position de la camera), et la lumiere comme direction (au lieu du pixel).
+En gros, pour calculer la lumière, nous allons réutiliser les mêmes fonctions que tout à l'heure, mais avec le point d'impact comme origine du rayon (au lieu de la position de la camera), et la lumière comme direction (au lieu du pixel).
 
-Eh oui, pour chaque point d'impact conservé (le plus proche), il va falloir à nouveau relancer autant de fonctions "est-ce que cette sphere/ce cylindre/ce plan se trouve sur le chemin de ce rayon" qu'il y a de formes annoncées par la map, à l'exception, pour éviter des erreurs d'affichage liées aux imprécisions des floats, de la forme de laquelle part notre nouveau rayon.
+Eh oui, pour chaque point d'impact conservé (le plus proche), il va falloir à nouveau relancer autant de fonctions "est-ce que cette sphère/ce cylindre/ce plan se trouve sur le chemin de ce rayon" qu'il y a de formes annoncées par la map, à l'exception, pour éviter des erreurs d'affichage liées aux imprécisions des floats, de la forme de laquelle part notre nouveau rayon.
 
-Comme dit plus haut, si le rayon rencontre une autre forme, le pixel sera noir. Dans votre canevas, a l'emplacement du pixel concerne, enregistrez le code couleur pour "noir" (0,0,0 en format RGB).
+Comme dit plus haut, si le rayon rencontre une autre forme, le pixel sera noir. Dans votre canevas, à l'emplacement du pixel concerné, enregistrez le code couleur pour "noir" (0,0,0 en format RGB).
 
-Sinon, lancez le calcul de la diffuse puis de la specular. Elles se presentent sous forme de float qui permettront de moduler les couleurs.
+Sinon, lancez le calcul de la diffuse puis de la specular. Elles se présentent sous forme de float qui permettront de moduler les couleurs.
 
 #### Diffuse
-Pour ce calcul, vous aurez besoin d'une variable stockant la distance entre le point d'impact et la lumiere (appelons-la ``L``). On l'obtient en soustrayant le ``hit_vector`` a la position de la lumiere. Normalisez le resultat.
+Pour ce calcul, vous aurez besoin d'une variable stockant la distance entre le point d'impact et la lumière (appelons-la ``L``). On l'obtient en soustrayant le ``hit_vector`` à la position de la lumière. Normalisez le résultat.
 
 La diffuse s'obtient par un dot product de la normale du point d'impact avec ``L``.
 
-Verifiez si le resultat est plus petit que 0: si c'est le cas, reassignez-le a 0 pour ne pas etre en negatif.
+Vérifiez si le résultat est plus petit que 0: si c'est le cas, réassignez-le à 0 pour ne pas être en négatif.
 
-Enfin, appliquez-y le ratio de la lumiere, donne par la map.
+Enfin, appliquez-y le ratio de la lumière, donné par la map.
 
-Voici a quoi votre code pourrait ressembler:
+Voici à quoi votre code pourrait ressembler:
 ```
 L = normalize(vector_minus_vector(light.coord, hit_vector));
 diffuse = dot_product(n, L);
@@ -499,17 +499,17 @@ diffuse *= light.ratio;
 ```
 
 #### Specular
-Pour calculer la specular, vous devrez avant tout prevoir une structure "s_specular" instanciee dans votre structure generale. Les attributs de cette structure sont deux float, appelons-les ``ks`` et ``shiny``. Initialisez-les a 1.0f pour ``ks`` et 64.0f pour ``shiny``.
+Pour calculer la specular, vous devrez avant tout prévoir une structure "s_specular" instanciée dans votre structure générale. Les attributs de cette structure sont deux float, appelons-les ``ks`` et ``shiny``. Initialisez-les à 1.0f pour ``ks`` et 64.0f pour ``shiny``.
 
-Vous aurez a nouveau besoin d'une variable ``L``, obtenue de la meme maniere que pour la diffuse.
+Vous aurez à nouveau besoin d'une variable ``L``, obtenue de la même manière que pour la diffuse.
 
-En plus de celle-ci, il vous faudra egalement calculer une nouvelle variable (appelons-la ``r``), qui stockera la valeur dite "reflechie". Elle est obtenue en plusieurs etapes donc accrochez-vous: tout d'abord, faites un dot product de ``L`` et ``n`` et multipliez-le par 2; faites une scale de ``n`` avec votre resultat; puis soustrayez ``L`` a votre resultat. Normalisez le resultat.
+En plus de celle-ci, il vous faudra également calculer une nouvelle variable (appelons-la ``r``), qui stockera la valeur dite "réfléchie". Elle est obtenue en plusieurs étapes donc accrochez-vous: tout d'abord, faites un dot product de ``L`` et ``n`` et multipliez-le par 2; faites une scale de ``n`` avec votre résultat; puis soustrayez ``L`` à votre résultat. Normalisez le resultat.
 
-Recuperez la distance entre la camera et le point d'impact (appelons-la ``v``) et normalisez-la.
+Récuperez la distance entre la caméra et le point d'impact (appelons-la ``v``) et normalisez-la.
 
-La specular est obtenue par un dot product de ``r`` et ``v``. Verifiez si elle est inferieure a 0, et si oui, reassignez-la a 0 et n'allez pas plus loin. Sinon, on continue. Il ne nous reste plus qu'a y appliquer la fonction ``powf()`` de la librairie <maths.h> avec en argument votre specular actuelle suivi de l'attribut ``shiny``, puis a en multiplier le resultat par ``ks`` * le ratio de la lumiere donne par la map. C'est bon, vous avez votre specular!
+La specular est obtenue par un dot product de ``r`` et ``v``. Vérifiez si elle est inférieure à 0, et si oui, réassignez-la à 0 et n'allez pas plus loin. Sinon, on continue. Il ne nous reste plus qu'à y appliquer la fonction ``powf()`` de la librairie <maths.h> avec en argument votre specular actuelle suivi de l'attribut ``shiny``, puis à en multiplier le résultat par ``ks`` * le ratio de la lumière donné par la map. C'est bon, vous avez votre specular!
 
-Voici a quoi votre code pourrait ressembler:
+Voici à quoi votre code pourrait ressembler:
 ```
 L = normalize(vector_minus_vector(light.coord, hit_vector));
 r = normalize(vector_minus_vector(scale(n, 2.0f * dot_product(L, n)), L));
@@ -522,7 +522,7 @@ specular *= ks * light.ratio;
 ```
 
 #### Couleur finale
-On y est presque! A present, appliquez le meme calcul aux differentes couleurs RGB de votre pixel: multipliez sa valeur actuelle par l'addition de celle de la lumiere ambiante (modulee par son ratio) et de la diffuse, et ajoutez-y la specular.
+On y est presque! A présent, appliquez le même calcul aux différentes couleurs RGB de votre pixel: multipliez sa valeur actuelle par l'addition de celle de la lumière ambiante (modulée par son ratio) et de la diffuse, et ajoutez-y la specular.
 
 Voici un exemple de comment le coder:
 ```
@@ -531,16 +531,17 @@ pixel_color.g = pixel_color.g * (ambiant.g * amb.ratio + diffuse) + specular;
 pixel_color.b = pixel_color.b * (ambiant.b * amb.ratio + diffuse) + specular;
 ```
 
-Et voila, toutes vos intersections ont leur couleur definitive! Il nous reste a couvrir les pixels qui n'ont pas d'intersections. Dans ce cas-la, le pixel doit prendre la couleur de la lumiere ambiante donnee par la map, modulee par son ratio.
+Et voilà, toutes vos intersections ont leur couleur définitive! Il nous reste à couvrir les pixels qui n'ont pas d'intersections. Dans ce cas-là, le pixel doit prendre la couleur de la lumière ambiante donnée par la map, modulée par son ratio.
 
-Voici ce a quoi cela pourrait ressembler:
+Voici ce à quoi cela pourrait ressembler:
 ```
 pixel_color.r = ambiant.r * amb.ratio;
 pixel_color.g = ambiant.g * amb.ratio;
 pixel_color.b = ambiant.b * amb.ratio;
 ```
 
-**ATTENTION: lors que vous modulez la couleur avec des floats, il vous faut reechellonner votre code RGB, qui va de 0 a 255, en un code qui va de 0.0f a 1.0f. Creez une ou des fonctions qui permettent de passer d'une echelle a l'autre facilement.**
+**ATTENTION: lors que vous modulez la couleur avec des floats, il vous faut rééchellonner votre code RGB, qui va de 0 à 255, en un code qui va de 0.0f à 1.0f. Créez une ou des fonctions qui permettent de passer d'une échelle à l'autre facilement.**
+
 
 
 
