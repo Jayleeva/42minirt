@@ -16,7 +16,7 @@ Pas besoin de faire des transformations en live (bonus).
 - calculer la distance avec la caméra pour déterminer l'ordre de proximité : OK (L)
 - gérer la lumière et les ombres : OK (L)
 - attribuer une couleur à chaque pixel : OK (C et L)
-- mettre à la norme
+- mettre à la norme : OK (C)
 
 # D'ICI PROCHAINE REU
 - C & L: se préparer à rendre le projet!
@@ -42,11 +42,11 @@ Dans minirt, le FOV nous est donné par la map: c'est une des propriétés de la
 Pour que la fenêtre puisse nous transmettre le contenu du viewport, notre programme doit calculer la couleur à donner à chaque pixel de cette fenêtre, stocker ces informations dans un "canevas" (double array [x][y] de pixels), et s'en servir pour créer une image unique, que pourra afficher la minilibx en une seule fois. Si vous décidez de faire un programme qui prend en compte les modifications de la map en temps réel (ne le faites pas), vous recréerez un canevas à chaque modification. 
 
 ### Uuuuuuun rayon d'soleil (et d'ombre)
-Pour exécuter ce calcul de la couleur, on s'imagine "envoyer des rayons" en direction de chaque pixel depuis la position de la caméra. Pour simplifier les calculs, on dit que le viewport de la caméra est à 1 unité de distance de la position de la caméra. Cette dernière phrase n'a pas de sens pour vous? C'est normal. Pour la comprendre, il nous faudra, helas, se pencher sur les notions de vecteur et de normalisation.
+Pour exécuter ce calcul de la couleur, on s'imagine "envoyer des rayons" en direction de chaque pixel depuis la position de la caméra. Pour simplifier les calculs, on dit que le viewport de la caméra est à 1 unité de distance de la position de la caméra. Cette dernière phrase n'a pas de sens pour vous? C'est normal. Pour la comprendre, il nous faudra, hélas, nous pencher sur les notions de vecteur et de normalisation.
 
 Mais nous verrons cela plus tard, restons meta. Nous envoyons donc des rayons en direction de chaque pixel. Notre programme doit maintenant vérifier si, sur son chemin vers l'infini, le rayon traité rencontre une ou plusieurs formes. Si c'est le cas, il faut savoir lesquelles, laquelle est la plus proche, et surtout quelle est sa couleur, afin de pouvoir calculer la couleur du pixel concerné.
 
-Nous ne sommes pourtant pas au bout de nos peines: une fois la couleur de la forme la plus proche identifiée, il nous faut encore la moduler en fonction de la lumière ambiante et de la lumière directe, qui se compose en "diffuse" et "specular". Et bien sûr, prendre en compte si le point de contact avec la forme est en réalité dans l'ombre (par ex: la lumière vient du côté droit, laissant donc le côté gauche de la forme dans l'ombre, ou une autre forme est placée entre celle qu'on a touchée et la lumière, projetant alors son ombre sur le point d'impact). Pour faire cette vérification, on renvoie des rayons, cette fois depuis le point d'impact en direction de la lumière: si on rencontre une nouvelle forme sur le chemin, le pixel sera dans l'ombre, sinon, il sera illuminé plus ou moins fort en fonction de la distance avec la source de lumière. Tada! (en gros)
+Nous ne sommes pourtant pas au bout de nos peines: une fois la couleur de la forme la plus proche identifiée, il nous faut encore la moduler en fonction de la lumière ambiante et de la lumière directe, qui se compose en "diffuse" et "specular" (la specular est un bonus du projet, vous pouvez donc vous en passer si vous le souhaitez, mais si vous en êtes arrivés jusqu'à la diffuse, ce ne sera pas beaucoup d'efforts supplémentaires). Et bien sûr, prendre en compte si le point de contact avec la forme est en réalité dans l'ombre (par ex: la lumière vient du côté droit, laissant donc le côté gauche de la forme dans l'ombre, ou une autre forme est placée entre celle qu'on a touchée et la lumière, projetant alors son ombre sur le point d'impact). Pour faire cette vérification, on renvoie des rayons, cette fois depuis le point d'impact en direction de la lumière: si on rencontre une nouvelle forme sur le chemin, le pixel sera dans l'ombre, sinon, il sera illuminé plus ou moins fort en fonction de la distance avec la source de lumière. Tada! (en gros)
 
 ### A chaque forme sa formule
 Pour savoir quelle forme est touchée ou non par nos rayons, nous aurons besoin de formules mathématiques propres à chaque forme: en effet, une sphère n'a pas la même aire qu'un cylindre, et encore moins qu'un plan (qui n'a qu'une surface et non une aire). Ah, d'ailleurs, petit point sur le plan: la meilleure façon non mathématique de décrire cette forme à mon sens est "une surface plate qui s'etend à l'infini dans toutes les directions depuis son origine, genre un sol sans fin, ou un plafond sans fin, ou un mur sans fin, en fonction de son inclinaison." Personnellement, j'aurais gagné du temps si j'avais eu accès à cette petite précision. 
@@ -541,6 +541,7 @@ pixel_color.b = ambiant.b * amb.ratio;
 ```
 
 **ATTENTION: lors que vous modulez la couleur avec des floats, il vous faut reechellonner votre code RGB, qui va de 0 a 255, en un code qui va de 0.0f a 1.0f. Creez une ou des fonctions qui permettent de passer d'une echelle a l'autre facilement.**
+
 
 
 
