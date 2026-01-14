@@ -1,6 +1,6 @@
 # Consignes
-Créer un programme de ray tracing.
-- chaque élément peut être séparé de 1 ou plusieurs retours à la ligne
+Créer un programme de ray tracing qui prend une map (.rt) en argument.
+- chaque élément de la map peut être séparé de 1 ou plusieurs retours à la ligne
 - chaque information de l'élément peut être séparé de 1 ou plusieurs espaces
 - la première info doit être le type, les suivantes dans l'ordre exigé par le type
 - pas d'obligation de nombre ni d'ordre pour les formes: plane (pl), sphere (sp), cylinder (cy)
@@ -541,6 +541,7 @@ pixel_color.b = ambiant.b * amb.ratio;
 ```
 
 **ATTENTION: lors que vous modulez la couleur avec des floats, il vous faut rééchellonner votre code RGB, qui va de 0 à 255, en un code qui va de 0.0f à 1.0f. Créez une ou des fonctions qui permettent de passer d'une échelle à l'autre facilement.**
+
 
 
 
