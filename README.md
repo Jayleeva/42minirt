@@ -51,7 +51,8 @@ Nous ne sommes pourtant pas au bout de nos peines: une fois la couleur de la for
 ### A chaque forme sa formule
 Pour savoir quelle forme est touchée ou non par nos rayons, nous aurons besoin de formules mathématiques propres à chaque forme: en effet, une sphère n'a pas la même surface qu'un cylindre ni qu'un plan. Ah, d'ailleurs, petit point sur le plan: la meilleure façon non mathématique de décrire cette forme à mon sens est "une surface plate qui s'etend à l'infini dans toutes les directions depuis son origine, genre un sol sans fin, ou un plafond sans fin, ou un mur sans fin, en fonction de son inclinaison." Personnellement, j'aurais gagné du temps si j'avais eu accès à cette petite précision.
 
-Ce qui peut être perturbant, c'est qu'on ne cherche pas la position des formes, qui nous sont données par la map, mais plutôt les points d'impact (ou d'intersection): là où les rayons rencontrent des formes. Il nous faut donc trouver "t", la longueur du déplacement depuis l'origine du rayon jusqu'au point d'impact s'il y en a, pour ensuite vérifier si ce "t" est valable ou non. Et ce calcul de "t" change en fonction de la forme en question.
+Ce qui peut être perturbant, c'est qu'on ne cherche pas la position des formes, qui nous sont données par la map, mais plutôt les points d'impact (ou d'intersection): là où les rayons rencontrent des formes. Il nous faut donc appliquer la formule propre à la forme en lui passant le rayon parti de la caméra en direction du pixel à l'infini, ce qui nous donne une intersection théorique et donc un "t" (la longueur du déplacement depuis la caméra jusqu'à cette intersection) qui peut être valide ou non.
+Pour chaque forme, on vérifie en effet si le "t" est contenu dans des bornes prédéfinies (appelons-les ``tmin`` et ``tmax``); s'il ne l'est pas, il n'y a pas d'intersection, sinon, oui. ``tmin`` correspond à EPSILON, et ``tmax`` à 1e30f.
 
 **BON. On a vu les bases en gros, il est l'heure de passer aux choses concrètes.**
 
@@ -138,7 +139,7 @@ Vous savez ce qui est marrant (non)? C'est qu'on pourrait croire que ces trois m
 
 - La normale est un vecteur perpendiculaire à un point d'impact par exemple. Elle va être largement utilisée dans les formules des formes, c'est donc important d'en comprendre le concept.
 
-- La norme est la longueur d'un vecteur. Typiquement, notre "t" dont on aura besoin pour calculer les intersections comme vu plus haut, est en réalité la norme du vecteur parti de la caméra en direction du pixel. Pour chaque forme, on vérifie si le "t" est contenu dans des bornes prédéfinies (appelons-les ``tmin`` et ``tmax``); s'il ne l'est pas, il n'y a pas d'intersection, sinon, oui. ``tmin`` correspond à EPSILON, et ``tmax`` à 1e30f.  
+- La norme est la longueur d'un vecteur. Typiquement, notre "t" dont on aura besoin pour vérifier si une possible intersection est valide ou non comme vu plus haut, est en réalité la norme du vecteur parti de la caméra en direction du pixel jusqu'à une intersection avec une forme (et non pas le vecteur parti de la caméra en direction du pixel à l'infini!).
 
 - Normaliser signifie effectuer un calcul sur une variable qui la met à l'échelle, en lui donnant une longueur unitaire. Cette opération est utilisée pour s'assurer qu'on compare et transforme des valeurs en se basant sur la même échelle. Si vous ne le faites pas, attendez-vous à des affichages...particuliers. La fameuse phrase "Pour simplifier les calculs, on dit que le viewport de la caméra est à 1 unité de distance de la position de la caméra." citée plus haut fait référence au même problème - j'espère qu'elle vous parait plus claire à présent. 
 
@@ -542,6 +543,7 @@ pixel_color.b = ambiant.b * amb.ratio;
 ```
 
 **ATTENTION: lors que vous modulez la couleur avec des floats, il vous faut rééchellonner votre code RGB, qui va de 0 à 255, en un code qui va de 0.0f à 1.0f. Créez une ou des fonctions qui permettent de passer d'une échelle à l'autre facilement.**
+
 
 
 
