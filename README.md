@@ -51,8 +51,7 @@ Nous ne sommes pourtant pas au bout de nos peines: une fois la couleur de la for
 ### A chaque forme sa formule
 Pour savoir quelle forme est touchée ou non par nos rayons, nous aurons besoin de formules mathématiques propres à chaque forme: en effet, une sphère n'a pas la même surface qu'un cylindre ni qu'un plan. Ah, d'ailleurs, petit point sur le plan: la meilleure façon non mathématique de décrire cette forme à mon sens est "une surface plate qui s'etend à l'infini dans toutes les directions depuis son origine, genre un sol sans fin, ou un plafond sans fin, ou un mur sans fin, en fonction de son inclinaison." Personnellement, j'aurais gagné du temps si j'avais eu accès à cette petite précision.
 
-Ce qui peut être perturbant, c'est qu'on ne cherche pas la position des formes, qui nous sont données par la map, mais plutôt les points d'impact (ou d'intersection): là où les rayons rencontrent des formes. Il nous faut donc appliquer la formule propre à la forme en lui passant le rayon parti de la caméra en direction du pixel à l'infini, ce qui nous donne une intersection théorique et donc un "t" (la longueur du déplacement depuis la caméra jusqu'à cette intersection) qui peut être valide ou non.
-Pour chaque forme, on vérifie en effet si le "t" est contenu dans des bornes prédéfinies (appelons-les ``tmin`` et ``tmax``); s'il ne l'est pas, il n'y a pas d'intersection, sinon, oui. ``tmin`` correspond à EPSILON, et ``tmax`` à 1e30f.
+Ce qui peut être perturbant, c'est qu'on ne cherche pas la position des formes, qui nous sont données par la map, mais plutôt les points d'impact (ou d'intersection): là où les rayons rencontrent des formes. Il nous faut donc appliquer la formule propre à la forme en lui passant le rayon parti de la caméra en direction du pixel, ce qui nous donne une intersection théorique et donc un "t" qui peut être valide ou non. Si le "t" est contenu dans des bornes prédéfinies (appelons-les ``tmin`` et ``tmax``), il est valide: il représente alors combien de fois la distance entre la caméra et le pixel traité doit être parcourue pour atteindre la forme. Sinon, cela signifie qu'il n'y a pas d'intersection.  ``tmin`` correspond à EPSILON, et ``tmax`` à 1e30f. Si on a le "t", on peut calculer la position du point d'impact: l'origine du rayon + la direction du rayon * t.
 
 **BON. On a vu les bases en gros, il est l'heure de passer aux choses concrètes.**
 
@@ -115,7 +114,7 @@ Commençons par cette info rigolote (non): le terme "vecteur" évoque des choses
 
 Globalement, pour minirt, nous allons utiliser des vecteurs "informatiques" pour signaler des coordonnées (x,y,z) dans notre espace en 3D. Cela va nous servir à la fois pour représenter des positions et des directions, autrement dit: d'où part le rayon, et dans quel sens il part. Qui dit origine et objectif dit distance/déplacement: nous allons donc aussi, techniquement, utiliser des vecteurs "physiques" ou "mathématiques". Le fait que le terme soit le même m'a personnellement compliqué la tâche: je tenterai d'être la plus explicite possible lorsque nous utiliserons ces concepts.
 
-Un des calculs que vous allez souvent utiliser consiste donc à vous "déplacer" d'un point d'origine pendant "t" (longueur du déplacement) dans une direction donnée par la position d'un objectif (le pixel traité, la lumière ou le point d'impact). Pour effectuer ce calcul, on prend le point d'origine, et on lui ajoute les coordonnées de l'objectif multipliées par la longueur du déplacement. "Mais" me diriez-vous, "mes points sont composés de 3 chiffres! Comment je peux leur additionner ou multiplier quoi que ce soit?" Pas de panique, c'est très simple: vous opérez le premier chiffre de vos premières coordonnées avec le premier chiffre de vos secondes coordonnées, le deuxième chiffre avec le deuxième, et ainsi de suite. Autrement dit, le x avec le x, le y avec le y, et le z avec le z. C'est la même pour toutes les opérations (+-*/).
+Un des calculs que vous allez souvent utiliser est celui dont nous avons parlé plus haut, qui consiste à vous "déplacer" d'un point d'origine pendant "t" (longueur du déplacement) dans une direction donnée par la position d'un objectif (le pixel traité, la lumière ou le point d'impact). Pour effectuer ce calcul, on prend le point d'origine, et on lui ajoute les coordonnées de l'objectif multipliées par la longueur du déplacement. "Mais" me diriez-vous, "mes points sont composés de 3 chiffres! Comment je peux leur additionner ou multiplier quoi que ce soit?" Pas de panique, c'est très simple: vous opérez le premier chiffre de vos premières coordonnées avec le premier chiffre de vos secondes coordonnées, le deuxième chiffre avec le deuxième, et ainsi de suite. Autrement dit, le x avec le x, le y avec le y, et le z avec le z. C'est la même pour toutes les opérations (+-*/).
 
 Concrètement, en pseudo code (les parenthèses sont superflues mais donnent, à mon sens, plus de lisibilité):
 ````
@@ -550,6 +549,7 @@ pixel_color.b = ambiant.b * amb.ratio;
 ```
 
 **ATTENTION: lors que vous modulez la couleur avec des floats, il vous faut rééchellonner votre code RGB, qui va de 0 à 255, en un code qui va de 0.0f à 1.0f. Créez une ou des fonctions qui permettent de passer d'une échelle à l'autre facilement.**
+
 
 
 
