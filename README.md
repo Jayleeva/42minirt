@@ -137,37 +137,19 @@ Une fois que vous savez quelle couleur doit avoir un pixel, vous le transformez 
 ## La normale, la norme, normaliser
 Vous savez ce qui est marrant (non)? C'est qu'on pourrait croire que ces trois mots font référence à la même chose. Après tout, ils se ressemblent tellement! Hé bien non. Nous avons bien affaire à trois choses différentes (mais liées, soyons de bonne foi).
 
-- La normale est un vecteur perpendiculaire à un point d'impact par exemple. Elle va être largement utilisée dans les formules des formes, c'est donc important d'en comprendre le concept.
+- La normale est un vecteur ("mathématique/physique") perpendiculaire à un point d'impact par exemple. Elle va être largement utilisée dans les formules des formes, c'est donc important d'en comprendre le concept.
 
-- La norme est la longueur d'un vecteur. Typiquement, notre "t" dont on aura besoin pour vérifier s'il y a intersection ou non comme vu plus haut, est en réalité la norme du vecteur parti de la caméra en direction du pixel jusqu'à une intersection théorique avec une forme spécifique.
+- La norme est la longueur d'un vecteur ("mathématique/physique"). Typiquement, notre "t" dont on aura besoin pour vérifier s'il y a intersection ou non comme vu plus haut, est en réalité la norme du vecteur parti de la caméra en direction du pixel jusqu'à une intersection théorique avec une forme spécifique.
 
 - Normaliser signifie effectuer un calcul sur une variable qui la met à l'échelle, en lui donnant une longueur unitaire. Cette opération est utilisée pour s'assurer qu'on compare et transforme des valeurs en se basant sur la même échelle. Si vous ne le faites pas, attendez-vous à des affichages...particuliers. La fameuse phrase "Pour simplifier les calculs, on dit que le viewport de la caméra est à 1 unité de distance de la position de la caméra." citée plus haut fait référence au même problème - j'espère qu'elle vous parait plus claire à présent. 
 
-Concrètement, dans notre présent projet, ces trois choses sont parfois liées: on a souvent besoin de la normale, qui s'obtient en normalisant le résultat d'un calcul basé sur celui de la norme d'un vecteur (différent en fonction du contexte). **Autrement dit, la normale = la norme normalisée.** Ouais. C'est une phrase. On en verra les détails plus loin. Dans minirt, on utilise également la norme (le "t").
+Concrètement, dans notre présent projet, ces trois choses sont généralement liées: on a besoin de la normale, qui s'obtient en normalisant le résultat d'un calcul basé sur celui de la norme d'un vecteur (différent en fonction du contexte). **Autrement dit, la normale = la norme normalisée.** Ouais. C'est une phrase.
 
-En pseudo-code:
-```
-t_vector	normalize(t_vector from_to)
-{
-	t_vector	res;
-	float		norm = sqrtf(dot_product(from_to);
-	if (float > 0.0f)
-		res = scale(from_to, norm);
-	else
-		res = from_to;
-	return (res);
-}
+Plus précisément, on a besoin de la normale dans un premier temps pour les formes qui ont une inclinaison (plans, cylindres), afin de trouver une intersection théorique, et par suite la norme du vecteur allant de la caméra à cette intersection théorique, le "t", qui validera ou invalidera l'intersection. Pour la sphère, on se passe d'abord de la normale (on trouve le "t" via une fonction quadratique qui ne la nécessite pas). Dans un second temps, si l'intersection est confirmée, pour toutes les formes (inclinaison ou pas), on calcule la normale du point d'intersection: on en aura besoin pour le calcul de la lumière.
 
-t_vector	from_to = vector_minus_vector(origin, objective);
-t_vector	normale = normalize(from_to);
-```
-Ce qui rend les choses confuses, c'est qu'un vecteur en physique c'est un déplacement d'un point d'origine en direction d'un objectif pendant une durée "t" (qui peut être infinie): dans minirt, nos rayons sont des vecteurs "physiques". De manière très similaire, un vecteur en mathématiques, c'est une distance entre deux coordonnées: dans minirt, les distances entre la caméra et les différents points d'intersections sont des vecteurs "mathématiques". Enfin, en informatique, un vecteur est un container qui peut exprimer plusieurs valeurs en une seule variable: dans minirt, les coordoonnées des points d'origine et des objectifs sont des vecteurs "informatiques", tout comme les couleurs en format RGB. Or, concrètement, on traite tous ces différents vecteurs exactement de la même manière (parce qu'en réalité, c'est la même chose, d'où le fait qu'ils aient le même nom). Les non-matheux et non-matheuses comme moi ont besoin de les séparer en concepts différents, mais il s'agit bien du même. La seule définition qui s'éloigne des autres est celle de l'informatique. Si bien que dans minirt, on utilise des vecteurs "informatiques" pour exprimer des coordonnées (ce qui ne correspond pas aux définitions physique et mathématique) ET pour exprimer la distance entre ces coordonnées / le déplacement de l'une à l'autre (ce qui correspond aux définitions physique et mathématique).
+De son côté, la norme est la transformation d'un vecteur ("déplacement"/"distance") en float ("durée"): on cherche à savoir combien de fois il faudra se déplacer de l'origine en direction de l'objectif jusqu'à atteindre ce dernier.
 
-La norme est la transformation d'un vecteur ("déplacement"/"distance") en float ("durée"): on cherche à savoir combien de fois il faudra se déplacer de l'origine en direction de l'objectif jusqu'à atteindre ce dernier.
-
-Une fois qu'on a cette norme, on peut définir s'il y a besoin de rescale le vecteur en question ou non. Si elle est supérieure à 0, on rescale en multipliant le vecteur par la norme. Sinon, on ne touche pas le vecteur.
-
-L'action "normaliser un vecteur" signifie donc obtenir la norme de ce vecteur, puis faire la vérification et si nécessaire, le rescale.
+L'action "normaliser un vecteur" quant à elle signifie obtenir la norme de ce vecteur, puis vérifier si elle est supérieure à 0, auquel cas on la multiplie par le vecteur pour le mettre à l'échelle.
 
 
 ## Calcul des intersections
@@ -568,6 +550,7 @@ pixel_color.b = ambiant.b * amb.ratio;
 ```
 
 **ATTENTION: lors que vous modulez la couleur avec des floats, il vous faut rééchellonner votre code RGB, qui va de 0 à 255, en un code qui va de 0.0f à 1.0f. Créez une ou des fonctions qui permettent de passer d'une échelle à l'autre facilement.**
+
 
 
 
