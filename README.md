@@ -113,7 +113,7 @@ Je redoutais ce moment. Expliquer les vecteurs. Bon.
 
 Commençons par cette info rigolote (non): le terme "vecteur" évoque des choses différentes (mais pas vraiment) en fonction de la discipline qui l'utilise. Par exemple, en informatique, c'est un simple container, soit un moyen d'exprimer plusieurs valeurs en une seule variable (ex: {5,2,10}). Alors qu'en mathématiques, c'est une distance entre un point et un autre, et qu'en physique, c'est carrément un déplacement. Je le précise parce que ne pas le savoir peut vous embrouiller lors de vos recherches.
 
-Globalement, pour minirt, nous allons utiliser des vecteurs pour signaler des coordonnées (x,y,z) dans notre espace en 3D. Cela va nous servir à la fois pour représenter des positions et des directions, autrement dit: d'où part le rayon, et dans quel sens il part.
+Globalement, pour minirt, nous allons utiliser des vecteurs "informatiques" pour signaler des coordonnées (x,y,z) dans notre espace en 3D. Cela va nous servir à la fois pour représenter des positions et des directions, autrement dit: d'où part le rayon, et dans quel sens il part. Qui dit origine et objectif dit distance/déplacement: nous allons donc aussi, techniquement, utiliser des vecteurs "physiques" ou "mathématiques". Le fait que le terme soit le même m'a personnellement compliqué la tâche: je tenterai d'être la plus explicite possible lorsque nous utiliserons ces concepts.
 
 Un des calculs que vous allez souvent utiliser consiste donc à vous "déplacer" d'un point d'origine pendant "t" (longueur du déplacement) dans une direction donnée par la position d'un objectif (le pixel traité, la lumière ou le point d'impact). Pour effectuer ce calcul, on prend le point d'origine, et on lui ajoute les coordonnées de l'objectif multipliées par la longueur du déplacement. "Mais" me diriez-vous, "mes points sont composés de 3 chiffres! Comment je peux leur additionner ou multiplier quoi que ce soit?" Pas de panique, c'est très simple: vous opérez le premier chiffre de vos premières coordonnées avec le premier chiffre de vos secondes coordonnées, le deuxième chiffre avec le deuxième, et ainsi de suite. Autrement dit, le x avec le x, le y avec le y, et le z avec le z. C'est la même pour toutes les opérations (+-*/).
 
@@ -139,11 +139,36 @@ Vous savez ce qui est marrant (non)? C'est qu'on pourrait croire que ces trois m
 
 - La normale est un vecteur perpendiculaire à un point d'impact par exemple. Elle va être largement utilisée dans les formules des formes, c'est donc important d'en comprendre le concept.
 
-- La norme est la longueur d'un vecteur. Typiquement, notre "t" dont on aura besoin pour vérifier si une possible intersection est valide ou non comme vu plus haut, est en réalité la norme du vecteur parti de la caméra en direction du pixel jusqu'à une intersection avec une forme (et non pas le vecteur parti de la caméra en direction du pixel à l'infini!).
+- La norme est la longueur d'un vecteur. Typiquement, notre "t" dont on aura besoin pour vérifier s'il y a intersection ou non comme vu plus haut, est en réalité la norme du vecteur parti de la caméra en direction du pixel jusqu'à une intersection théorique avec une forme spécifique.
 
 - Normaliser signifie effectuer un calcul sur une variable qui la met à l'échelle, en lui donnant une longueur unitaire. Cette opération est utilisée pour s'assurer qu'on compare et transforme des valeurs en se basant sur la même échelle. Si vous ne le faites pas, attendez-vous à des affichages...particuliers. La fameuse phrase "Pour simplifier les calculs, on dit que le viewport de la caméra est à 1 unité de distance de la position de la caméra." citée plus haut fait référence au même problème - j'espère qu'elle vous parait plus claire à présent. 
 
-Concrètement, dans notre présent projet, ces trois choses sont liées: on a besoin de la normale, qui s'obtient en normalisant le résultat d'un calcul basé sur celui de la norme d'un vecteur (différent en fonction du contexte). **Autrement dit, la normale = la norme normalisée.** Ouais. C'est une phrase. On en verra les détails plus loin.
+Concrètement, dans notre présent projet, ces trois choses sont parfois liées: on a souvent besoin de la normale, qui s'obtient en normalisant le résultat d'un calcul basé sur celui de la norme d'un vecteur (différent en fonction du contexte). **Autrement dit, la normale = la norme normalisée.** Ouais. C'est une phrase. On en verra les détails plus loin. Dans minirt, on utilise également la norme (le "t").
+
+En pseudo-code:
+```
+t_vector	normalize(t_vector from_to)
+{
+	t_vector	res;
+	float		norm = sqrtf(dot_product(from_to);
+	if (float > 0.0f)
+		res = scale(from_to, norm);
+	else
+		res = from_to;
+	return (res);
+}
+
+t_vector	from_to = vector_minus_vector(origin, objective);
+t_vector	normale = normalize(from_to);
+```
+Ce qui rend les choses confuses, c'est qu'un vecteur en physique c'est un déplacement d'un point d'origine en direction d'un objectif pendant une durée "t" (qui peut être infinie): dans minirt, nos rayons sont des vecteurs "physiques". De manière très similaire, un vecteur en mathématiques, c'est une distance entre deux coordonnées: dans minirt, les distances entre la caméra et les différents points d'intersections sont des vecteurs "mathématiques". Enfin, en informatique, un vecteur est un container qui peut exprimer plusieurs valeurs en une seule variable: dans minirt, les coordoonnées des points d'origine et des objectifs sont des vecteurs "informatiques", tout comme les couleurs en format RGB. Or, concrètement, on traite tous ces différents vecteurs exactement de la même manière (parce qu'en réalité, c'est la même chose, d'où le fait qu'ils aient le même nom). Les non-matheux et non-matheuses comme moi ont besoin de les séparer en concepts différents, mais il s'agit bien du même. La seule définition qui s'éloigne des autres est celle de l'informatique. Si bien que dans minirt, on utilise des vecteurs "informatiques" pour exprimer des coordonnées (ce qui ne correspond pas aux définitions physique et mathématique) ET pour exprimer la distance entre ces coordonnées / le déplacement de l'une à l'autre (ce qui correspond aux définitions physique et mathématique).
+
+La norme est la transformation d'un vecteur ("déplacement"/"distance") en float ("durée"): on cherche à savoir combien de fois il faudra se déplacer de l'origine en direction de l'objectif jusqu'à atteindre ce dernier.
+
+Une fois qu'on a cette norme, on peut définir s'il y a besoin de rescale le vecteur en question ou non. Si elle est supérieure à 0, on rescale en multipliant le vecteur par la norme. Sinon, on ne touche pas le vecteur.
+
+L'action "normaliser un vecteur" signifie donc obtenir la norme de ce vecteur, puis faire la vérification et si nécessaire, le rescale.
+
 
 ## Calcul des intersections
 Pour rappel, le ray tracing fonctionne en "envoyant des rayons" dans la direction de chaque pixel. Concrètement, cela signifie que votre programme doit avoir une boucle itérant sur chaque pixel, et pour chacun, lancer les fonctions qui vérifient si, sur le chemin du rayon allant de la camera à l'infini dans la direction du pixel, on croise soit une sphère, soit un cylindre, soit un plan. 
@@ -543,6 +568,7 @@ pixel_color.b = ambiant.b * amb.ratio;
 ```
 
 **ATTENTION: lors que vous modulez la couleur avec des floats, il vous faut rééchellonner votre code RGB, qui va de 0 à 255, en un code qui va de 0.0f à 1.0f. Créez une ou des fonctions qui permettent de passer d'une échelle à l'autre facilement.**
+
 
 
 
