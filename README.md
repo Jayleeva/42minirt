@@ -554,34 +554,8 @@ pixel_color.b = ambiant.b * amb.ratio;
 
 **ATTENTION: lors que vous modulez la couleur avec des floats, il vous faut rééchellonner votre code RGB, qui va de 0 à 255, en un code qui va de 0.0f à 1.0f. Créez une ou des fonctions qui permettent de passer d'une échelle à l'autre facilement.**
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+## Le mot de la fin
+Voilà, on a fait le tour! J'espère que ces explications vous permettront de vous lancer dans l'aventure (et ainsi de ne pas faire Cube3D, ce qui était mon objectif à titre personnel), même si les maths ne sont pas votre truc. Je trouve la promesse du ray tracing hyper intéressante et motivante, et ai beaucoup apprécié le fruit de nos efforts à ma mate et moi: c'était un plaisir de tester des maps sur ce programme, et je vous souhaite le même bonheur. Bonne chance!
 
 
 
