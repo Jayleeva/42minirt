@@ -111,7 +111,7 @@ Précision: le sujet ne fixe pas de dimensions à la fenêtre, nous sommes donc 
 ## Vecteur
 Je redoutais ce moment. Expliquer les vecteurs. Bon.
 
-Commençons par cette info rigolote (non): le terme "vecteur" évoque des choses différentes (mais pas vraiment) en fonction de la discipline qui l'utilise. Par exemple, en informatique, c'est un simple container, soit un moyen d'exprimer plusieurs valeurs en une seule variable (ex: {5,2,10}). Alors qu'en mathématiques, c'est une distance entre un point et un autre, et qu'en physique, c'est carrément un déplacement. Je le précise parce que ne pas le savoir peut vous embrouiller lors de vos recherches.
+Commençons par cette info rigolote (non): le terme "vecteur" évoque des choses différentes (mais pas vraiment) en fonction de la discipline qui l'utilise. Par exemple, en informatique, c'est un simple container, soit un moyen d'exprimer plusieurs valeurs en une seule variable (ex: {5,2,10}). Alors qu'en mathématiques, c'est une distance entre un point et un autre, et qu'en physique, c'est carrément un déplacement. Mais en réalité, ces deux dernières distinctions sont une vue de l'esprit: que ce soit en physique ou en mathématique, le vecteur est un seul et même concept.
 
 Globalement, pour minirt, nous allons utiliser des vecteurs "informatiques" pour signaler des coordonnées (x,y,z) dans notre espace en 3D. Cela va nous servir à la fois pour représenter des positions et des directions, autrement dit: d'où part le rayon, et dans quel sens il part. Qui dit origine et objectif dit distance/déplacement: nous allons donc aussi, techniquement, utiliser des vecteurs "physiques" ou "mathématiques". Le fait que le terme soit le même m'a personnellement compliqué la tâche: je tenterai d'être la plus explicite possible lorsque nous utiliserons ces concepts.
 
@@ -550,6 +550,7 @@ pixel_color.b = ambiant.b * amb.ratio;
 ```
 
 **ATTENTION: lors que vous modulez la couleur avec des floats, il vous faut rééchellonner votre code RGB, qui va de 0 à 255, en un code qui va de 0.0f à 1.0f. Créez une ou des fonctions qui permettent de passer d'une échelle à l'autre facilement.**
+
 
 
 
