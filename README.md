@@ -296,7 +296,7 @@ Envoyez toutes ces informations à une fonction qui calculera quel éclairage s'
 Dans un premier temps, vous pouvez simplement appliquer au pixel la couleur de la forme, sans vous préoccuper de la lumière. Si tout est correct, vous devrez voir apparaitre des cercles colorés là ou vous avez placé vos sphères! Vous les voyez? Bravo!
 
 ### Plan
-Contrairement à la sphère, le plan a une inclinaison, ce qui nécessite de calculer son "dénominateur?".
+Contrairement à la sphère, le plan a une inclinaison, ce qui nécessite comme vu plus haut le calcul d'une normale supplémentaire, qui elle-même permettra de calculer un "dénominateur".
 
 Préparez une variable qui stockera la normale du plan (appelons-la ``n``). Sa valeur sera le résultat de la normalisation de l'inclinaison du plan. On réutilise donc notre fonction ``normalize()`` créée plus haut:
 ```
@@ -436,9 +436,9 @@ return (intersection);
 
 
 #### Capsules
-La formule pour vérifier si la capsule est sur le chemin du rayon est la même pour les deux capsules du cylindre, en revanche!! La normale utilisée pour le calcul change en fonction de quelle capsule il s'agit.
+La formule pour vérifier si la capsule est sur le chemin du rayon est la même pour les deux capsules du cylindre, en revanche!! La normale utilisée pour le calcul du dénominateur change en fonction de quelle capsule il s'agit.
 
-Basiquement, la normale est liée à l'inclinaison. Pour la capsule A, la normale est simplement égale à l'inclinaison normalisée, alors que pour la capsule B, à l'opposé du tuyau, la normale est égale à l'inclinaison * -1 normalisée, pour la rendre négative:
+Comme vu plus haut, cette première normale est liée à l'inclinaison. Pour la capsule A, la normale est simplement égale à l'inclinaison normalisée, alors que pour la capsule B, à l'opposé du tuyau, la normale est égale à l'inclinaison * -1 normalisée, pour la rendre négative:
 ```
 capA.n = normalize(cylinder->incline);
 capB.n = normalize(scale(cylinder->incline, -1.0f));
@@ -550,6 +550,7 @@ pixel_color.b = ambiant.b * amb.ratio;
 ```
 
 **ATTENTION: lors que vous modulez la couleur avec des floats, il vous faut rééchellonner votre code RGB, qui va de 0 à 255, en un code qui va de 0.0f à 1.0f. Créez une ou des fonctions qui permettent de passer d'une échelle à l'autre facilement.**
+
 
 
 
