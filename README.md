@@ -25,7 +25,7 @@ Pas besoin de faire des transformations en live (bonus).
 - préparer des maps intéressantes pour les évals
 
 # Le ray tracing expliqué pour celleux qui n'aiment pas les maths
-On va pas se mentir, si les maths c'est pas votre truc, le ray tracing ça sera pas votre truc (j'en ai fait la difficile expérience). Cela dit, je vais tout de même essayer de présenter la chose d'une manière plus accessible, de non matheuse à non matheux.
+On va pas se mentir, si les maths c'est pas votre truc, le ray tracing ça sera pas votre truc (j'en ai fait la difficile expérience). Cela dit, je vais tout de même essayer de présenter la chose d'une manière plus accessible, de non matheuse à non matheux. Je vous recommande de lire ces notes dans l'ordre rédigé et de ne sauter d'un sujet à l'autre qu'après une première lecture complète.
 
 ## Les bases, en gros
 ### La fenêtre sur un monde imaginaire
@@ -550,6 +550,7 @@ pixel_color.b = ambiant.b * amb.ratio;
 ```
 
 **ATTENTION: lors que vous modulez la couleur avec des floats, il vous faut rééchellonner votre code RGB, qui va de 0 à 255, en un code qui va de 0.0f à 1.0f. Créez une ou des fonctions qui permettent de passer d'une échelle à l'autre facilement.**
+
 
 
 
