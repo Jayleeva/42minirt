@@ -53,9 +53,9 @@ Pour savoir quelle forme est touchée ou non par nos rayons, nous aurons besoin 
 
 Ce qui peut être perturbant, c'est qu'on ne cherche pas la position des formes, qui nous sont données par la map, mais plutôt les points d'impact (ou d'intersection): là où les rayons rencontrent des formes. Il nous faut donc appliquer la formule propre à la forme, ce qui nous donne une intersection théorique et donc un "t" (définition dans la phrase suivante) qui peut être valide ou non. Si le "t" est contenu dans des bornes prédéfinies (appelons-les ``tmin`` et ``tmax``), il est valide: il représente alors combien de fois la distance entre la caméra et le pixel traité doit être parcourue pour atteindre la forme. Sinon, cela signifie qu'il n'y a pas d'intersection.  
 
-``tmin`` correspond à EPSILON, et ``tmax`` à 1e30f. 
-
 Si on a le "t", on peut calculer la position du point d'impact: l'origine du rayon + la direction du rayon * t.
+
+``tmin`` correspond à EPSILON, et ``tmax`` à 1e30f. 
 
 **BON. On a vu les bases en gros, il est l'heure de passer aux choses concrètes.**
 
@@ -553,6 +553,7 @@ pixel_color.b = ambiant.b * amb.ratio;
 ```
 
 **ATTENTION: lors que vous modulez la couleur avec des floats, il vous faut rééchellonner votre code RGB, qui va de 0 à 255, en un code qui va de 0.0f à 1.0f. Créez une ou des fonctions qui permettent de passer d'une échelle à l'autre facilement.**
+
 
 
 
