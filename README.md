@@ -134,15 +134,15 @@ Seulement, bien que la map vous fournisse les couleurs au format RGB, la minilib
 Une fois que vous savez quelle couleur doit avoir un pixel, vous le transformez donc en format HEX, et vous stockez cette information dans votre canevas. Lorsque tous vos pixels auront leur couleur assignée, vous pourrez créer une image comme explicité plus haut.
 
 ## La normale, la norme, normaliser
-Vous savez ce qui est marrant (non)? C'est qu'on pourrait croire que ces trois mots font référence à la même chose. Après tout, ils se ressemblent tellement! Hé bien non. Nous avons bien affaire à trois choses différentes.
+Vous savez ce qui est marrant (non)? C'est qu'on pourrait croire que ces trois mots font référence à la même chose. Après tout, ils se ressemblent tellement! Hé bien non. Nous avons bien affaire à trois choses différentes (mais liées, soyons de bonne foi).
 
-La normale est un vecteur perpendiculaire à un point d'impact par exemple. Elle va être largement utilisée dans les formules des formes, c'est donc important d'en comprendre le concept.
+- La normale est un vecteur perpendiculaire à un point d'impact par exemple. Elle va être largement utilisée dans les formules des formes, c'est donc important d'en comprendre le concept.
 
-La norme est la longueur de l'interpretation physique d'un vecteur ("déplacement"). C'est notre "t" dont on aura besoin pour calculer les intersections comme vu plus haut. Pour chaque forme, on vérifie si le "t" est contenu dans des bornes prédéfinies (appelons-les ``tmin`` et ``tmax``); s'il ne l'est pas, il n'y a pas d'intersection, sinon, oui. ``tmin`` correspond à EPSILON, et ``tmax`` à 1e30f.
+- La norme est la longueur d'un vecteur. Typiquement, notre "t" dont on aura besoin pour calculer les intersections comme vu plus haut, est en réalité la norme du vecteur parti de la caméra en direction du pixel. Pour chaque forme, on vérifie si le "t" est contenu dans des bornes prédéfinies (appelons-les ``tmin`` et ``tmax``); s'il ne l'est pas, il n'y a pas d'intersection, sinon, oui. ``tmin`` correspond à EPSILON, et ``tmax`` à 1e30f.  
 
-Normaliser signifie effectuer un calcul sur une variable qui la met à l'échelle, en lui donnant une longueur unitaire. Cette opération est utilisée pour s'assurer qu'on compare et transforme des valeurs en se basant sur la même échelle. Si vous ne le faites pas, attendez-vous à des affichages...particuliers. La fameuse phrase "Pour simplifier les calculs, on dit que le viewport de la caméra est à 1 unité de distance de la position de la caméra." citée plus haut fait référence au même problème - j'espère qu'elle vous parait plus claire à présent. 
+- Normaliser signifie effectuer un calcul sur une variable qui la met à l'échelle, en lui donnant une longueur unitaire. Cette opération est utilisée pour s'assurer qu'on compare et transforme des valeurs en se basant sur la même échelle. Si vous ne le faites pas, attendez-vous à des affichages...particuliers. La fameuse phrase "Pour simplifier les calculs, on dit que le viewport de la caméra est à 1 unité de distance de la position de la caméra." citée plus haut fait référence au même problème - j'espère qu'elle vous parait plus claire à présent. 
 
-Cela dit, soyons de bonne foi: concrètement, dans notre présent projet, ces trois choses sont effectivement liées: on a besoin de la normale, qui s'obtient en normalisant le résultat d'un calcul basé sur celui de la norme. **Autrement dit, la normale = la norme normalisée.** Ouais. C'est une phrase. On en verra les détails plus loin.
+Concrètement, dans notre présent projet, ces trois choses sont liées: on a besoin de la normale, qui s'obtient en normalisant le résultat d'un calcul basé sur celui de la norme. **Autrement dit, la normale = la norme normalisée.** Ouais. C'est une phrase. On en verra les détails plus loin.
 
 ## Calcul des intersections
 Pour rappel, le ray tracing fonctionne en "envoyant des rayons" dans la direction de chaque pixel. Concrètement, cela signifie que votre programme doit avoir une boucle itérant sur chaque pixel, et pour chacun, lancer les fonctions qui vérifient si, sur le chemin du rayon allant de la camera à l'infini dans la direction du pixel, on croise soit une sphère, soit un cylindre, soit un plan. 
@@ -542,6 +542,7 @@ pixel_color.b = ambiant.b * amb.ratio;
 ```
 
 **ATTENTION: lors que vous modulez la couleur avec des floats, il vous faut rééchellonner votre code RGB, qui va de 0 à 255, en un code qui va de 0.0f à 1.0f. Créez une ou des fonctions qui permettent de passer d'une échelle à l'autre facilement.**
+
 
 
 
