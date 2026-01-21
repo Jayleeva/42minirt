@@ -150,7 +150,7 @@ Concrètement, dans notre présent projet, ces trois choses sont généralement 
 
 Plus précisément, on a besoin de la normale dans un premier temps pour les formes qui ont une inclinaison (plans, cylindres), afin de trouver une intersection théorique, et par suite la norme du vecteur allant de la caméra à cette intersection théorique, le "t", qui validera ou invalidera l'intersection. Pour la sphère, on se passe d'abord de la normale (on trouve le "t" via une fonction quadratique qui ne la nécessite pas). Dans un second temps, si l'intersection est confirmée, pour toutes les formes (inclinaison ou pas), on calcule la normale du point d'intersection: on en aura besoin pour le calcul de la lumière.
 
-De son côté, la norme est la transformation d'un vecteur ("déplacement"/"distance") en float ("durée"): on cherche à savoir combien de fois il faudra se déplacer de l'origine en direction de l'objectif jusqu'à atteindre ce dernier.
+De son côté, la norme est la transformation d'un vecteur ("déplacement"/"distance") en float ("durée"): on cherche à savoir combien de fois il faudra se déplacer de l'origine en direction de l'objectif jusqu'à atteindre ce dernier. Le calcul en lui-même est perturbant: on passe le vecteur au carré, puis on en fait... la racine carrée. Oui, c'est chelou, mais apparemment, ça marche. Me demandez pas pourquoi. La magie des maths. Voilà. Vecteur changé en float. Plop, magie.
 
 L'action "normaliser un vecteur" quant à elle signifie obtenir la norme de ce vecteur, puis vérifier si elle est supérieure à 0, auquel cas on la multiplie par le vecteur pour le mettre à l'échelle.
 
@@ -553,6 +553,7 @@ pixel_color.b = ambiant.b * amb.ratio;
 ```
 
 **ATTENTION: lors que vous modulez la couleur avec des floats, il vous faut rééchellonner votre code RGB, qui va de 0 à 255, en un code qui va de 0.0f à 1.0f. Créez une ou des fonctions qui permettent de passer d'une échelle à l'autre facilement.**
+
 
 
 
