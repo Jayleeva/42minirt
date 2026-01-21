@@ -125,7 +125,7 @@ origin.z + (objective.z * t);
 
 
 ## Les couleurs: du format RGB au format HEX (et vice-versa)
-Vous y avez peut-être déjà pensé, mais finalement, le format RGB des couleurs, c'est un peu des vecteurs non? Eh bien, informatiquement parlant, oui, car c'est bien une combinaison de chiffres (par ex.: 255,0,80). C'est pertinent car on peut utiliser la même logique pour les opérations: si vous voulez multiplier deux couleurs, vous multipliez le r avec le r, le g avec le g, ... Ca vous rappelle quelque chose?
+Vous y avez peut-être déjà pensé, mais finalement, le format RGB des couleurs, c'est un peu des vecteurs non? Eh bien, informatiquement parlant, oui, car c'est bien plusieurs valeurs exprimées par une seule variable (par ex.: {255,0,80}). C'est pertinent car on peut utiliser la même logique pour les opérations: si vous voulez multiplier deux couleurs, vous multipliez le r avec le r, le g avec le g, ... Ca vous rappelle quelque chose?
 
 Mais pourquoi auriez-vous besoin de multiplier des couleurs? Pour les moduler pardi! Vous pensez qu'une sphère rouge reste à 255,0,0 quand elle baigne dans une lumière ambiante violette à 255,0,255 * un ratio de 0.2 et a une de ses faces exposée à une lumière directe? Ha! Pour mélanger des couleurs - ce que vous devrez faire, vous aurez besoin d'une fonction qui les multiplie.
 
@@ -542,6 +542,7 @@ pixel_color.b = ambiant.b * amb.ratio;
 ```
 
 **ATTENTION: lors que vous modulez la couleur avec des floats, il vous faut rééchellonner votre code RGB, qui va de 0 à 255, en un code qui va de 0.0f à 1.0f. Créez une ou des fonctions qui permettent de passer d'une échelle à l'autre facilement.**
+
 
 
 
