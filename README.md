@@ -142,7 +142,7 @@ Vous savez ce qui est marrant (non)? C'est qu'on pourrait croire que ces trois m
 
 - Normaliser signifie effectuer un calcul sur une variable qui la met à l'échelle, en lui donnant une longueur unitaire. Cette opération est utilisée pour s'assurer qu'on compare et transforme des valeurs en se basant sur la même échelle. Si vous ne le faites pas, attendez-vous à des affichages...particuliers. La fameuse phrase "Pour simplifier les calculs, on dit que le viewport de la caméra est à 1 unité de distance de la position de la caméra." citée plus haut fait référence au même problème - j'espère qu'elle vous parait plus claire à présent. 
 
-Concrètement, dans notre présent projet, ces trois choses sont liées: on a besoin de la normale, qui s'obtient en normalisant le résultat d'un calcul basé sur celui de la norme. **Autrement dit, la normale = la norme normalisée.** Ouais. C'est une phrase. On en verra les détails plus loin.
+Concrètement, dans notre présent projet, ces trois choses sont liées: on a besoin de la normale, qui s'obtient en normalisant le résultat d'un calcul basé sur celui de la norme d'un vecteur (différent en fonction du contexte). **Autrement dit, la normale = la norme normalisée.** Ouais. C'est une phrase. On en verra les détails plus loin.
 
 ## Calcul des intersections
 Pour rappel, le ray tracing fonctionne en "envoyant des rayons" dans la direction de chaque pixel. Concrètement, cela signifie que votre programme doit avoir une boucle itérant sur chaque pixel, et pour chacun, lancer les fonctions qui vérifient si, sur le chemin du rayon allant de la camera à l'infini dans la direction du pixel, on croise soit une sphère, soit un cylindre, soit un plan. 
@@ -542,6 +542,7 @@ pixel_color.b = ambiant.b * amb.ratio;
 ```
 
 **ATTENTION: lors que vous modulez la couleur avec des floats, il vous faut rééchellonner votre code RGB, qui va de 0 à 255, en un code qui va de 0.0f à 1.0f. Créez une ou des fonctions qui permettent de passer d'une échelle à l'autre facilement.**
+
 
 
 
