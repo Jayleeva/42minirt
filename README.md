@@ -140,7 +140,7 @@ La normale est un vecteur perpendiculaire à un point d'impact par exemple. Elle
 
 La norme est la longueur de l'interpretation physique d'un vecteur ("déplacement"). C'est notre "t" dont on aura besoin pour calculer les intersections comme vu plus haut. Pour chaque forme, on vérifie si le "t" est contenu dans des bornes prédéfinies (appelons-les ``tmin`` et ``tmax``); s'il ne l'est pas, il n'y a pas d'intersection, sinon, oui. ``tmin`` correspond à EPSILON, et ``tmax`` à 1e30f.
 
-Normaliser signifie effectuer un calcul sur une variable qui la rend égale à 1. Cette opération est utilisée pour s'assurer qu'on compare et transforme des valeurs en se basant sur la même échelle. Si vous ne le faites pas, attendez-vous à des affichages...particuliers.
+Normaliser signifie effectuer un calcul sur une variable qui la met à l'échelle, en lui donnant une longueur unitaire. Cette opération est utilisée pour s'assurer qu'on compare et transforme des valeurs en se basant sur la même échelle. Si vous ne le faites pas, attendez-vous à des affichages...particuliers. La fameuse phrase "Pour simplifier les calculs, on dit que le viewport de la caméra est à 1 unité de distance de la position de la caméra." citée plus haut fait référence au même problème - j'espère qu'elle vous parait plus claire à présent. 
 
 Cela dit, soyons de bonne foi: concrètement, dans notre présent projet, ces trois choses sont effectivement liées: on a besoin de la normale, qui s'obtient en normalisant le résultat d'un calcul basé sur celui de la norme. **Autrement dit, la normale = la norme normalisée.** Ouais. C'est une phrase. On en verra les détails plus loin.
 
@@ -542,6 +542,7 @@ pixel_color.b = ambiant.b * amb.ratio;
 ```
 
 **ATTENTION: lors que vous modulez la couleur avec des floats, il vous faut rééchellonner votre code RGB, qui va de 0 à 255, en un code qui va de 0.0f à 1.0f. Créez une ou des fonctions qui permettent de passer d'une échelle à l'autre facilement.**
+
 
 
 
