@@ -51,7 +51,7 @@ Nous ne sommes pourtant pas au bout de nos peines: une fois la couleur de la for
 ### A chaque forme sa formule
 Pour savoir quelle forme est touchée ou non par nos rayons, nous aurons besoin de formules mathématiques propres à chaque forme: en effet, une sphère n'a pas la même surface qu'un cylindre ni qu'un plan. Ah, d'ailleurs, petit point sur le plan: la meilleure façon non mathématique de décrire cette forme à mon sens est "une surface plate qui s'etend à l'infini dans toutes les directions depuis son origine, genre un sol sans fin, ou un plafond sans fin, ou un mur sans fin, en fonction de son inclinaison." Personnellement, j'aurais gagné du temps si j'avais eu accès à cette petite précision.
 
-Ce qui peut être perturbant, c'est qu'on ne cherche pas la position des formes, qui nous sont données par la map, mais plutôt les points d'impact (ou d'intersection): là où les rayons rencontrent des formes. Il nous faut donc appliquer la formule propre à la forme en lui passant le rayon parti de la caméra en direction du pixel, ce qui nous donne une intersection théorique et donc un "t" (définition dans la phrase suivante) qui peut être valide ou non. Si le "t" est contenu dans des bornes prédéfinies (appelons-les ``tmin`` et ``tmax``), il est valide: il représente alors combien de fois la distance entre la caméra et le pixel traité doit être parcourue pour atteindre la forme. Sinon, cela signifie qu'il n'y a pas d'intersection.  
+Ce qui peut être perturbant, c'est qu'on ne cherche pas la position des formes, qui nous sont données par la map, mais plutôt les points d'impact (ou d'intersection): là où les rayons rencontrent des formes. Il nous faut donc appliquer la formule propre à la forme, ce qui nous donne une intersection théorique et donc un "t" (définition dans la phrase suivante) qui peut être valide ou non. Si le "t" est contenu dans des bornes prédéfinies (appelons-les ``tmin`` et ``tmax``), il est valide: il représente alors combien de fois la distance entre la caméra et le pixel traité doit être parcourue pour atteindre la forme. Sinon, cela signifie qu'il n'y a pas d'intersection.  
 
 ``tmin`` correspond à EPSILON, et ``tmax`` à 1e30f. 
 
@@ -553,6 +553,7 @@ pixel_color.b = ambiant.b * amb.ratio;
 ```
 
 **ATTENTION: lors que vous modulez la couleur avec des floats, il vous faut rééchellonner votre code RGB, qui va de 0 à 255, en un code qui va de 0.0f à 1.0f. Créez une ou des fonctions qui permettent de passer d'une échelle à l'autre facilement.**
+
 
 
 
